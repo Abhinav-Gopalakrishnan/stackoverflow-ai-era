@@ -1,0 +1,24 @@
+# Environment and secrets
+.env
+
+# Raw data (large / reproducible via API)
+data/raw/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
