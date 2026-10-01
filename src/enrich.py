@@ -1,0 +1,148 @@
+"""Enrichment: accepted/first answer dates and asker account dates (M2-03).
+
+Input: a questions DataFrame with question_id, accepted_answer_id, owner_user_id.
+Output (data/processed/): answers.parquet and users.parquet. User IDs are hashed
+with SHA-256 + HASH_SALT (from .env) as soon as they are fetched; raw IDs and
+names are never stored.
+"""
+import csv
+import hashlib
+import json
+import os
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pandas as pd
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+BASE_URL = "https://api.stackexchange.com/2.3"
+SITE = "stackoverflow"
+BATCH = 100
+MIN_WAIT = 0.5
+ROOT = Path(__file__).resolve().parents[1]
+LOG_PATH = ROOT / "logs" / "collection_log.csv"
+RAW_DIR = ROOT / "data" / "raw" / "enrich"
+PROCESSED_DIR = ROOT / "data" / "processed"
+LOG_FIELDS = ["timestamp_utc", "member", "endpoint", "n_ids", "page", "http_status", "items", "quota_remaining"]
+
+
+def hash_user_id(user_id, salt=None):
+    salt = salt if salt is not None else os.environ["HASH_SALT"]
+    return hashlib.sha256(f"{salt}{int(user_id)}".encode()).hexdigest()
+
+
+def _log(row):
+    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    new_file = not LOG_PATH.exists() or LOG_PATH.stat().st_size == 0
+    with open(LOG_PATH, "a", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=LOG_FIELDS)
+        if new_file:
+            w.writeheader()
+        w.writerow(row)
+
+
+def api_get(endpoint, params=None, n_ids=0, page=1, retries=5):
+    """One GET with key, 0.5 s wait, backoff handling, retries, raw JSON save and log row."""
+    params = {"site": SITE, "key": os.environ["STACK_API_KEY"], "page": page, **(params or {})}
+    for attempt in range(retries):
+        time.sleep(MIN_WAIT)
+        status, data = None, {}
+        try:
+            resp = requests.get(f"{BASE_URL}/{endpoint}", params=params, timeout=30)
+            status, data = resp.status_code, resp.json()
+        except (requests.RequestException, ValueError):
+            pass
+        stamp = datetime.now(timezone.utc)
+        _log({
+            "timestamp_utc": stamp.isoformat(), "member": "M2", "endpoint": "/".join(p for i, p in enumerate(endpoint.split("/")) if i != 1),
+            "n_ids": n_ids, "page": page, "http_status": status,
+            "items": len(data.get("items", [])), "quota_remaining": data.get("quota_remaining"),
+        })
+        if status == 200:
+            RAW_DIR.mkdir(parents=True, exist_ok=True)
+            name = f"{endpoint.split('/')[0]}_{endpoint.count('/')}_{stamp:%Y%m%dT%H%M%S%f}.json"
+            (RAW_DIR / name).write_text(json.dumps(data))
+            if data.get("backoff"):
+                time.sleep(data["backoff"])
+            return data
+        time.sleep(2 ** attempt)
+    raise RuntimeError(f"API call failed after {retries} tries: {endpoint}")
+
+
+def _chunks(values, size=BATCH):
+    values = list(values)
+    for i in range(0, len(values), size):
+        yield values[i:i + size]
+
+
+def _ids(chunk):
+    return ";".join(str(int(v)) for v in chunk)
+
+
+def _paged(get, endpoint, n_ids, params):
+    page = 1
+    while True:
+        data = get(endpoint, params, n_ids=n_ids, page=page)
+        yield from data.get("items", [])
+        if not data.get("has_more"):
+            return
+        page += 1
+
+
+def fetch_accepted_answer_dates(answer_ids, get=api_get):
+    rows = []
+    for chunk in _chunks(answer_ids):
+        for a in _paged(get, f"answers/{_ids(chunk)}", len(chunk), {"pagesize": BATCH}):
+            rows.append({"accepted_answer_id": a["answer_id"], "question_id": a["question_id"],
+                         "accepted_answer_creation_date": a["creation_date"]})
+    return pd.DataFrame(rows, columns=["accepted_answer_id", "question_id", "accepted_answer_creation_date"])
+
+
+def fetch_first_answer_dates(question_ids, get=api_get):
+    first = {}
+    for chunk in _chunks(question_ids):
+        params = {"pagesize": BATCH, "sort": "creation", "order": "asc"}
+        for a in _paged(get, f"questions/{_ids(chunk)}/answers", len(chunk), params):
+            q, t = a["question_id"], a["creation_date"]
+            first[q] = min(first.get(q, t), t)
+    return pd.DataFrame({"question_id": list(first), "first_answer_creation_date": list(first.values())})
+
+
+def fetch_user_dates(user_ids, get=api_get, salt=None):
+    rows = []
+    for chunk in _chunks(user_ids):
+        for u in _paged(get, f"users/{_ids(chunk)}", len(chunk), {"pagesize": BATCH}):
+            rows.append({"user_hash": hash_user_id(u["user_id"], salt),
+                         "account_creation_date": u["creation_date"]})
+    return pd.DataFrame(rows, columns=["user_hash", "account_creation_date"])
+
+
+def _merge_save(new, path, key):
+    if path.exists():
+        new = pd.concat([pd.read_parquet(path), new], ignore_index=True)
+    new = new.drop_duplicates(subset=key, keep="last").reset_index(drop=True)
+    new.to_parquet(path, index=False)
+    return new
+
+
+def enrich_questions(questions, get=api_get, out_dir=PROCESSED_DIR, salt=None):
+    """Enrich one tag's questions and merge results into answers.parquet and users.parquet."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    q = questions.drop_duplicates("question_id")
+
+    accepted = fetch_accepted_answer_dates(q["accepted_answer_id"].dropna().astype("int64").unique(), get)
+    with_answers = q.loc[q["answer_count"] > 0, "question_id"] if "answer_count" in q else q["question_id"]
+    first = fetch_first_answer_dates(with_answers.unique(), get)
+    answers = (q[["question_id"]]
+               .merge(accepted[["question_id", "accepted_answer_creation_date"]], on="question_id", how="left")
+               .merge(first, on="question_id", how="left"))
+    users = fetch_user_dates(q["owner_user_id"].dropna().astype("int64").unique(), get, salt)
+
+    answers = _merge_save(answers, out_dir / "answers.parquet", "question_id")
+    users = _merge_save(users, out_dir / "users.parquet", "user_hash")
+    return answers, users
