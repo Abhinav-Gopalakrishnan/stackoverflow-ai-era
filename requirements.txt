@@ -1,2 +1,14 @@
-requests>=2.31
-python-dotenv>=1.0
+beautifulsoup4==4.15.0
+lightgbm==4.7.0
+matplotlib==3.11.2
+numpy==2.5.3
+pandas==3.0.6
+pyarrow==25.0.1
+python-dotenv==1.2.4
+requests==2.34.2
+scikit-learn==1.9.1
+seaborn==0.13.2
+shap==0.52.0
+spacy==3.8.16
+statsmodels==0.15.0
+xgboost==3.4.1
