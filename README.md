@@ -45,12 +45,13 @@ This project investigates how Stack Overflow's question-resolution dynamics have
 # In the project root, copy the example file
 cp .env.example .env
 
-# Open .env and replace the placeholder with your real key
-# .env should contain exactly:
+# Open .env and replace the placeholders:
 # STACK_API_KEY=<your-key-here>
+# HASH_SALT=<shared-salt-here>
 ```
 
 > ⚠️ **Never commit `.env`** — it is listed in `.gitignore`. If `git check-ignore .env` does not print `.env`, something is wrong.
+> The `HASH_SALT` is shared out-of-band by Member 2 for SHA-256 user ID pseudonymization and must never be committed.
 
 ### 3. Verify
 
