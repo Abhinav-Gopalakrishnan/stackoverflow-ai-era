@@ -14,3 +14,36 @@ api:
 paths:
   raw_dir: "data/raw/collect"
   log: "logs/collection_log.csv"
+
+study:
+  # Date window for the full study
+  window_start: "2019-01"
+  window_end:   "2026-08"
+
+  # Tags to collect. "newer_tag" is still unconfirmed by the team (proposed: fastapi).
+  # Change newer_tag once the team agrees in the issue #18 thread.
+  newer_tag: "fastapi"          # UNCONFIRMED — team to agree
+
+  tags:
+    - python
+    - javascript
+    - java
+    - sql
+    - pandas
+    - reactjs
+    - android
+    - excel
+    - r
+    - docker
+    - powerbi
+    - fastapi       # newer_tag placeholder; same as newer_tag above
+    - openai-api
+
+  # Sampling rule (used in M1-05 volume estimate and M1-07 collection)
+  sampling:
+    seed: 42
+    weekdays_per_month: 2        # random weekdays before 2025
+    weekend_days_per_month: 1    # random weekend day before 2025
+    full_collection_from: "2025-01"   # all months from here are fully collected
+    low_volume_floor: 300        # tag-months below this get full collection; team confirms in #20
+
