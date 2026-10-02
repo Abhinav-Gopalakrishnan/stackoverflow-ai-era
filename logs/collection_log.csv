@@ -1,0 +1,2 @@
+timestamp_utc,member,endpoint,params_summary,page,http_status,items,has_more,quota_remaining,backoff,retry_count,raw_file
+2026-10-02T07:00:43.880988+00:00,M1,questions,"{""filter"":""!SyjNqbwGU2NWZ1zo9n"",""fromdate"":1704067200,""page"":1,""pagesize"":5,""site"":""stackoverflow"",""tagged"":""python"",""todate"":1704153600}",1,200,5,True,9993,0,0,data\raw\collect\questions__39d0710982b734cd.json
