@@ -5,72 +5,28 @@ Output (data/processed/): answers.parquet and users.parquet. User IDs are hashed
 with SHA-256 + HASH_SALT (from .env) as soon as they are fetched; raw IDs and
 names are never stored.
 """
-import csv
 import hashlib
-import json
 import os
-import time
-from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
-import requests
 from dotenv import load_dotenv
+
+try:
+    from src.collect import api_get
+except ModuleNotFoundError:
+    from collect import api_get
 
 load_dotenv()
 
-BASE_URL = "https://api.stackexchange.com/2.3"
-SITE = "stackoverflow"
 BATCH = 100
-MIN_WAIT = 0.5
 ROOT = Path(__file__).resolve().parents[1]
-LOG_PATH = ROOT / "logs" / "collection_log.csv"
-RAW_DIR = ROOT / "data" / "raw" / "enrich"
 PROCESSED_DIR = ROOT / "data" / "processed"
-LOG_FIELDS = ["timestamp_utc", "member", "endpoint", "n_ids", "page", "http_status", "items", "quota_remaining"]
 
 
 def hash_user_id(user_id, salt=None):
     salt = salt if salt is not None else os.environ["HASH_SALT"]
     return hashlib.sha256(f"{salt}{int(user_id)}".encode()).hexdigest()
-
-
-def _log(row):
-    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    new_file = not LOG_PATH.exists() or LOG_PATH.stat().st_size == 0
-    with open(LOG_PATH, "a", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=LOG_FIELDS)
-        if new_file:
-            w.writeheader()
-        w.writerow(row)
-
-
-def api_get(endpoint, params=None, n_ids=0, page=1, retries=5):
-    """One GET with key, 0.5 s wait, backoff handling, retries, raw JSON save and log row."""
-    params = {"site": SITE, "key": os.environ["STACK_API_KEY"], "page": page, **(params or {})}
-    for attempt in range(retries):
-        time.sleep(MIN_WAIT)
-        status, data = None, {}
-        try:
-            resp = requests.get(f"{BASE_URL}/{endpoint}", params=params, timeout=30)
-            status, data = resp.status_code, resp.json()
-        except (requests.RequestException, ValueError):
-            pass
-        stamp = datetime.now(timezone.utc)
-        _log({
-            "timestamp_utc": stamp.isoformat(), "member": "M2", "endpoint": "/".join(p for i, p in enumerate(endpoint.split("/")) if i != 1),
-            "n_ids": n_ids, "page": page, "http_status": status,
-            "items": len(data.get("items", [])), "quota_remaining": data.get("quota_remaining"),
-        })
-        if status == 200:
-            RAW_DIR.mkdir(parents=True, exist_ok=True)
-            name = f"{endpoint.split('/')[0]}_{endpoint.count('/')}_{stamp:%Y%m%dT%H%M%S%f}.json"
-            (RAW_DIR / name).write_text(json.dumps(data))
-            if data.get("backoff"):
-                time.sleep(data["backoff"])
-            return data
-        time.sleep(2 ** attempt)
-    raise RuntimeError(f"API call failed after {retries} tries: {endpoint}")
 
 
 def _chunks(values, size=BATCH):
