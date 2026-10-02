@@ -1,0 +1,5 @@
+event_id,event_name,date,category,description,source_url
+1,GitHub Copilot GA,2022-06-21,AI Tool Release,GitHub Copilot becomes generally available to individual developers.,https://github.blog/2022-06-21-github-copilot-is-generally-available-to-all-developers/
+2,ChatGPT Launch,2022-11-30,AI Tool Release,OpenAI publicly launches ChatGPT, marking a major shift in developer AI adoption.,https://openai.com/index/chatgpt/
+3,Stack Overflow ChatGPT Ban,2022-12-05,Community Policy,Stack Overflow temporarily bans AI-generated answers due to high volume of plausible-sounding incorrect answers.,https://meta.stackoverflow.com/questions/421831/temporary-policy-chatgpt-is-banned
+4,Stack Overflow Moderator Strike,2023-06-05,Community Governance,Stack Overflow moderators go on strike over platform policies regarding AI content moderation.,https://meta.stackexchange.com/questions/389811/moderation-strike-stack-overflow-inc-cannot-be-allowed-to-co-opt-the-communi
