@@ -12,7 +12,10 @@ from pathlib import Path
 import pandas as pd
 from dotenv import load_dotenv
 
-from collect import api_get
+try:
+    from src.collect import api_get
+except ModuleNotFoundError:
+    from collect import api_get
 
 load_dotenv()
 
