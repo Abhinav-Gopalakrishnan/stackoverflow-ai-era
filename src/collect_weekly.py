@@ -10,6 +10,7 @@ Outputs:
 
 import argparse
 import logging
+import os
 from datetime import datetime, timezone, date, timedelta
 from pathlib import Path
 import sys
@@ -18,14 +19,15 @@ _REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-import yaml
-import pandas as pd
+from dotenv import load_dotenv
+# load_dotenv with override=False: never clobbers env vars already set in the process
+load_dotenv(dotenv_path=_REPO_ROOT / ".env", override=False)
 
-from src.collect import api_get, QuotaExhausted, _ROOT
+import pandas as pd
 
 logger = logging.getLogger("collect_weekly")
 
-WEEKLY_COUNTS_PATH = _ROOT / "data" / "processed" / "weekly_counts.csv"
+WEEKLY_COUNTS_PATH = _REPO_ROOT / "data" / "processed" / "weekly_counts.csv"
 WINDOW_START = "2019-01-01"
 WINDOW_END = "2026-08-31"
 
@@ -61,7 +63,7 @@ def generate_weekly_windows(start_str: str = WINDOW_START, end_str: str = WINDOW
 
 
 def setup_logger() -> logging.Logger:
-    log_dir = _ROOT / "logs"
+    log_dir = _REPO_ROOT / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / "collect_weekly.log"
 
@@ -87,6 +89,9 @@ def setup_logger() -> logging.Logger:
 
 
 def collect_weekly_counts(tags: list[str], max_calls: int = 10000) -> None:
+    # Lazy import: src.collect reads STACK_API_KEY at import time, so key must be set first
+    from src.collect import api_get, QuotaExhausted
+
     log = setup_logger()
     windows = generate_weekly_windows()
     log.info("Loaded %d weekly windows from %s to %s", len(windows), WINDOW_START, WINDOW_END)
@@ -96,6 +101,7 @@ def collect_weekly_counts(tags: list[str], max_calls: int = 10000) -> None:
     # Load existing weekly counts if present (resumable)
     existing_records: dict[tuple[str, str], int] = {}
     if WEEKLY_COUNTS_PATH.exists():
+
         try:
             df_exist = pd.read_csv(WEEKLY_COUNTS_PATH)
             for _, r in df_exist.iterrows():
@@ -180,7 +186,19 @@ def main():
     parser = argparse.ArgumentParser(description="Collect weekly question counts for M1-06")
     parser.add_argument("--tags", nargs="+", default=DEFAULT_TAGS, help="List of tags to collect")
     parser.add_argument("--max-calls", type=int, default=10000, help="Max calls before stopping")
+    parser.add_argument(
+        "--key-env",
+        default=None,
+        help="Name of an env var holding the API key to use (e.g. STACK_API_KEY_BACKUP).",
+    )
     args = parser.parse_args()
+
+    if args.key_env:
+        key_val = os.environ.get(args.key_env, "")
+        if not key_val:
+            print(f"ERROR: env var {args.key_env} is not set or empty.")
+            sys.exit(1)
+        os.environ["STACK_API_KEY"] = key_val
 
     collect_weekly_counts(args.tags, max_calls=args.max_calls)
 

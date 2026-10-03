@@ -23,7 +23,7 @@ class TestCollectWeekly(unittest.TestCase):
             self.assertEqual((next_start - curr_end).days, 1)
 
     @patch("src.collect_weekly.WEEKLY_COUNTS_PATH")
-    @patch("src.collect_weekly.api_get")
+    @patch("src.collect.api_get")
     def test_collect_weekly_mocked(self, mock_api_get, mock_path):
         mock_api_get.return_value = {"total": 1234, "quota_remaining": 9000}
         tmp_csv = Path("scratch/test_weekly_tmp.csv")
