@@ -45,12 +45,13 @@ This project investigates how Stack Overflow's question-resolution dynamics have
 # In the project root, copy the example file
 cp .env.example .env
 
-# Open .env and replace the placeholder with your real key
-# .env should contain exactly:
+# Open .env and replace the placeholders:
 # STACK_API_KEY=<your-key-here>
+# HASH_SALT=<shared-salt-here>
 ```
 
 > ⚠️ **Never commit `.env`** — it is listed in `.gitignore`. If `git check-ignore .env` does not print `.env`, something is wrong.
+> The `HASH_SALT` is shared out-of-band by Member 2 for SHA-256 user ID pseudonymization and must never be committed.
 
 ### 3. Verify
 
@@ -84,3 +85,14 @@ This project strictly adheres to privacy and anonymization standards:
 
 5. **Raw & Shared Data Isolation**:
    - All raw API caches (`data/raw/`) and full non-anonymized intermediate datasets (`data/shared/`) are git-ignored and never tracked in source control.
+
+## Processed dataset v1 and how to re-run the cleaning
+
+`data/processed/questions_clean_v1.parquet` is the cleaned, analysis-ready table: **302,026 rows, 39 columns**, built from 309,179 collected rows (13 tags, Jan 2019 to Aug 2026, collection date 2026-10-03). Field definitions are in `docs/data_dictionary.md`. The file is about 316 MB, over GitHub's 100 MB limit, so it is **not committed** (it is in `.gitignore`); it is shared on the team drive. `data/processed/monthly_tag_tables.csv` (weighted monthly rates per tag, with a `low_sample` flag for months under 30 sampled questions) is committed.
+
+To rebuild everything from the raw question files (`data/raw/questions_<tag>.parquet`, from Member 1):
+
+1. Install the environment: `pip install -r requirements.txt`, and put `STACK_API_KEY` and `HASH_SALT` in `.env`.
+2. Enrich each tag (answers and asker dates, hashed IDs): `python -m src.enrich data/raw/questions_<tag>.parquet`. Already-enriched questions are skipped, so tags can be run in any order. About 8,500 API calls for all 13 tags.
+3. Run `notebooks/02_cleaning.ipynb` top to bottom (about 2 minutes). It writes `data/processed/questions_clean_v1.parquet` once every tag in `config.yaml` is present.
+4. `python -m src.aggregate` writes `data/processed/monthly_tag_tables.csv`.
