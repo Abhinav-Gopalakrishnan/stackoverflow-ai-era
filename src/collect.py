@@ -558,13 +558,22 @@ def iter_questions(
         **extra,
     }
     page = 1
+    has_more = True
     while True:
         data = api_get("questions", params=params, page=page)
-        for item in data.get("items", []):
+        page_items = data.get("items", [])
+        for item in page_items:
             # Flatten owner.user_id
             owner = item.pop("owner", {}) or {}
             item["owner_user_id"] = owner.get("user_id")
             yield item
-        if not data.get("has_more"):
+
+        if not page_items:
             break
+
+        # If has_more was False, probe page+1 once. If page+1 is empty, loop breaks above.
+        if not data.get("has_more"):
+            has_more = False
+
         page += 1
+

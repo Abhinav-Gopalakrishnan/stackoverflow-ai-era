@@ -314,6 +314,31 @@ class TestCollectApiGet(unittest.TestCase):
         sent_params = mock_get.call_args[1]["params"]
         self.assertEqual(sent_params["filter"], "total")
 
+    @patch("src.collect.api_get")
+    def test_iter_questions_pages_past_unreliable_has_more(self, mock_api_get):
+        """When page 1 returns has_more=False but has items, iter_questions must probe page 2.
+        When page 2 has items, keep them. When page 3 is empty, stop.
+        """
+        mock_api_get.side_effect = [
+            {
+                "items": [{"question_id": 101, "owner": {"user_id": 1}}],
+                "has_more": False, # API unreliably says False
+            },
+            {
+                "items": [{"question_id": 102, "owner": {"user_id": 2}}],
+                "has_more": False,
+            },
+            {
+                "items": [], # Empty page ends loop
+                "has_more": False,
+            },
+        ]
+
+        collected = list(collect.iter_questions("python", 1000, 2000))
+        self.assertEqual(len(collected), 2)
+        self.assertEqual([q["question_id"] for q in collected], [101, 102])
+        self.assertEqual(mock_api_get.call_count, 3)
+
     def test_committed_log_never_contains_users_followed_by_digits(self):
         """The committed logs/collection_log.csv must never contain users/ followed by digits."""
         real_log_path = collect._ROOT / "logs" / "collection_log.csv"

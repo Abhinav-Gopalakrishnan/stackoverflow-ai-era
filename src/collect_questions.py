@@ -167,12 +167,18 @@ def parse_question_item(item: dict, weight: float, tag: str, month: str, day_typ
     }
 
 
-def fetch_questions_range(tag: str, fromdate: int, todate: int) -> tuple[list[dict], int]:
-    """Fetch questions within [fromdate, todate] paging 100 per call."""
+def fetch_questions_range(tag: str, fromdate: int, todate: int, max_pages: int = 200, force_refresh: bool = False) -> tuple[list[dict], int]:
+    """Fetch questions within [fromdate, todate] paging 100 per call.
+
+    Unreliable API has_more: do not trust has_more=False.
+    Always probe page+1 once; continue while pages return items;
+    stop only on an empty page (or max_pages cap).
+    """
     page = 1
     items: list[dict] = []
     calls = 0
-    while True:
+    had_has_more_false = False
+    while page <= max_pages:
         params = {
             "tagged": tag,
             "fromdate": fromdate,
@@ -181,12 +187,17 @@ def fetch_questions_range(tag: str, fromdate: int, todate: int) -> tuple[list[di
             "order": "asc",
             "pagesize": 100,
         }
-        resp = api_get("questions", params=params, page=page)
+        resp = api_get("questions", params=params, page=page, force_refresh=force_refresh)
         calls += 1
         page_items = resp.get("items", [])
-        items.extend(page_items)
-        if not resp.get("has_more"):
+        if not page_items:
             break
+        items.extend(page_items)
+        if had_has_more_false and len(page_items) < 100:
+            # We already probed past has_more=False and got a partial page
+            break
+        if not resp.get("has_more"):
+            had_has_more_false = True
         page += 1
     return items, calls
 
