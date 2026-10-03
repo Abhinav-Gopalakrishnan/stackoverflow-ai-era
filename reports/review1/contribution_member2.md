@@ -43,10 +43,10 @@ Rubric components owned: Data cleaning and preprocessing (3 marks); second half 
 - #15 ([M3-01] problem statement), #38 ([M3-05] first look at the test-pull data): checked the files and re-ran the audit independently; the review comments list what was verified.
 
 ## Problems faced and how I solved them
-- The new minimal API filters broke the first-answer call (/questions/{ids}/answers used the questions filter): passed the answers filter explicitly (PR #50) and reported the cause to Member 1, who fixed `_pick_filter`.
+- The new minimal API filters broke the first-answer call (/questions/{ids}/answers used the questions filter): passed the answers filter explicitly (PR #50) and reported the cause to Member 1 (the fix for nested endpoints in `_pick_filter` is theirs and still pending; my workaround works either way).
 - A clean install of main failed because collect.py imports yaml but requirements.txt did not list it: pinned pyyaml in PR #26.
 - Enrichment crashed when a batch returned nothing (empty frames had the wrong dtype): typed the empty frames and added a test (PR #63).
-- Overlapping tags would have repeated API calls: the run now skips questions and askers already enriched, which cut the run to 6,024 calls for 12 tags.
+- Overlapping tags would have repeated API calls: the run now skips questions and askers already enriched (6,024 calls for the 12 remaining tags).
 - The API quota is counted per IP, so a second key gave no extra calls: planned the run to fit the single daily quota.
 - Account age came out negative for 92 askers whose account is newer than their question: clipped at 0 and documented.
 
