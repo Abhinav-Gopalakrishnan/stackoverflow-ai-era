@@ -3,6 +3,7 @@
 
 # Raw data (large / reproducible via API)
 data/raw/
+data/shared/
 
 # Python
 __pycache__/
@@ -22,3 +23,7 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
+logs/*.log
