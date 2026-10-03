@@ -89,3 +89,11 @@ def test_flag_invalid_never_uses_targets():
     out, stats = cleaning.flag_invalid(df)
     assert len(out) == 1 and out.plain_body.iloc[0] == "ok question here"
     assert stats["empty_removed"] == 1 and stats["non_english_removed"] == 1 and stats["spam_like_removed"] == 1
+
+
+def test_account_age_never_negative():
+    df = base_frame()
+    df.loc[0, "account_creation_date"] = T0 + 5 * 86400
+    out, _ = cleaning.convert_timestamps(df)
+    out, _ = cleaning.add_account_age(out)
+    assert (out.account_age_days >= 0).all() and out.account_age_days[0] == 0

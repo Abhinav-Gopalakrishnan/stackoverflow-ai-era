@@ -100,7 +100,7 @@ def add_text_features(df):
 def add_account_age(df):
     """M2-08: account age at posting; deleted/unknown askers get the training-period median."""
     df = df.copy()
-    age = (df["created_at"] - df["account_created_at"]).dt.total_seconds() / 86400
+    age = ((df["created_at"] - df["account_created_at"]).dt.total_seconds() / 86400).clip(lower=0)
     df["missing_account_age"] = age.isna()
     median = age[df["created_at"] < TRAIN_END].median()
     df["account_age_days"] = age.fillna(median)
