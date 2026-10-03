@@ -13,9 +13,9 @@ import pandas as pd
 from dotenv import load_dotenv
 
 try:
-    from src.collect import api_get
+    from src.collect import _ENDPOINT_FILTERS, api_get
 except ModuleNotFoundError:
-    from collect import api_get
+    from collect import _ENDPOINT_FILTERS, api_get
 
 load_dotenv()
 
@@ -61,7 +61,7 @@ def fetch_accepted_answer_dates(answer_ids, get=api_get):
 def fetch_first_answer_dates(question_ids, get=api_get):
     first = {}
     for chunk in _chunks(question_ids):
-        params = {"pagesize": BATCH, "sort": "creation", "order": "asc"}
+        params = {"pagesize": BATCH, "sort": "creation", "order": "asc", "filter": _ENDPOINT_FILTERS["answers"]}
         for a in _paged(get, f"questions/{_ids(chunk)}/answers", len(chunk), params):
             q, t = a["question_id"], a["creation_date"]
             first[q] = min(first.get(q, t), t)
@@ -102,3 +102,11 @@ def enrich_questions(questions, get=api_get, out_dir=PROCESSED_DIR, salt=None):
     answers = _merge_save(answers, out_dir / "answers.parquet", "question_id")
     users = _merge_save(users, out_dir / "users.parquet", "user_hash")
     return answers, users
+
+
+if __name__ == "__main__":
+    import sys
+
+    path = sys.argv[1]
+    answers, users = enrich_questions(pd.read_parquet(path))
+    print(f"{path}: answers.parquet {len(answers)} rows, users.parquet {len(users)} rows")
