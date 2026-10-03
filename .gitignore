@@ -27,3 +27,6 @@ Thumbs.db
 # Logs
 *.log
 logs/*.log
+
+# Processed dataset v1 (316 MB, over the GitHub file limit; shared on the team drive)
+data/processed/questions_clean_v1.parquet
