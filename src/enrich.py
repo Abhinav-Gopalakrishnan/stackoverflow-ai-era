@@ -55,7 +55,7 @@ def fetch_accepted_answer_dates(answer_ids, get=api_get):
         for a in _paged(get, f"answers/{_ids(chunk)}", len(chunk), {"pagesize": BATCH}):
             rows.append({"accepted_answer_id": a["answer_id"], "question_id": a["question_id"],
                          "accepted_answer_creation_date": a["creation_date"]})
-    return pd.DataFrame(rows, columns=["accepted_answer_id", "question_id", "accepted_answer_creation_date"])
+    return pd.DataFrame(rows, columns=["accepted_answer_id", "question_id", "accepted_answer_creation_date"]).astype("int64")
 
 
 def fetch_first_answer_dates(question_ids, get=api_get):
@@ -65,7 +65,7 @@ def fetch_first_answer_dates(question_ids, get=api_get):
         for a in _paged(get, f"questions/{_ids(chunk)}/answers", len(chunk), params):
             q, t = a["question_id"], a["creation_date"]
             first[q] = min(first.get(q, t), t)
-    return pd.DataFrame({"question_id": list(first), "first_answer_creation_date": list(first.values())})
+    return pd.DataFrame({"question_id": list(first), "first_answer_creation_date": list(first.values())}).astype("int64")
 
 
 def fetch_user_dates(user_ids, get=api_get, salt=None):
@@ -74,7 +74,7 @@ def fetch_user_dates(user_ids, get=api_get, salt=None):
         for u in _paged(get, f"users/{_ids(chunk)}", len(chunk), {"pagesize": BATCH}):
             rows.append({"user_hash": hash_user_id(u["user_id"], salt),
                          "account_creation_date": u["creation_date"]})
-    return pd.DataFrame(rows, columns=["user_hash", "account_creation_date"])
+    return pd.DataFrame(rows, columns=["user_hash", "account_creation_date"]).astype({"account_creation_date": "int64"})
 
 
 def _merge_save(new, path, key):
@@ -86,10 +86,21 @@ def _merge_save(new, path, key):
 
 
 def enrich_questions(questions, get=api_get, out_dir=PROCESSED_DIR, salt=None):
-    """Enrich one tag's questions and merge results into answers.parquet and users.parquet."""
+    """Enrich a tag's questions and merge into answers.parquet and users.parquet.
+
+    Questions and askers already present in those files are skipped, so overlapping tags cost no extra calls.
+    """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     q = questions.drop_duplicates("question_id")
+    answers_path, users_path = out_dir / "answers.parquet", out_dir / "users.parquet"
+    if answers_path.exists():
+        done = pd.read_parquet(answers_path, columns=["question_id"])["question_id"]
+        q = q[~q["question_id"].isin(done)]
+    owners = q["owner_user_id"].dropna().astype("int64").unique()
+    if users_path.exists():
+        known = set(pd.read_parquet(users_path, columns=["user_hash"])["user_hash"])
+        owners = [o for o in owners if hash_user_id(o, salt) not in known]
 
     accepted = fetch_accepted_answer_dates(q["accepted_answer_id"].dropna().astype("int64").unique(), get)
     with_answers = q.loc[q["answer_count"] > 0, "question_id"] if "answer_count" in q else q["question_id"]
@@ -97,10 +108,10 @@ def enrich_questions(questions, get=api_get, out_dir=PROCESSED_DIR, salt=None):
     answers = (q[["question_id"]]
                .merge(accepted[["question_id", "accepted_answer_creation_date"]], on="question_id", how="left")
                .merge(first, on="question_id", how="left"))
-    users = fetch_user_dates(q["owner_user_id"].dropna().astype("int64").unique(), get, salt)
+    users = fetch_user_dates(owners, get, salt)
 
-    answers = _merge_save(answers, out_dir / "answers.parquet", "question_id")
-    users = _merge_save(users, out_dir / "users.parquet", "user_hash")
+    answers = _merge_save(answers, answers_path, "question_id")
+    users = _merge_save(users, users_path, "user_hash")
     return answers, users
 
 
