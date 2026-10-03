@@ -20,10 +20,16 @@ Key differences from enrich.py api_get
 * Raises QuotaExhausted when quota_remaining <= quota_floor.
 * The "backoff" value from a response is stored in module state and slept
   BEFORE the next request (not after, which would waste a dead-sleep period).
+* ID lists in batch endpoints (e.g. users/123;456) are MASKED in the log
+  endpoint column, params_summary, and raw file names to avoid committing
+  raw user IDs. The cache hash still uses the real IDs.
+* Per-endpoint minimal API filters (base="none") avoid returning display
+  names, profile images, or other profile metadata in raw JSON files.
+  A caller-supplied "filter" param always overrides the per-endpoint default.
 
 Public API
 ----------
-create_filter()              Run once to create/print the custom filter.
+create_filter(endpoint_type)    Run once to create/print a minimal filter.
 api_get(endpoint, params, n_ids, page, retries, force_refresh)
 iter_questions(tagged, fromdate, todate, **extra)   Paging generator.
 """
@@ -35,6 +41,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -66,6 +73,14 @@ _MAX_RETRY = _API_CFG["max_retries"]
 _Q_FLOOR   = _API_CFG["quota_floor"]
 _FILTER    = _API_CFG["filter"]
 
+# Per-endpoint minimal filters (base="none"). Caller-supplied filter overrides.
+# Keys are the first path segment of the endpoint.
+_ENDPOINT_FILTERS: dict[str, str] = {
+    "questions":  _API_CFG.get("filter_questions", _FILTER),
+    "answers":    _API_CFG.get("filter_answers",   _FILTER),
+    "users":      _API_CFG.get("filter_users",     _FILTER),
+}
+
 _RAW_DIR  = _ROOT / _CFG["paths"]["raw_dir"]
 _LOG_PATH = _ROOT / _CFG["paths"]["log"]
 
@@ -80,6 +95,12 @@ _LOG_HEADER_SENTINEL = ",".join(_LOG_FIELDS)
 _pending_backoff: float = 0.0
 
 _RETRY_API_ERRORS = {502, 503}   # throttle_violation, temporarily_unavailable
+
+# Pattern that detects a digit-only ID list after the first path segment.
+# Examples: "users/123;456", "answers/11227902", "questions/123;456/answers"
+_ID_IN_ENDPOINT_RE = re.compile(
+    r"^(questions|answers|users)/(\d[\d;]*)(/answers)?$"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -107,22 +128,59 @@ def _api_key() -> str:
     return key
 
 
+def _mask_endpoint(endpoint: str) -> str:
+    """Replace an ID list in a batch endpoint with the placeholder {ids}.
+
+    Examples
+    --------
+    "users/123;456;789"          -> "users/{ids}"
+    "answers/11227902"           -> "answers/{ids}"
+    "questions/123;456/answers"  -> "questions/{ids}/answers"
+    "questions"                  -> "questions"   (unchanged)
+    """
+    m = _ID_IN_ENDPOINT_RE.match(endpoint)
+    if not m:
+        return endpoint
+    prefix  = m.group(1)
+    suffix  = m.group(3) or ""
+    return f"{prefix}/{{ids}}{suffix}"
+
+
+def _count_ids(endpoint: str) -> int:
+    """Count the number of IDs in a batch endpoint (0 if none)."""
+    m = _ID_IN_ENDPOINT_RE.match(endpoint)
+    if not m:
+        return 0
+    return len(m.group(2).split(";"))
+
+
 def _raw_filename(endpoint: str, params: dict) -> Path:
-    """Deterministic filename: SHA-1 of (endpoint + sorted non-key params)."""
-    safe = {k: v for k, v in sorted(params.items()) if k != "key"}
-    blob = json.dumps({"endpoint": endpoint, "params": safe}, sort_keys=True)
+    """Deterministic filename: masked prefix + SHA-1 of real (endpoint + sorted non-key params).
+
+    The hash uses the REAL endpoint (so different ID batches → different files).
+    The file-name prefix uses the MASKED endpoint (no IDs visible in filenames).
+    """
+    safe_params = {k: v for k, v in sorted(params.items()) if k != "key"}
+    blob = json.dumps({"endpoint": endpoint, "params": safe_params}, sort_keys=True)
     digest = hashlib.sha1(blob.encode()).hexdigest()[:16]
-    # Make endpoint path-safe
-    safe_ep = endpoint.replace("/", "_").replace(";", "_")[:60]
-    return _RAW_DIR / f"{safe_ep}__{digest}.json"
+
+    # Masked prefix: "users_n5", "answers_n3", "questions", etc.
+    masked = _mask_endpoint(endpoint)
+    n_ids  = _count_ids(endpoint)
+    if n_ids:
+        prefix_ep = masked.replace("/", "_").replace("{ids}", f"n{n_ids}")
+    else:
+        prefix_ep = masked.replace("/", "_")[:60]
+
+    return _RAW_DIR / f"{prefix_ep}__{digest}.json"
 
 
-def _params_summary(params: dict) -> str:
-    """Compact representation of params, key excluded."""
-    return json.dumps(
-        {k: v for k, v in sorted(params.items()) if k != "key"},
-        separators=(",", ":"),
-    )
+def _params_summary(params: dict, n_ids: int = 0) -> str:
+    """Compact representation of params (key excluded); injects n_ids when > 0."""
+    clean = {k: v for k, v in sorted(params.items()) if k != "key"}
+    if n_ids:
+        clean["n_ids"] = n_ids
+    return json.dumps(clean, separators=(",", ":"))
 
 
 def _format_raw_path(path: Path) -> str:
@@ -166,27 +224,64 @@ def _strip_key_from_data(data: dict) -> dict:
     return {k: v for k, v in data.items() if k != "key"}
 
 
-# ---------------------------------------------------------------------------
-# Public: create_filter (run once)
-# ---------------------------------------------------------------------------
+def _pick_filter(endpoint: str, caller_params: dict | None) -> str:
+    """Return the right filter for this endpoint.
 
-def create_filter() -> str:
-    """Call /filters/create once, print and return the filter string.
-
-    The filter adds question.body to the default filter, which already
-    includes all wrapper fields (items, has_more, backoff, quota_max,
-    quota_remaining).  Run this once, then paste the printed string into
-    config.yaml under api.filter.
+    Precedence: caller-supplied > per-endpoint minimal filter > config default.
     """
+    if caller_params and "filter" in caller_params:
+        return caller_params["filter"]  # caller always wins
+    first_segment = endpoint.split("/")[0]
+    return _ENDPOINT_FILTERS.get(first_segment, _FILTER)
+
+
+# ---------------------------------------------------------------------------
+# Public: create_filter (run once per endpoint type)
+# ---------------------------------------------------------------------------
+
+def create_filter(endpoint_type: str = "questions") -> str:
+    """Call /filters/create once with a minimal base="none" filter.
+
+    Parameters
+    ----------
+    endpoint_type : One of "questions", "answers", "users".
+                    Controls which fields are included.
+
+    Returns the filter string to paste into config.yaml.
+    """
+    # Wrapper fields always needed for backoff / quota / paging / error handling
+    wrapper_fields = (
+        ".backoff;.error_id;.error_message;.error_name;"
+        ".has_more;.items;.quota_max;.quota_remaining"
+    )
+
+    endpoint_fields = {
+        "questions": (
+            "question.question_id;question.accepted_answer_id;"
+            "question.answer_count;question.creation_date;question.tags;"
+            "question.title;question.body;question.score;"
+            "question.view_count;question.is_answered;"
+            "question.last_activity_date;question.closed_date;"
+            "question.owner;shallow_user.user_id"
+        ),
+        "answers": (
+            "answer.answer_id;answer.question_id;answer.creation_date"
+        ),
+        "users": (
+            "user.user_id;user.creation_date"
+        ),
+    }
+
+    include = f"{wrapper_fields};{endpoint_fields.get(endpoint_type, '')}"
     r = requests.get(
         f"{_BASE_URL}/filters/create",
-        params={"include": "question.body", "base": "default", "key": _api_key()},
+        params={"include": include, "base": "none", "key": _api_key()},
         timeout=30,
     )
     r.raise_for_status()
     data = r.json()
     f = data["items"][0]["filter"]
-    print(f"Filter string (paste into config.yaml > api.filter): {f}")
+    print(f"Filter string for {endpoint_type!r} (paste into config.yaml): {f}")
     return f
 
 
@@ -210,6 +305,8 @@ def api_get(
     params      : Caller-supplied params.  Caller values override config
                   defaults (including "filter").
     n_ids       : Number of IDs in a batched request (for logging only).
+                  If 0 and the endpoint contains an ID list, the count is
+                  inferred automatically.
     page        : Page number (added to params; caller can override).
     retries     : Max attempts.  Defaults to config max_retries.
     force_refresh: Bypass the on-disk cache even if the raw file exists.
@@ -229,11 +326,21 @@ def api_get(
     if retries is None:
         retries = _MAX_RETRY
 
+    # Infer n_ids from the endpoint if not supplied explicitly
+    if n_ids == 0:
+        n_ids = _count_ids(endpoint)
+
+    # Masked endpoint string for log and file names (no IDs)
+    masked_ep = _mask_endpoint(endpoint)
+
+    # Pick the right filter: caller wins, else per-endpoint minimal, else config
+    chosen_filter = _pick_filter(endpoint, params)
+
     # Build full params: config defaults < caller overrides
     full_params: dict[str, Any] = {
         "site":     _SITE,
         "pagesize": _PAGE_SIZE,
-        "filter":   _FILTER,
+        "filter":   chosen_filter,
         "page":     page,
     }
     if params:
@@ -252,8 +359,8 @@ def api_get(
         _write_log({
             "timestamp_utc":  datetime.now(timezone.utc).isoformat(),
             "member":         "M1",
-            "endpoint":       endpoint,
-            "params_summary": _params_summary(full_params),
+            "endpoint":       masked_ep,
+            "params_summary": _params_summary(full_params, n_ids),
             "page":           full_params.get("page", page),
             "http_status":    "CACHED",
             "items":          len(data.get("items", [])),
@@ -302,8 +409,8 @@ def api_get(
             _write_log({
                 "timestamp_utc":  stamp.isoformat(),
                 "member":         "M1",
-                "endpoint":       endpoint,
-                "params_summary": _params_summary(full_params),
+                "endpoint":       masked_ep,
+                "params_summary": _params_summary(full_params, n_ids),
                 "page":           full_params.get("page", page),
                 "http_status":    "NETWORK_ERR",
                 "items":          0,
@@ -348,8 +455,8 @@ def api_get(
             _write_log({
                 "timestamp_utc":  stamp.isoformat(),
                 "member":         "M1",
-                "endpoint":       endpoint,
-                "params_summary": _params_summary(full_params),
+                "endpoint":       masked_ep,
+                "params_summary": _params_summary(full_params, n_ids),
                 "page":           full_params.get("page", page),
                 "http_status":    status,
                 "items":          0,
@@ -370,8 +477,8 @@ def api_get(
             _write_log({
                 "timestamp_utc":  stamp.isoformat(),
                 "member":         "M1",
-                "endpoint":       endpoint,
-                "params_summary": _params_summary(full_params),
+                "endpoint":       masked_ep,
+                "params_summary": _params_summary(full_params, n_ids),
                 "page":           full_params.get("page", page),
                 "http_status":    status,
                 "items":          items_cnt,
@@ -399,8 +506,8 @@ def api_get(
         _write_log({
             "timestamp_utc":  stamp.isoformat(),
             "member":         "M1",
-            "endpoint":       endpoint,
-            "params_summary": _params_summary(full_params),
+            "endpoint":       masked_ep,
+            "params_summary": _params_summary(full_params, n_ids),
             "page":           full_params.get("page", page),
             "http_status":    status,
             "items":          items_cnt,

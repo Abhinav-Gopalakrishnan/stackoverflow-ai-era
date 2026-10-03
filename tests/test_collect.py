@@ -243,6 +243,92 @@ class TestCollectApiGet(unittest.TestCase):
         self.assertEqual(mock_get.call_count, 1)
         self.assertIn("bad_parameter", str(ctx.exception))
 
+    @patch("src.collect.requests.get")
+    @patch("src.collect.time.sleep")
+    def test_log_and_raw_filename_contains_no_id_lists(self, mock_sleep, mock_get):
+        """Endpoints with ID lists must be masked in log endpoint, params_summary, and file names."""
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            "items": [{"user_id": 12345, "creation_date": 1600000000}],
+            "quota_remaining": 9900
+        }
+        mock_get.return_value = resp
+
+        # Call with user ID batch
+        collect.api_get("users/12345;67890")
+
+        # 1. Check collection_log.csv
+        with open(self.log_file, newline="", encoding="utf-8") as fh:
+            rows = list(csv.DictReader(fh))
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertEqual(row["endpoint"], "users/{ids}")
+        self.assertNotIn("12345", row["endpoint"])
+        self.assertNotIn("67890", row["endpoint"])
+        self.assertIn('"n_ids":2', row["params_summary"])
+        self.assertNotIn("12345", row["params_summary"])
+        self.assertNotIn("12345", row["raw_file"])
+        self.assertIn("users_n2__", row["raw_file"])
+
+        # 2. Check on-disk raw file name
+        raw_files = list(self.raw_dir.glob("*.json"))
+        self.assertEqual(len(raw_files), 1)
+        self.assertTrue(raw_files[0].name.startswith("users_n2__"))
+        self.assertNotIn("12345", raw_files[0].name)
+
+    @patch("src.collect.requests.get")
+    @patch("src.collect.time.sleep")
+    def test_right_filter_chosen_per_endpoint(self, mock_sleep, mock_get):
+        """api_get must pick the minimal filter matching the endpoint prefix unless overridden."""
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = {"items": [], "quota_remaining": 9900}
+        mock_get.return_value = resp
+
+        # Questions
+        collect.api_get("questions")
+        p_q = mock_get.call_args[1]["params"]
+        self.assertEqual(p_q["filter"], collect._ENDPOINT_FILTERS["questions"])
+
+        # Answers
+        collect.api_get("answers/11227902")
+        p_a = mock_get.call_args[1]["params"]
+        self.assertEqual(p_a["filter"], collect._ENDPOINT_FILTERS["answers"])
+
+        # Users
+        collect.api_get("users/12345;67890")
+        p_u = mock_get.call_args[1]["params"]
+        self.assertEqual(p_u["filter"], collect._ENDPOINT_FILTERS["users"])
+
+    @patch("src.collect.requests.get")
+    @patch("src.collect.time.sleep")
+    def test_caller_filter_overrides_endpoint_filter(self, mock_sleep, mock_get):
+        """Caller-supplied filter (e.g. filter='total') must override per-endpoint defaults."""
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = {"total": 500, "quota_remaining": 9900}
+        mock_get.return_value = resp
+
+        collect.api_get("users/12345", params={"filter": "total"})
+        sent_params = mock_get.call_args[1]["params"]
+        self.assertEqual(sent_params["filter"], "total")
+
+    def test_committed_log_never_contains_users_followed_by_digits(self):
+        """The committed logs/collection_log.csv must never contain users/ followed by digits."""
+        real_log_path = collect._ROOT / "logs" / "collection_log.csv"
+        if not real_log_path.exists():
+            return
+        import re
+        content = real_log_path.read_text(encoding="utf-8")
+        matches = re.findall(r"users/\d+", content)
+        self.assertEqual(
+            matches,
+            [],
+            f"Found forbidden endpoint patterns in committed log: {matches}"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
+
