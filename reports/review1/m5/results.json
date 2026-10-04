@@ -1,0 +1,367 @@
+{
+  "settings": {
+    "n_iter": 8,
+    "n_splits": 3,
+    "tune_rows": 50000,
+    "svd_components": 100,
+    "max_features": 5000,
+    "seed": 42
+  },
+  "dropped_no_history": 8516,
+  "unexpected_columns": [],
+  "split": {
+    "train": {
+      "rows": 248294.0,
+      "target_resolved_7d share": 0.421,
+      "target_answered_7d share": 0.757
+    },
+    "validation": {
+      "rows": 28132.0,
+      "target_resolved_7d share": 0.341,
+      "target_answered_7d share": 0.702
+    },
+    "test": {
+      "rows": 16695.0,
+      "target_resolved_7d share": 0.297,
+      "target_answered_7d share": 0.714
+    }
+  },
+  "tuning": {
+    "rf": {
+      "best_params": {
+        "max_depth": 16,
+        "min_samples_leaf": 24,
+        "n_estimators": 472
+      },
+      "cv_pr_auc": 0.5252
+    },
+    "xgb": {
+      "best_params": {
+        "learning_rate": 0.029447905545150106,
+        "max_depth": 5,
+        "n_estimators": 628
+      },
+      "cv_pr_auc": 0.517,
+      "trees_after_early_stopping": 628
+    }
+  },
+  "chosen": {
+    "model": "xgboost",
+    "threshold": 0.3669,
+    "validation_pr_auc": 0.4821,
+    "reason": "highest validation PR-AUC among the trained models (logistic regression 0.471, random forest 0.473, xgboost 0.482); threshold tuned for F1 on validation only"
+  },
+  "validation": [
+    {
+      "model": "majority class",
+      "n": 28132,
+      "positive_rate": 0.3405,
+      "threshold": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "pr_auc": 0.3405,
+      "roc_auc": 0.5,
+      "capture_rate_20": 0.2012
+    },
+    {
+      "model": "logistic regression",
+      "n": 28132,
+      "positive_rate": 0.3405,
+      "threshold": 0.3436,
+      "precision": 0.3887,
+      "recall": 0.8085,
+      "f1": 0.525,
+      "pr_auc": 0.4707,
+      "roc_auc": 0.6361,
+      "capture_rate_20": 0.2399
+    },
+    {
+      "model": "random forest",
+      "n": 28132,
+      "positive_rate": 0.3405,
+      "threshold": 0.4125,
+      "precision": 0.3861,
+      "recall": 0.813,
+      "f1": 0.5236,
+      "pr_auc": 0.4734,
+      "roc_auc": 0.6382,
+      "capture_rate_20": 0.2378
+    },
+    {
+      "model": "xgboost",
+      "n": 28132,
+      "positive_rate": 0.3405,
+      "threshold": 0.3669,
+      "precision": 0.4003,
+      "recall": 0.7819,
+      "f1": 0.5295,
+      "pr_auc": 0.4821,
+      "roc_auc": 0.6448,
+      "capture_rate_20": 0.2408
+    }
+  ],
+  "test": {
+    "model": "xgboost",
+    "n": 16695,
+    "positive_rate": 0.2969,
+    "threshold": 0.3669,
+    "precision": 0.3626,
+    "recall": 0.7712,
+    "f1": 0.4933,
+    "pr_auc": 0.4315,
+    "roc_auc": 0.6548,
+    "capture_rate_20": 0.2415,
+    "n_unresolved": 11739,
+    "lift_20": 1.208
+  },
+  "shap_top": {
+    "lagged_tag_volume": 0.17579999566078186,
+    "account_age_days": 0.12520000338554382,
+    "code_ratio": 0.10019999742507935,
+    "n_code_blocks": 0.09179999679327011,
+    "title_tfidf_svd_5": 0.07450000196695328
+  },
+  "shap_direction": {
+    "lagged_tag_volume": "higher value -> less likely resolved",
+    "account_age_days": "higher value -> more likely resolved",
+    "code_ratio": "higher value -> more likely resolved",
+    "n_code_blocks": "higher value -> more likely resolved",
+    "title_tfidf_svd_5": "higher value -> less likely resolved"
+  },
+  "secondary": [
+    {
+      "model": "main: accepted within 7 days",
+      "n": 16695,
+      "positive_rate": 0.2969,
+      "threshold": 0.3669,
+      "precision": 0.3626,
+      "recall": 0.7712,
+      "f1": 0.4933,
+      "pr_auc": 0.4315,
+      "roc_auc": 0.6548,
+      "capture_rate_20": 0.2415
+    },
+    {
+      "model": "secondary: any answer within 7 days",
+      "n": 16695,
+      "positive_rate": 0.7142,
+      "threshold": 0.1234,
+      "precision": 0.7142,
+      "recall": 0.9999,
+      "f1": 0.8333,
+      "pr_auc": 0.83,
+      "roc_auc": 0.667,
+      "capture_rate_20": 0.3238
+    }
+  ],
+  "secondary_top": {
+    "body_length": 0.17509999871253967,
+    "lagged_tag_volume": 0.09920000284910202,
+    "title_tfidf_svd_5": 0.09290000051259995,
+    "n_code_blocks": 0.08630000054836273,
+    "title_tfidf_svd_3": 0.08579999953508377
+  },
+  "errors": {
+    "overall_error_rate": 0.4704,
+    "hint_counts": {
+      "new or deleted asker account": 8,
+      "no code or error text": 6,
+      "very short title": 3,
+      "low-volume tag: docker": 1,
+      "very short body": 1
+    }
+  },
+  "rolling": {
+    "windows": 11,
+    "pr_auc_pre": 0.5587,
+    "pr_auc_post": 0.4673,
+    "roc_auc_pre": 0.6397,
+    "roc_auc_post": 0.648,
+    "f1_pre": 0.6029,
+    "f1_post": 0.5204,
+    "positive_rate_pre": 0.4219,
+    "positive_rate_post": 0.329,
+    "pr_auc_lift_pre": 0.1368,
+    "pr_auc_lift_post": 0.1383,
+    "mean_pr_auc_pre_nov2022": 0.5587,
+    "mean_pr_auc_post_nov2022": 0.4673,
+    "table": [
+      {
+        "window": "2021 H1",
+        "n": 28831.0,
+        "positive_rate": 0.4402,
+        "threshold": 0.3418,
+        "precision": 0.4613,
+        "recall": 0.945,
+        "f1": 0.62,
+        "pr_auc": 0.566,
+        "roc_auc": 0.6331,
+        "capture_rate_20": 0.2559,
+        "n_train": 104490
+      },
+      {
+        "window": "2021 H2",
+        "n": 24892.0,
+        "positive_rate": 0.4317,
+        "threshold": 0.3758,
+        "precision": 0.465,
+        "recall": 0.8984,
+        "f1": 0.6129,
+        "pr_auc": 0.5588,
+        "roc_auc": 0.6349,
+        "capture_rate_20": 0.2549,
+        "n_train": 133483
+      },
+      {
+        "window": "2022 H1",
+        "n": 24821.0,
+        "positive_rate": 0.4091,
+        "threshold": 0.3607,
+        "precision": 0.4379,
+        "recall": 0.9225,
+        "f1": 0.5939,
+        "pr_auc": 0.5545,
+        "roc_auc": 0.6476,
+        "capture_rate_20": 0.2507,
+        "n_train": 158164
+      },
+      {
+        "window": "2022 H2",
+        "n": 21754.0,
+        "positive_rate": 0.4066,
+        "threshold": 0.4161,
+        "precision": 0.454,
+        "recall": 0.8218,
+        "f1": 0.5849,
+        "pr_auc": 0.5557,
+        "roc_auc": 0.6432,
+        "capture_rate_20": 0.2463,
+        "n_train": 182477
+      },
+      {
+        "window": "2023 H1",
+        "n": 16763.0,
+        "positive_rate": 0.3684,
+        "threshold": 0.409,
+        "precision": 0.426,
+        "recall": 0.7957,
+        "f1": 0.5549,
+        "pr_auc": 0.5092,
+        "roc_auc": 0.6447,
+        "capture_rate_20": 0.2353,
+        "n_train": 205443
+      },
+      {
+        "window": "2023 H2",
+        "n": 11473.0,
+        "positive_rate": 0.3482,
+        "threshold": 0.3972,
+        "precision": 0.4117,
+        "recall": 0.7763,
+        "f1": 0.538,
+        "pr_auc": 0.4854,
+        "roc_auc": 0.6435,
+        "capture_rate_20": 0.2381,
+        "n_train": 222176
+      },
+      {
+        "window": "2024 H1",
+        "n": 8809.0,
+        "positive_rate": 0.348,
+        "threshold": 0.3535,
+        "precision": 0.3964,
+        "recall": 0.8475,
+        "f1": 0.5401,
+        "pr_auc": 0.4865,
+        "roc_auc": 0.6449,
+        "capture_rate_20": 0.2315,
+        "n_train": 233784
+      },
+      {
+        "window": "2024 H2",
+        "n": 5358.0,
+        "positive_rate": 0.3396,
+        "threshold": 0.3393,
+        "precision": 0.3751,
+        "recall": 0.8793,
+        "f1": 0.5259,
+        "pr_auc": 0.4863,
+        "roc_auc": 0.6404,
+        "capture_rate_20": 0.2511,
+        "n_train": 242777
+      },
+      {
+        "window": "2025 H1",
+        "n": 28132.0,
+        "positive_rate": 0.3405,
+        "threshold": 0.3529,
+        "precision": 0.3896,
+        "recall": 0.8195,
+        "f1": 0.5282,
+        "pr_auc": 0.482,
+        "roc_auc": 0.6452,
+        "capture_rate_20": 0.243,
+        "n_train": 248137
+      },
+      {
+        "window": "2025 H2",
+        "n": 11051.0,
+        "positive_rate": 0.3255,
+        "threshold": 0.3667,
+        "precision": 0.3902,
+        "recall": 0.7773,
+        "f1": 0.5196,
+        "pr_auc": 0.4553,
+        "roc_auc": 0.6463,
+        "capture_rate_20": 0.2423,
+        "n_train": 275847
+      },
+      {
+        "window": "2026 H1",
+        "n": 5219.0,
+        "positive_rate": 0.2326,
+        "threshold": 0.3789,
+        "precision": 0.3063,
+        "recall": 0.7586,
+        "f1": 0.4364,
+        "pr_auc": 0.3661,
+        "roc_auc": 0.6713,
+        "capture_rate_20": 0.2375,
+        "n_train": 287271
+      }
+    ]
+  },
+  "shap_pre_post": [
+    {
+      "index": "code_ratio",
+      "2021 H2": 1.0,
+      "2025 H2": 3.0
+    },
+    {
+      "index": "account_age_days",
+      "2021 H2": 2.0,
+      "2025 H2": 2.0
+    },
+    {
+      "index": "n_code_blocks",
+      "2021 H2": 3.0,
+      "2025 H2": 4.0
+    },
+    {
+      "index": "title_tfidf_svd_2",
+      "2021 H2": 4.0,
+      "2025 H2": 5.0
+    },
+    {
+      "index": "title_tfidf_svd_5",
+      "2021 H2": 5.0,
+      "2025 H2": null
+    },
+    {
+      "index": "lagged_tag_volume",
+      "2021 H2": null,
+      "2025 H2": 1.0
+    }
+  ]
+}

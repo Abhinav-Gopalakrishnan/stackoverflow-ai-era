@@ -28,7 +28,7 @@ Every model, including the majority-class baseline and Member 4's logistic regre
 
 ### Sampling weights
 
-Before January 2025 the data is a weighted sample; from January 2025 it is complete (weight 1). The validation (Jan–Jun 2025) and test (Jul 2025–Jul 2026) periods are therefore fully collected and are scored **unweighted**. Rolling-origin test windows before 2025 are sampled, so their metrics are computed **with `sampling_weight`** so that weekday/weekend mix matches reality. Training may use the weights as well; this is decided and noted in the modelling notebook.
+Before January 2025 the data is a weighted sample; from January 2025 it is complete (weight 1). The validation (Jan–Jun 2025) and test (Jul 2025–Jul 2026) periods are therefore fully collected and are scored **unweighted**. Rolling-origin test windows before 2025 are sampled, so their metrics are computed **with `sampling_weight`** so that weekday/weekend mix matches reality. Training also uses `sampling_weight` as the sample weight (never as a feature), and every rolling-origin window applies it; in 2025 onwards the weight is 1, so those windows are unaffected.
 
 ## 3. Business metric: capture rate
 
@@ -68,6 +68,7 @@ The single test period is entirely after November 2022, so it cannot show how pe
 - For each half-year window from **2021 H1 to 2026 H1** (11 windows): train on **all data before the window starts**, test on **that half-year**.
 - Same model settings for every window (the chosen model's final hyperparameters, no per-window tuning). Threshold-free metrics (PR-AUC, ROC-AUC) are the main comparison; F1 uses a threshold tuned on the last 6 months of the window's training data, never on the test half-year.
 - Plot PR-AUC and F1 per half-year with a marker at 30 November 2022.
+- PR-AUC depends on how common the positive class is, and the share of resolved questions changes over time. Every window therefore also reports the share resolved (the PR-AUC of a no-skill ranking), ROC-AUC (independent of that share), and PR-AUC minus the share resolved. Conclusions about "performance before and after" are drawn from these together, not from PR-AUC alone.
 - Compare the top SHAP features of one pre-AI window (e.g. 2021 H2) and one post-AI window (e.g. 2025 H2).
 - Wording: results are "associated with" or "consistent with" a change, never "caused by AI".
 

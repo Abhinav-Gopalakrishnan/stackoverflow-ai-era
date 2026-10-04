@@ -1,0 +1,19 @@
+feature,group,n,errors,error_rate
+title_length,"(0, 30]",653,326,0.499
+title_length,"(30, 60]",6458,3234,0.501
+title_length,"(60, 100]",7417,3465,0.467
+title_length,"(100, 1000]",2167,828,0.382
+body_length,"(0, 200]",923,470,0.509
+body_length,"(200, 600]",7261,3601,0.496
+body_length,"(600, 1500]",7264,3318,0.457
+body_length,"(1500, 1000000]",1240,462,0.373
+n_code_blocks,"(-1, 0]",2771,855,0.309
+n_code_blocks,"(0, 2]",9278,4691,0.506
+n_code_blocks,"(2, 100]",4646,2307,0.497
+tag_count,"(0, 1]",491,244,0.497
+tag_count,"(1, 2]",3479,1750,0.503
+tag_count,"(2, 10]",12725,5859,0.46
+has_error_text,0,13447,6579,0.489
+has_error_text,1,3248,1274,0.392
+new_account,0,14089,7053,0.501
+new_account,1,2606,800,0.307

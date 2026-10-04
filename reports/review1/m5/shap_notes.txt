@@ -1,0 +1,4 @@
+Brand-new accounts and questions with no code blocks are the least often resolved; the effect levels off for older accounts.
+Resolution rises with some code, then falls again for questions that are almost all code.
+Error text, longer titles and longer bodies are associated with fewer accepted answers in the test period; the r tag with more, python and android with fewer.
+Tag volume stays in one narrow, low range in the test period (volume has fallen since 2022), so it stands in for the period and tag mix, not for the question itself.

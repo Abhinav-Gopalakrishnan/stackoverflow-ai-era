@@ -1,0 +1,8 @@
+,accepted (main),any answer (secondary)
+lagged_tag_volume,1.0,2.0
+account_age_days,2.0,
+code_ratio,3.0,
+n_code_blocks,4.0,4.0
+title_tfidf_svd_5,5.0,3.0
+body_length,,1.0
+title_tfidf_svd_3,,5.0
