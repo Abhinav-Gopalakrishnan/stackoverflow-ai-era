@@ -9,9 +9,11 @@ def run_baseline():
     
     # Drop secondary target and fix dummy variable trap (drop 'question_word_none')
     X_train = train.drop(columns=['target_resolved_7d', 'target_answered_7d', 'question_word_none'], errors='ignore')
+    X_train = X_train.fillna(0)
     y_train = train['target_resolved_7d']
     
     X_val = val.drop(columns=['target_resolved_7d', 'target_answered_7d', 'question_word_none'], errors='ignore')
+    X_val = X_val.fillna(0)
     y_val = val['target_resolved_7d']
     
     print("Training Logistic Regression Baseline...")
