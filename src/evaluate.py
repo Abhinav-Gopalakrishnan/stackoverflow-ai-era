@@ -115,6 +115,30 @@ def metrics_table(y_true, y_score, threshold=0.5, name="model",
     return pd.DataFrame([row]).set_index("model")
 
 
+TEST_LOCK = "reports/review1/.test_evaluated"
+
+
+def final_test_evaluation(y_true, y_score, threshold, name="final model", lock_path=TEST_LOCK,
+                          sample_weight=None):
+    """The single evaluation on the test period (M5-10).
+
+    Writes a lock file the first time it runs and refuses to run again, so the
+    test period cannot be used for tuning by accident. The threshold must come
+    from the validation period.
+    """
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    lock = Path(lock_path)
+    if lock.exists():
+        raise RuntimeError(f"test period already evaluated ({lock.read_text().splitlines()[0]}); "
+                           "no tuning is allowed after the final test evaluation")
+    table = metrics_table(y_true, y_score, threshold, name, sample_weight)
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    lock.write_text(f"{datetime.now(timezone.utc).isoformat()}\n{name} threshold={threshold}\n")
+    return table
+
+
 def compare_models(results, threshold=0.5, sample_weight=None, pos_label=1):
     """Stack metric rows for several models.
 
