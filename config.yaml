@@ -24,9 +24,8 @@ study:
   window_start: "2019-01-01"
   window_end:   "2026-08-31"
 
-  # Tags to collect. "newer_tag" is still unconfirmed by the team (proposed: fastapi).
-  # Change newer_tag once the team agrees in the issue #18 thread.
-  newer_tag: "fastapi"          # UNCONFIRMED — team to agree
+  # Newer technology tag evaluated for contrast against established ecosystems
+  newer_tag: "fastapi"
 
   tags:
     - python

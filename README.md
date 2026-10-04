@@ -96,3 +96,29 @@ To rebuild everything from the raw question files (`data/raw/questions_<tag>.par
 2. Enrich each tag (answers and asker dates, hashed IDs): `python -m src.enrich data/raw/questions_<tag>.parquet`. Already-enriched questions are skipped, so tags can be run in any order. About 8,500 API calls for all 13 tags.
 3. Run `notebooks/02_cleaning.ipynb` top to bottom (about 2 minutes). It writes `data/processed/questions_clean_v1.parquet` once every tag in `config.yaml` is present.
 4. `python -m src.aggregate` writes `data/processed/monthly_tag_tables.csv`.
+
+## How to re-run the data collection (M1-13)
+
+All collection parameters—including target tags, study dates (`2019-01-01` to `2026-08-31`), sampling seed (`42`), stratified sampling mode (1 weekday + 1 weekend day pre-2025), and minimal API filters—are centrally defined in `config.yaml`.
+
+### 1. Collect Weekly Population Counts
+To re-generate the complete 5,600-row weekly question population dataset across all 14 series (`ALL` plus 13 tags):
+```bash
+python src/collect_weekly.py --tags ALL python javascript java sql pandas reactjs android excel r docker powerbi fastapi openai-api
+```
+- Output: `data/processed/weekly_counts.csv` (resumable; checkpoints after every tag).
+
+### 2. Collect Stratified Question Records
+To collect or verify stratified question samples for any subset of tags:
+```bash
+# Re-collect questions for specific tags (e.g. fastapi, docker)
+python src/collect_questions.py --tags fastapi docker
+
+# Or run validation checks only (offline, zero API quota used):
+python src/collect_questions.py --tags python --check-only
+```
+- Outputs:
+  - `data/shared/questions_<tag>.parquet` (question records with sampling weights).
+  - `data/processed/sampling_manifest.csv` (complete sampling manifest with stratum metadata and random seeds).
+- **Deterministic Re-run:** Because random day selection uses seed `f"{seed}_{tag}_{month}"`, repeating collection for any tag-month always selects identical calendar dates.
+
