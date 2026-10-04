@@ -4,6 +4,7 @@
 # Raw data (large / reproducible via API)
 data/raw/
 data/shared/
+data/testing/
 
 # Python
 __pycache__/
