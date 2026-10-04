@@ -1,0 +1,4 @@
+,rows,target_resolved_7d share,target_answered_7d share
+train,248294.0,0.421,0.757
+validation,28132.0,0.341,0.702
+test,16695.0,0.297,0.714

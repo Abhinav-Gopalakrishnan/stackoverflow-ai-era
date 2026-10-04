@@ -1,0 +1,3 @@
+model,n,positive_rate,threshold,precision,recall,f1,pr_auc,roc_auc,capture_rate_20
+main: accepted within 7 days,16695,0.2969,0.3669,0.3626,0.7712,0.4933,0.4315,0.6548,0.2415
+secondary: any answer within 7 days,16695,0.7142,0.1234,0.7142,0.9999,0.8333,0.83,0.667,0.3238

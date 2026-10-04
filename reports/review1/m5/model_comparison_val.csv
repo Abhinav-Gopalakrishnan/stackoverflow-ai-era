@@ -1,0 +1,5 @@
+model,n,positive_rate,threshold,precision,recall,f1,pr_auc,roc_auc,capture_rate_20
+majority class,28132,0.3405,0.5,0.0,0.0,0.0,0.3405,0.5,0.2012
+logistic regression,28132,0.3405,0.3436,0.3887,0.8085,0.525,0.4707,0.6361,0.2399
+random forest,28132,0.3405,0.4125,0.3861,0.813,0.5236,0.4734,0.6382,0.2378
+xgboost,28132,0.3405,0.3669,0.4003,0.7819,0.5295,0.4821,0.6448,0.2408

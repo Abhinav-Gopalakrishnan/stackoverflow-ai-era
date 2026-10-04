@@ -1,0 +1,31 @@
+,coefficient,direction,in_plain_words
+tag_pandas,0.5963,positive,question tagged pandas: more likely to be resolved
+tag_r,0.4376,positive,question tagged r: more likely to be resolved
+tag_sql,0.3513,positive,question tagged sql: more likely to be resolved
+missing_account_age,0.3098,positive,deleted asker account: more likely to be resolved
+lagged_tag_volume,0.2241,positive,higher tag volume in the previous 4 weeks: more likely to be resolved
+tag_powerbi,0.2143,positive,question tagged powerbi: more likely to be resolved
+question_word_does,0.1703,positive,title starts with 'does': more likely to be resolved
+question_word_what,0.1502,positive,title starts with 'what': more likely to be resolved
+n_code_blocks,0.1476,positive,higher number of code blocks: more likely to be resolved
+question_word_should,0.1468,positive,title starts with 'should': more likely to be resolved
+question_word_do,0.1455,positive,title starts with 'do': more likely to be resolved
+other_tags_count,0.1188,positive,higher number of other tags: more likely to be resolved
+question_word_are,0.1036,positive,title starts with 'are': more likely to be resolved
+code_ratio,0.0634,positive,higher share of code in the body: more likely to be resolved
+tag_excel,0.0519,positive,question tagged excel: more likely to be resolved
+new_account,-0.3793,negative,account created within 7 days of posting: less likely to be resolved
+tag_docker,-0.343,negative,question tagged docker: less likely to be resolved
+question_word_when,-0.3341,negative,title starts with 'when': less likely to be resolved
+tag_android,-0.3205,negative,question tagged android: less likely to be resolved
+tag_python,-0.3062,negative,question tagged python: less likely to be resolved
+has_error_text,-0.2915,negative,error text in the question: less likely to be resolved
+tag_count,-0.2021,negative,number of tags: less likely to be resolved
+tag_fastapi,-0.1946,negative,question tagged fastapi: less likely to be resolved
+tag_openai-api,-0.1843,negative,question tagged openai-api: less likely to be resolved
+tag_reactjs,-0.1545,negative,question tagged reactjs: less likely to be resolved
+tag_java,-0.1462,negative,question tagged java: less likely to be resolved
+tag_javascript,-0.1409,negative,question tagged javascript: less likely to be resolved
+body_length,-0.0711,negative,higher body length: less likely to be resolved
+question_word_would,-0.0587,negative,title starts with 'would': less likely to be resolved
+question_word_can,-0.0553,negative,title starts with 'can': less likely to be resolved
