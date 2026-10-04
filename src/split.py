@@ -68,19 +68,18 @@ def report_split_stats(train_df: pd.DataFrame, val_df: pd.DataFrame, test_df: pd
             print(f"{name}: {count} rows (target '{target_col}' not found)")
 
 if __name__ == "__main__":
-    # Test on Member 1's sample data
-    print("Testing split module on sample data...")
-    df = pd.read_parquet('data/processed/test_pull_python_sample.parquet')
+    # Test on the final cleaned dataset
+    print("Testing split module on cleaned data...")
+    df = pd.read_parquet('data/processed/questions_clean_v1.parquet')
     
     train, val, test = create_splits(df)
     
     print("\n--- Split Report ---")
-    # Using 'is_answered' as a placeholder target since Member 2 hasn't created target_resolved_7d yet
-    report_split_stats(train, val, test, target_col='is_answered')
+    report_split_stats(train, val, test, target_col='target_resolved_7d')
     
     print("\nAssertion passed: No question IDs overlap across splits!")
     
     print("\n--- Time-Series Folds Report ---")
-    folds = create_time_series_folds(train, n_splits=3)
+    folds = create_time_series_folds(train, n_splits=5)
     for i, (f_train, f_val) in enumerate(folds):
         print(f"Fold {i+1}: Train rows = {len(f_train)}, Val rows = {len(f_val)}")
