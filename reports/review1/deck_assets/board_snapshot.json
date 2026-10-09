@@ -1,0 +1,598 @@
+{
+ "taken": "2026-10-04",
+ "board_url": "https://github.com/users/Abhinav-Gopalakrishnan/projects/3",
+ "tasks": [
+  {
+   "title": "Rubric and project plan reading",
+   "assignee": "Abhinav",
+   "status": "Review/Testing",
+   "closed": ""
+  },
+  {
+   "title": "Repository, folder structure and README skeleton",
+   "assignee": "Abhinav",
+   "status": "Review/Testing",
+   "closed": ""
+  },
+  {
+   "title": "GitHub Projects board setup",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": ""
+  },
+  {
+   "title": "Stack Apps key and first API call",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Shared Python environment",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-01"
+  },
+  {
+   "title": "Enrichment design",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Enrichment script",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Enrichment run for all tags",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Evaluation plan",
+   "assignee": "Adhikkesh",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Modelling skeleton",
+   "assignee": "Adhikkesh",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Evaluation module",
+   "assignee": "Adhikkesh",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Rubric and project plan reading",
+   "assignee": "Adhikkesh",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Define problem statement, business objective, and research questions",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Background sources and dated event list",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Team check-in notes",
+   "assignee": "Abhinav",
+   "status": "Backlog",
+   "closed": ""
+  },
+  {
+   "title": "Core API request function",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Test pull and volume check",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Weekly question counts",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Question records with stratified sampling",
+   "assignee": "Abhinav",
+   "status": "Review/Testing",
+   "closed": ""
+  },
+  {
+   "title": "Collection summary",
+   "assignee": "Abhinav",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Formulate detailed exploratory data analysis (EDA) plan",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Set up presentation slide deck template and structure",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-02"
+  },
+  {
+   "title": "Split and validation strategy",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": ""
+  },
+  {
+   "title": "Feature specification",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": ""
+  },
+  {
+   "title": "Feature functions",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "First look at the test-pull data",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Question volume trends",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Target analysis",
+   "assignee": "Akshay",
+   "status": "Review/Testing",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Time to answer",
+   "assignee": "Akshay",
+   "status": "In Progress",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Question characteristics and resolution",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Asker and timing patterns",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Statistical checks",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "EDA summary and feature recommendations",
+   "assignee": "Akshay",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Merge and deduplication",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Timestamp conversion and checks",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "HTML cleaning and code extraction",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Missing values",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Both targets",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Invalid and extreme records",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Before/after cleaning summary",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Processed dataset v1 and handoff",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Aggregated tables for EDA",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Feature spec and leakage review",
+   "assignee": "Adhikkesh",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Sampling robustness check",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Cleaning section for the main notebook",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Cleaning slides and rehearsal",
+   "assignee": "Rishiikesh",
+   "status": "Completed",
+   "closed": "2026-10-03"
+  },
+  {
+   "title": "Viva questions for cleaning and sampling",
+   "assignee": "Rishiikesh",
+   "status": "Review/Testing",
+   "closed": ""
+  },
+  {
+   "title": "Individual contribution summary",
+   "assignee": "Rishiikesh",
+   "status": "Review/Testing",
+   "closed": ""
+  },
+  {
+   "title": "Split module and verification",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Feature pipeline",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Correlation and leakage check",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Baseline model",
+   "assignee": "Nishanth",
+   "status": "Completed",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Initial business findings page (with Member 5)",
+   "assignee": "Akshay",
+   "status": "In Progress",
+   "closed": "2026-10-04"
+  },
+  {
+   "title": "Deck completion",
+   "assignee": "Akshay",
+   "status": "In Progress",
+   "closed": ""
+  },
+  {
+   "title": "Individual contribution summary",
+   "assignee": "Akshay",
+   "status": "In Progress",
+   "closed": ""
+  }
+ ],
+ "issue_dates": [
+  {
+   "created": "2026-10-04",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-04",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-04",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-04",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-04",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-04",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-04",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-03",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-03",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-02",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-02",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-04"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-03"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-01"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": "2026-10-02"
+  },
+  {
+   "created": "2026-10-01",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-01",
+   "closed": ""
+  },
+  {
+   "created": "2026-10-01",
+   "closed": ""
+  }
+ ]
+}

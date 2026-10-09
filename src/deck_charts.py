@@ -28,7 +28,7 @@ NOV_2022 = pd.Timestamp("2022-11-30")
 def _fonts():
     from matplotlib import font_manager
 
-    for d in ("/run/host/fonts/liberation", "/usr/share/fonts/liberation-fonts"):
+    for d in ("/run/host/fonts/liberation", "/usr/share/fonts/liberation-fonts", "/usr/share/fonts/liberation"):
         for f in Path(d).glob("LiberationSans-*.ttf"):
             font_manager.fontManager.addfont(str(f))
 

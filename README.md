@@ -15,13 +15,18 @@ This project investigates how Stack Overflow's question-resolution dynamics have
 | `data/processed/` | Cleaned and feature-engineered datasets |
 | `logs/` | Run logs and audit trails |
 | `logs/collection_log.csv` | Per-run collection metadata (dates, counts, quota usage) |
-| `docs/` | Project documentation |
+| `docs/` | Project documentation, rubrics, and work plans |
 | `docs/data_dictionary.md` | Field-level definitions for every column in the dataset |
 | `docs/dataset_documentation.md` | High-level dataset documentation (provenance, scope, limitations) |
+| `docs/Review_1_Work_Plan.pdf` | Review 1 work plan specification (30 pages) |
+| `docs/Review_2_Work_Plan.pdf` | Review 2 work plan specification (Unit 3, 28 pages) |
+| `docs/Capstone_Project_Rubrics_Updated.docx` | Official project evaluation rubric |
 | `notebooks/` | Jupyter notebooks for analysis and deliverables |
 | `notebooks/01_collection.ipynb` | Data-collection workflow and API testing |
 | `notebooks/review1_main.ipynb` | Main notebook for Review 1 deliverable |
-| `reports/review1/` | Artefacts for Review 1 (charts, slides, exported tables) |
+| `notebooks/colab_timeseries_gpu.ipynb` | Time series forecaster (Holt's & PyTorch GPU) |
+| `reports/review1/` | Artefacts for Review 1 (charts, speech guides, exported tables) |
+| `reports/review1/Full_PPT_BA_Review_1.pdf` | Final compiled Review 1 presentation deck |
 | `requirements.txt` | Python dependencies |
 | `.env` | API key (never committed — see setup instructions below) |
 | `.env.example` | Template showing required environment variables |
