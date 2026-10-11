@@ -1,0 +1,266 @@
+{
+  "findings": [
+    "Models were selected on 2024 H2 validation; the expanding-window 2025\u201326 backtest uses first-forecast-week origins spaced four weeks apart.",
+    "On matched origins, SARIMAX's mean 26-week skill versus naive is 55.9%; this is a retrospective model-family comparison, not a new selection from test results.",
+    "Nominal 95% SARIMAX bands cover 52.0% of the 26-week endpoints on matched origins: intervals are too narrow for this changing process.",
+    "The validation-selected site model is sarimax; its week-26 median is 134.2 questions versus 215 in the last observed week (-37.6%). Forecasts end February 23, 2027.",
+    "There are 10 recorded fit failures. Zero baseline counts cannot support a percentage-change tag class; ITS slope interpretation awaits Akshay's estimates."
+  ],
+  "summary": [
+    {
+      "model": "drift",
+      "horizon": 1,
+      "n_series": 14,
+      "mase": 0.2188099273479639,
+      "smape": 37.09253249078608,
+      "log_rmse": 0.4060936141230244,
+      "skill_vs_naive": 0.004197132243816,
+      "coverage80": 0.4910018552875695,
+      "coverage95": 0.6373685837971552
+    },
+    {
+      "model": "drift",
+      "horizon": 4,
+      "n_series": 14,
+      "mase": 0.249476871650292,
+      "smape": 37.99148808624243,
+      "log_rmse": 0.4102503340864948,
+      "skill_vs_naive": 0.044486442777093,
+      "coverage80": 0.6722162549230218,
+      "coverage95": 0.8565252416756176
+    },
+    {
+      "model": "drift",
+      "horizon": 13,
+      "n_series": 14,
+      "mase": 0.3878614952168043,
+      "smape": 53.76076586777623,
+      "log_rmse": 0.5870332922924447,
+      "skill_vs_naive": 0.1368682725895159,
+      "coverage80": 0.7042483660130718,
+      "coverage95": 0.8470440807902108
+    },
+    {
+      "model": "drift",
+      "horizon": 26,
+      "n_series": 14,
+      "mase": 0.5642130955311978,
+      "smape": 74.61158082471579,
+      "log_rmse": 0.7921367347438387,
+      "skill_vs_naive": 0.2223654304610806,
+      "coverage80": 0.6673469387755102,
+      "coverage95": 0.8330357142857142
+    },
+    {
+      "model": "ets",
+      "horizon": 1,
+      "n_series": 14,
+      "mase": 0.189615938556713,
+      "smape": 34.947434267132145,
+      "log_rmse": 0.3463028146485155,
+      "skill_vs_naive": 0.1101134111955651,
+      "coverage80": 0.4930117501546073,
+      "coverage95": 0.6526747062461348
+    },
+    {
+      "model": "ets",
+      "horizon": 4,
+      "n_series": 14,
+      "mase": 0.2324296147287519,
+      "smape": 38.25531039540012,
+      "log_rmse": 0.3823060223323773,
+      "skill_vs_naive": 0.0932617623297885,
+      "coverage80": 0.4961779448621554,
+      "coverage95": 0.693000358037952
+    },
+    {
+      "model": "ets",
+      "horizon": 13,
+      "n_series": 14,
+      "mase": 0.3872518947389619,
+      "smape": 57.0582104745173,
+      "log_rmse": 0.5736503128302456,
+      "skill_vs_naive": 0.145556797941987,
+      "coverage80": 0.4136444051304732,
+      "coverage95": 0.641518010713057
+    },
+    {
+      "model": "ets",
+      "horizon": 26,
+      "n_series": 14,
+      "mase": 0.5844494561930523,
+      "smape": 77.05602254985283,
+      "log_rmse": 0.7944804589700094,
+      "skill_vs_naive": 0.2120898045690859,
+      "coverage80": 0.3384353741496598,
+      "coverage95": 0.5967261904761905
+    },
+    {
+      "model": "naive",
+      "horizon": 1,
+      "n_series": 14,
+      "mase": 0.2192368534374774,
+      "smape": 37.05983011550939,
+      "log_rmse": 0.4059077319570924,
+      "skill_vs_naive": 0.0,
+      "coverage80": 0.4876004947433519,
+      "coverage95": 0.627473716759431
+    },
+    {
+      "model": "naive",
+      "horizon": 4,
+      "n_series": 14,
+      "mase": 0.2578848807318596,
+      "smape": 38.47467614373431,
+      "log_rmse": 0.4181039626402705,
+      "skill_vs_naive": 0.0,
+      "coverage80": 0.6550214822771213,
+      "coverage95": 0.852765843179377
+    },
+    {
+      "model": "naive",
+      "horizon": 13,
+      "n_series": 14,
+      "mase": 0.445304767751367,
+      "smape": 58.279083196277085,
+      "log_rmse": 0.6451356937870164,
+      "skill_vs_naive": 0.0,
+      "coverage80": 0.6098825495110324,
+      "coverage95": 0.7849402919062362
+    },
+    {
+      "model": "naive",
+      "horizon": 26,
+      "n_series": 14,
+      "mase": 0.723365302500648,
+      "smape": 88.5315723405218,
+      "log_rmse": 0.939715161211659,
+      "skill_vs_naive": 0.0,
+      "coverage80": 0.4740646258503401,
+      "coverage95": 0.7081207482993197
+    },
+    {
+      "model": "sarimax",
+      "horizon": 1,
+      "n_series": 14,
+      "mase": 0.1790734537682777,
+      "smape": 33.78826676588123,
+      "log_rmse": 0.3351185599493878,
+      "skill_vs_naive": 0.1573692018992122,
+      "coverage80": 0.5100494743351887,
+      "coverage95": 0.626360544217687
+    },
+    {
+      "model": "sarimax",
+      "horizon": 4,
+      "n_series": 14,
+      "mase": 0.2114996919075245,
+      "smape": 35.10751707228726,
+      "log_rmse": 0.3488907518256427,
+      "skill_vs_naive": 0.1934820886125659,
+      "coverage80": 0.4675528105979233,
+      "coverage95": 0.6520318653777301
+    },
+    {
+      "model": "sarimax",
+      "horizon": 13,
+      "n_series": 14,
+      "mase": 0.2934217415614788,
+      "smape": 48.55957374641345,
+      "log_rmse": 0.4671555830658735,
+      "skill_vs_naive": 0.3642645627135575,
+      "coverage80": 0.3966042557373826,
+      "coverage95": 0.5619563614919653
+    },
+    {
+      "model": "sarimax",
+      "horizon": 26,
+      "n_series": 14,
+      "mase": 0.3237145126432854,
+      "smape": 55.680853683970966,
+      "log_rmse": 0.5597432861966972,
+      "skill_vs_naive": 0.5592365029184704,
+      "coverage80": 0.4103741496598639,
+      "coverage95": 0.5196853741496599
+    },
+    {
+      "model": "seasonal_naive",
+      "horizon": 1,
+      "n_series": 14,
+      "mase": 2.987121373057,
+      "smape": 132.32453416269897,
+      "log_rmse": 1.6031843525952534,
+      "skill_vs_naive": -16.193911426491933,
+      "coverage80": 0.0974025974025974,
+      "coverage95": 0.2243815708101422
+    },
+    {
+      "model": "seasonal_naive",
+      "horizon": 4,
+      "n_series": 14,
+      "mase": 2.929470991828933,
+      "smape": 133.46973584024238,
+      "log_rmse": 1.59822424528099,
+      "skill_vs_naive": -11.39074628353337,
+      "coverage80": 0.1027210884353741,
+      "coverage95": 0.1819727891156462
+    },
+    {
+      "model": "seasonal_naive",
+      "horizon": 13,
+      "n_series": 14,
+      "mase": 2.6025721281610994,
+      "smape": 137.44736379065725,
+      "log_rmse": 1.6687678064611415,
+      "skill_vs_naive": -5.141461406352339,
+      "coverage80": 0.0902255639097744,
+      "coverage95": 0.2072583419332645
+    },
+    {
+      "model": "seasonal_naive",
+      "horizon": 26,
+      "n_series": 14,
+      "mase": 2.098417130194822,
+      "smape": 138.275421342803,
+      "log_rmse": 1.6680927721817167,
+      "skill_vs_naive": -1.942898518281472,
+      "coverage80": 0.1217261904761904,
+      "coverage95": 0.1946428571428571
+    }
+  ],
+  "site": {
+    "tag": "ALL",
+    "selected_model": "sarimax",
+    "change_26w_pct": -37.60144102668386,
+    "forecast_class": "declining",
+    "last_week_count": 215.0,
+    "forecast_week26": 134.1569017926297,
+    "post2023_log_slope": -0.0230538385994449,
+    "half_life_weeks": 30.066454120861,
+    "load_index_vs_2025": 8.275673894724491,
+    "its_slope_change_pct": null,
+    "its_status": "awaiting M3 its_results.csv"
+  },
+  "rows": 5600,
+  "tag_groups": {
+    "declining": [
+      "android",
+      "java",
+      "python",
+      "r",
+      "sql"
+    ],
+    "not classifiable: zero baseline": [
+      "openai-api",
+      "powerbi"
+    ],
+    "steep decline": [
+      "docker",
+      "excel",
+      "fastapi",
+      "javascript",
+      "pandas",
+      "reactjs"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "local_implementation": "complete",
+  "checks": [
+    "text_corpus_v1: 302026 unique question IDs",
+    "question_tone_v1: 302026 unique question IDs",
+    "question_complexity_v1: 302026 unique question IDs",
+    "question_metadata_for_topics: 302026 unique question IDs",
+    "weekly series: 14 x 400 complete Tuesday-start weeks",
+    "all backtest training cutoffs precede first forecast week",
+    "364 selected forecast rows; correct end date and nested intervals",
+    "complexity: 1000 bootstrap resamples; tone sheet: 100 pre + 100 post",
+    "07_timeseries: 7 genuinely executed code cells, zero errors",
+    "08_text_mining: 7 genuinely executed code cells, zero errors",
+    "M2: exactly two presentation slides",
+    "M5: exactly two presentation slides"
+  ],
+  "unit_tests_passed": 7,
+  "human_validation": "awaiting_independent_human_labels",
+  "pending": [
+    "M2 and M3 independent tone labels",
+    "M4 topic terms/examples before M2 names topics",
+    "M3 ITS estimates for integrated forecast interpretation"
+  ],
+  "not_claimed": [
+    "optional GRU",
+    "optional classifier feature extension/what-if page",
+    "M1/M3 final team integration and deployment"
+  ]
+}
