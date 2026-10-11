@@ -1,0 +1,8 @@
+# Member 4 — Nishanth
+
+Implemented and evaluated Method 2 topic models, pre/post topic share shifts, and distinctive keyword dynamics. Designed a stratified sampling scheme (80,000 questions balanced across 16 half-years from 2019 H1 to 2026 H2) and TF-IDF extraction (30,000 unigrams and bigrams). Evaluated candidate NMF and LDA models across $k \in \{10, 15, 20, 25, 30, 40\}$ using a pre-registered decision rule based on held-out NPMI topic coherence, semantic diversity ($\ge 0.70$), and multi-seed Jaccard stability ($\ge 0.60$). Transformed all 302,026 questions to extract topic distributions, dominant topics, top 15 terms, and 10 representative question examples per topic. Conducted 1,000-resample survey-weighted bootstrap confidence intervals for pre-to-post AI topic share shifts and evaluated topic resolution outcomes. Implemented the Monroe, Colaresi & Quinn (2008) weighted log-odds ratio with an informative Dirichlet prior to identify top rising and falling vocabulary overall and across key language tags (Python, JavaScript, Power BI).
+
+Source: `src/topics.py`, `src/keywords.py`, `tests/test_topics.py`.
+Evidence: `reports/review2/text/topic_model_selection.csv`, `topics_top_terms.csv`, `topic_examples.csv`, `topic_labels.csv`, `topic_monthly_share.csv`, `topic_prepost.csv`, `topic_outcomes.csv`, `keywords_prepost.csv`, `notebooks/08_text_mining.ipynb` Part B.
+
+Shared Handoffs: Provided top topic terms and representative example titles to Member 2 (Rishiikesh) for independent human topic naming, and topic data schemas to Member 1 (Abhinav) for the Streamlit dashboard.
