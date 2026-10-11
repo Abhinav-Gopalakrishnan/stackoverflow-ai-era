@@ -1,13 +1,15 @@
-"""M3 Review 2: STL decomposition, seasonal strength and named yearly dips.
+"""M3 Review 2 Method 1 patterns: STL decomposition and stationarity testing.
 
-Run: python -m src.ts_patterns
+Run: python -m src.ts_patterns [--task stl|stationarity|all]
 
-STL is fitted on log1p weekly counts (the same `log_count` used by M5) for all 14
-series. Components are additive and sum back to `log_count`. Seasonal strength and
-the named within-year dip are descriptive summaries, not causal claims.
+STL and ADF/KPSS both work on the log1p weekly counts (`log_count`) used by M5 for all
+14 series. STL components are additive and sum back to `log_count`. Seasonal strength,
+the named within-year dip and the differencing decision are descriptive summaries or
+test outcomes, not causal claims.
 """
 from __future__ import annotations
 import argparse
+import warnings
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -17,6 +19,7 @@ from src.review2_common import TS, write_json
 PERIOD = 52
 EXPECTED_WEEKS = 400
 EXPECTED_SERIES = 14
+SIGNIFICANCE = 0.05
 
 
 def load_series(path: Path | str = TS / 'series_long.csv') -> pd.DataFrame:
@@ -84,6 +87,100 @@ def yearly_dip(seasonal: np.ndarray) -> dict:
     months = sorted({month_of_phase(p) for p in window}, key=order.get)
     return {'peak_phase': int(np.argmax(profile)), 'trough_phase': trough,
             'dip_start_phase': start, 'dip_end_phase': end, 'dip_name': ' / '.join(months)}
+
+
+def _tests(x: np.ndarray, tag: str, series: str) -> tuple[list[dict], float, float]:
+    """Run ADF and KPSS on one series; return result rows and their p-values."""
+    from statsmodels.tsa.stattools import adfuller, kpss
+    x = np.asarray(x, float)
+    rows = []
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter('always')
+        adf = adfuller(x, regression='c', autolag='AIC', result_object=True)
+    adf_note = 'reject favours stationarity'
+    for w in caught:
+        adf_note += '; ' + str(w.message)
+    rows.append({'tag': tag, 'series': series, 'test': 'ADF', 'null_hypothesis': 'unit root (non-stationary)',
+                 'statistic': adf.statistic, 'p_value': adf.pvalue, 'lags': adf.lags, 'n_obs': adf.nobs,
+                 'crit_1pct': adf.critical_values['1%'], 'crit_5pct': adf.critical_values['5%'],
+                 'crit_10pct': adf.critical_values['10%'],
+                 'reject_5pct': bool(adf.pvalue < SIGNIFICANCE), 'note': adf_note})
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter('always')
+        kp = kpss(x, regression='c', nlags='auto', result_object=True)
+    note = 'reject favours non-stationarity'
+    for w in caught:
+        note += '; ' + str(w.message)
+    rows.append({'tag': tag, 'series': series, 'test': 'KPSS', 'null_hypothesis': 'stationary',
+                 'statistic': kp.statistic, 'p_value': kp.pvalue, 'lags': kp.lags, 'n_obs': len(x),
+                 'crit_1pct': kp.critical_values['1%'], 'crit_5pct': kp.critical_values['5%'],
+                 'crit_10pct': kp.critical_values['10%'],
+                 'reject_5pct': bool(kp.pvalue < SIGNIFICANCE), 'note': note})
+    return rows, adf.pvalue, kp.pvalue
+
+
+def verdict(adf_p: float, kpss_p: float) -> str:
+    """Combine ADF and KPSS at the 5% level for one transform."""
+    if adf_p < SIGNIFICANCE and kpss_p > SIGNIFICANCE:
+        return 'stationary'
+    if adf_p >= SIGNIFICANCE and kpss_p <= SIGNIFICANCE:
+        return 'non-stationary'
+    return 'conflicting evidence'
+
+
+def differencing_decision(level_verdict: str, diff_verdict: str, adf_level_p: float) -> tuple[str, str]:
+    """Translate the two verdicts into a differencing order with a written reason."""
+    if level_verdict == 'stationary':
+        return 'd=0', 'ADF rejects a unit root and KPSS does not reject stationarity at the level'
+    if level_verdict == 'non-stationary':
+        reason = 'ADF cannot reject a unit root and KPSS rejects level stationarity'
+        if diff_verdict == 'non-stationary':
+            reason += '; the first difference also tests non-stationary'
+        return 'd=1', reason
+    if diff_verdict == 'stationary':
+        return 'd=1 (ambiguous)', 'level tests conflict, but the first difference is stationary'
+    if adf_level_p < SIGNIFICANCE:
+        return 'd=0 (ambiguous)', 'level tests conflict, yet ADF rejects a unit root at the level'
+    return 'd=1 (ambiguous)', 'level tests conflict and ADF cannot reject a unit root'
+
+
+def stationarity() -> pd.DataFrame:
+    """ADF and KPSS on the level and first difference of all 14 log-count series."""
+    s = load_series()
+    rows = []
+    decisions = []
+    for tag, sub in s.groupby('tag', sort=True):
+        sub = sub.sort_values('week_start')
+        level = sub['log_count'].to_numpy(float)
+        diff = np.diff(level)
+        lvl_rows, adf_level_p, kpss_level_p = _tests(level, tag, 'level')
+        dif_rows, adf_diff_p, kpss_diff_p = _tests(diff, tag, 'first_difference')
+        rows += lvl_rows + dif_rows
+        level_verdict = verdict(adf_level_p, kpss_level_p)
+        diff_verdict = verdict(adf_diff_p, kpss_diff_p)
+        decision, rationale = differencing_decision(level_verdict, diff_verdict, adf_level_p)
+        decisions.append({'tag': tag, 'adf_level_p': adf_level_p, 'kpss_level_p': kpss_level_p,
+                          'adf_diff_p': adf_diff_p, 'kpss_diff_p': kpss_diff_p,
+                          'level_verdict': level_verdict, 'diff_verdict': diff_verdict,
+                          'differencing_decision': decision, 'rationale': rationale})
+
+    out = pd.DataFrame(rows)
+    dec = pd.DataFrame(decisions)
+    TS.mkdir(parents=True, exist_ok=True)
+    out.to_csv(TS / 'stationarity.csv', index=False)
+    dec.to_csv(TS / 'stationarity_decision.csv', index=False)
+    write_json(TS / 'stationarity_manifest.json', {
+        'adf': 'adfuller, regression=c, autolag=AIC; null = unit root',
+        'kpss': 'kpss, regression=c, nlags=auto; null = level stationary',
+        'transformations': 'level = log1p weekly count; first_difference = level.diff()',
+        'significance': SIGNIFICANCE,
+        'verdict_rule': 'stationary if ADF rejects and KPSS does not; non-stationary if ADF does not reject and KPSS rejects; else conflicting',
+        'decision_rule': 'd=0 on a stationary level; d=1 on a non-stationary level; conflicting levels use the first difference and the ADF level result, labelled ambiguous',
+        'series': int(dec.tag.nunique()), 'rows': len(out),
+        'interpretation': 'decisions support the fixed d=1 used by the M5 SARIMAX backtest; conflicting cases are reported, not hidden',
+    })
+    print(dec[['tag', 'level_verdict', 'diff_verdict', 'differencing_decision']].to_string(index=False))
+    return dec
 
 
 def run() -> pd.DataFrame:
@@ -160,6 +257,15 @@ def make_figure(comp: pd.DataFrame, summ: pd.DataFrame) -> None:
     plt.close(fig)
 
 
+def main() -> None:
+    parser = argparse.ArgumentParser(description='Review 2 Method 1 patterns (M3): STL and stationarity')
+    parser.add_argument('--task', choices=['stl', 'stationarity', 'all'], default='all')
+    args = parser.parse_args()
+    if args.task in ('stl', 'all'):
+        run()
+    if args.task in ('stationarity', 'all'):
+        stationarity()
+
+
 if __name__ == '__main__':
-    argparse.ArgumentParser(description='STL patterns for Review 2 Method 1 (M3-20)').parse_args()
-    run()
+    main()
