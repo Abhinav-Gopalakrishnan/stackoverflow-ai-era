@@ -1,0 +1,11 @@
+{
+  "model": "statsmodels STL, robust=True, period=52",
+  "input": "log1p weekly counts (series_long.csv log_count)",
+  "series": 14,
+  "weeks_per_series": 400,
+  "component_identity": "trend + seasonal + resid = log_count (additive)",
+  "seasonal_strength": "max(0, 1 - Var(resid) / Var(seasonal + resid))",
+  "trend_strength": "max(0, 1 - Var(resid) / Var(trend + resid))",
+  "dip_definition": "lowest mean seasonal phase expanded cyclically over negative phases; months approximate, origin 2019-01-01",
+  "interpretation": "descriptive; seasonality is small relative to the 2022 level change, association is not causation"
+}
