@@ -1,0 +1,8 @@
+{
+  "status": "awaiting_independent_human_labels",
+  "labelled_rows": 0,
+  "required_rows": 200,
+  "accuracy": null,
+  "macro_f1": null,
+  "cohen_kappa": null
+}
