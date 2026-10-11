@@ -31,3 +31,14 @@ logs/*.log
 
 # Processed dataset v1 (316 MB, over the GitHub file limit; shared on the team drive)
 data/processed/questions_clean_v1.parquet
+
+# Review 2 private model inputs and local language resources (share through Drive)
+.review2_nltk/
+data/processed/text_corpus_v1.parquet
+data/processed/question_tone_v1.parquet
+data/processed/question_complexity_v1.parquet
+data/processed/.review2_cache/
+data/processed/question_metadata_for_topics.parquet
+
+# Local state for the user-run GitHub publication workflow
+.review2_git_state.json

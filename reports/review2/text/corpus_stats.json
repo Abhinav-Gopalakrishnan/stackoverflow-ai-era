@@ -1,0 +1,12 @@
+{
+  "documents_before": 302026,
+  "documents_after": 302026,
+  "empty_after_cleaning": 0,
+  "vocabulary_size": 165887,
+  "total_tokens": 14312333,
+  "spacy_model": "en_core_web_sm",
+  "parser_ner": "disabled",
+  "code_excluded": true,
+  "sampling_weight": "retained, must be used in shares",
+  "seconds": 418.75
+}
