@@ -1,0 +1,9 @@
+{
+  "status": "complete",
+  "series": 14,
+  "fit_failures": 10,
+  "validation": "2024 H2 only",
+  "backtest": "2025 onward, expanding, every 4 weeks",
+  "optional_gru": "not run; not required",
+  "pending": "M3 ITS results for integrated tag interpretation"
+}
