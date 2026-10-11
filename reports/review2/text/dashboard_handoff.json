@@ -1,0 +1,90 @@
+{
+  "owner": "M2 Rishiikesh",
+  "schemas": {
+    "complexity_monthly.csv": [
+      "tag",
+      "month",
+      "period",
+      "n_sampled",
+      "low_sample",
+      "prose_words_median",
+      "code_lines_median",
+      "n_code_blocks_median",
+      "tag_count_median",
+      "flesch_reading_ease_median",
+      "error_text_flag_share",
+      "why_how_flag_share",
+      "version_flag_share",
+      "multi_technology_flag_share"
+    ],
+    "tone_prepost.csv": [
+      "tag",
+      "measure",
+      "pre",
+      "post",
+      "change",
+      "lower95",
+      "upper95",
+      "bootstrap_resamples"
+    ],
+    "dashboard_captions.csv": [
+      "chart",
+      "file",
+      "takeaway",
+      "caveat"
+    ],
+    "complexity_prepost.csv": [
+      "tag",
+      "metric",
+      "statistic",
+      "pre",
+      "post",
+      "change",
+      "lower95",
+      "upper95",
+      "n_pre",
+      "n_post",
+      "bootstrap_resamples"
+    ],
+    "tone_resolution_association.csv": [
+      "term",
+      "coefficient",
+      "odds_ratio",
+      "lower95",
+      "upper95",
+      "p_value"
+    ],
+    "tone_validation_sample.csv": [
+      "question_id",
+      "period",
+      "title",
+      "link",
+      "label_m2",
+      "label_m3",
+      "agreed_tone"
+    ],
+    "tone_validation.csv": [
+      "status",
+      "labelled_rows",
+      "required_rows",
+      "accuracy",
+      "macro_f1",
+      "cohen_kappa"
+    ],
+    "tone_monthly.csv": [
+      "tag",
+      "month",
+      "period",
+      "n_sampled",
+      "low_sample",
+      "negative_share",
+      "neutral_share",
+      "positive_share",
+      "frustration_flag_share",
+      "politeness_flag_share"
+    ]
+  },
+  "captions_file": "dashboard_captions.csv",
+  "full_parquet_not_for_dashboard": true,
+  "license": "CC BY-SA 4.0; question examples are title + original link only"
+}

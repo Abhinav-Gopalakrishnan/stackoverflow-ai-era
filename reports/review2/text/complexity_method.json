@@ -1,0 +1,8 @@
+{
+  "readability": "textstat Flesch reading ease on prose only; technical vocabulary limits interpretation",
+  "bootstrap": "1000 question resamples with replacement; retain sampling_weight; compressed identical value/weight cells",
+  "periods": "pre <= 2022-10, transition 2022-11/12 excluded from contrast, post >= 2023-01",
+  "flags": "case-insensitive error; leading why/how; dotted numeric version; >=2 study tags",
+  "empty_prose": "Flesch undefined (NaN), not zero",
+  "low_sample": "monthly flag for <30 sampled questions"
+}
