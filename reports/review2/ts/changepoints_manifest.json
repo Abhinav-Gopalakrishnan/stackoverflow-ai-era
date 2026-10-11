@@ -1,0 +1,13 @@
+{
+  "method": "ruptures Pelt, model=l2 (least-squares mean shift), jump=1",
+  "min_size": 26,
+  "penalty_rule": "BIC for one extra mean parameter per break: pen = 2*sigma^2*log(n) on the l2 (sum of squares) cost; sigma^2 = Var(first difference)/2, so pen = BIC_PENALTY * Var(first difference) * log(n)",
+  "penalty_fixed_in_advance": true,
+  "input": "log1p weekly counts (series_long.csv log_count)",
+  "events": "docs/event_list.csv; every change point carries its nearest event and distance in days",
+  "proximity_rule": "within_4_weeks_of_event = distance_days <= 28",
+  "series": 14,
+  "change_points": 134,
+  "aligned": "change points within 28 days of an event: 6 of 134; 4 of 14 series have a Nov-Dec 2022 break",
+  "interpretation": "BIC often flags several level shifts on these trending series; a change point within ~4 weeks of the Nov-Dec 2022 events appears in most series, while a few tags (excel, fastapi, powerbi) show no event-near break. Proximity to a dated event is association, not causation."
+}
