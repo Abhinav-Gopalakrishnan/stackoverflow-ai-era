@@ -1,0 +1,10 @@
+{
+  "weeks": 400,
+  "series": 14,
+  "missing_weeks": 0,
+  "origin_convention": "first forecast week; training dates < origin",
+  "monthly_rates": "monthly_rates_masked.csv; never presented as weekly measurements",
+  "tag_change": "100 * (forecast at week 26 / last observed weekly count - 1)",
+  "interval_point": "back-transformed median forecast, not arithmetic mean",
+  "tag_classes": "< -40 steep decline; [-40,-10] declining; > -10 stabilising"
+}
