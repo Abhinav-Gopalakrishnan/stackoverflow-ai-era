@@ -1,0 +1,11 @@
+tag,origin,model,error
+docker,2024-12-17,sarimax,SARIMAX did not converge
+java,2025-02-04,sarimax,SARIMAX did not converge
+java,2025-10-14,sarimax,SARIMAX did not converge
+javascript,2026-02-03,sarimax,SARIMAX did not converge
+pandas,2025-09-16,sarimax,SARIMAX did not converge
+powerbi,2025-03-04,sarimax,SARIMAX did not converge
+python,2024-11-19,sarimax,SARIMAX did not converge
+r,2025-07-22,sarimax,SARIMAX did not converge
+r,2026-05-26,sarimax,SARIMAX did not converge
+sql,2024-10-22,sarimax,SARIMAX did not converge
