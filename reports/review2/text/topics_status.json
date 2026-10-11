@@ -1,0 +1,13 @@
+{
+  "status": "complete",
+  "k": 10,
+  "model_family": "NMF",
+  "topics_count": 10,
+  "top_terms_file": "topics_top_terms.csv",
+  "examples_file": "topic_examples.csv",
+  "labels_file": "topic_labels.csv",
+  "monthly_share_file": "topic_monthly_share.csv",
+  "prepost_file": "topic_prepost.csv",
+  "outcomes_file": "topic_outcomes.csv",
+  "timestamp": "2026-10-11 15:34:13"
+}
