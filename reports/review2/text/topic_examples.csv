@@ -1,0 +1,101 @@
+topic,question_id,weight,title,link
+0,79262621,1.0,How to fix an error in running rbokeh package?,https://stackoverflow.com/q/79262621
+0,62357392,1.0,Pyqt5 WebEngineWidgets Requested OpenGL implementation is not supported. Implementation,https://stackoverflow.com/q/62357392
+0,77006420,1.0,Issue with gpt 3.5 Turbo while putting my API key in a basic code,https://stackoverflow.com/q/77006420
+0,58213521,1.0,"Airflow installation error:""python setup.py egg_info"" failed with error code 1""",https://stackoverflow.com/q/58213521
+0,69957376,1.0,Tensorflow mirrored strategy error: Non-OK-status: GpuLaunchKernel( SwapDimension1And2InTensor3UsingTiles),https://stackoverflow.com/q/69957376
+0,76050189,1.0,how do I get a detailed Plsql Error review,https://stackoverflow.com/q/76050189
+0,76050070,1.0,Langchain's AzureOpenAI error: Resource not found,https://stackoverflow.com/q/76050070
+0,70963075,1.0,Getting 403 Access Forbidden error in Tweepy,https://stackoverflow.com/q/70963075
+0,70963005,1.0,moto @mock_ec2 got error ImportError: cannot import name 'DictLoader'?,https://stackoverflow.com/q/70963005
+0,79671742,1.0,Run time error related to main method error,https://stackoverflow.com/q/79671742
+1,79384848,1.0,Dropping rows whose row sum = zero keeping the original structure same,https://stackoverflow.com/q/79384848
+1,54070335,1.0,Cut/copy/paste alternate cell rows onto the next column & delete empty rows after,https://stackoverflow.com/q/54070335
+1,77929049,1.0,Convert a DataFrame of 2 columns into a dict ColA -> ColB,https://stackoverflow.com/q/77929049
+1,68178067,1.0,Splitting a column into multiple columns,https://stackoverflow.com/q/68178067
+1,68180837,1.0,Pandas merge two series to a dataframe jointly,https://stackoverflow.com/q/68180837
+1,68240571,1.0,dataframe match column,https://stackoverflow.com/q/68240571
+1,68250834,1.0,Identify the smallest subset of columns that uniquely identifies the rows of a pandas DataFrame,https://stackoverflow.com/q/68250834
+1,77842040,1.0,Drop duplicate rows from a dataframe based on condition,https://stackoverflow.com/q/77842040
+1,68254086,1.0,How to flat a string to several columns in pandas?,https://stackoverflow.com/q/68254086
+1,62914701,1.0,Is there a way to sort a pandas dataframe by column of numerical strings?,https://stackoverflow.com/q/62914701
+2,79824640,1.0,Grouping of records in case values are null,https://stackoverflow.com/q/79824640
+2,75610285,1.0,Find a list of users with the same set of permission groups,https://stackoverflow.com/q/75610285
+2,68181480,1.0,Pandas - Optimizing dataframe multiple conditions reverse nested loop,https://stackoverflow.com/q/68181480
+2,68133528,1.0,Calculate difference between time over midnight and condition,https://stackoverflow.com/q/68133528
+2,63119341,1.0,Breitung-Candelon's Granger Causality in R,https://stackoverflow.com/q/63119341
+2,75434825,1.0,Adding unique ID to calculate duration of the status per status and ID but with multiple duplicate statuses occurring during the day,https://stackoverflow.com/q/75434825
+2,71243273,1.0,Creating groupings based on criteria,https://stackoverflow.com/q/71243273
+2,76499602,1.0,How to compare row with previous row to detect changes?,https://stackoverflow.com/q/76499602
+2,68136233,1.0,How to express a range over multiple columns with hierarchic relation?,https://stackoverflow.com/q/68136233
+2,78936643,1.0,Comparing 4 variables in one graph using Python,https://stackoverflow.com/q/78936643
+3,70927733,1.0,hide and show a divs on button clicks using jquery,https://stackoverflow.com/q/70927733
+3,71125428,1.0,Leave bottom layout button hidden when adjustResize is used within a scroll view,https://stackoverflow.com/q/71125428
+3,64788985,1.0,How can I change icon of the custom stock-tool button on click event?,https://stackoverflow.com/q/64788985
+3,64810310,1.0,Module naming overlaps,https://stackoverflow.com/q/64810310
+3,72283968,1.0,The option button does not switch on and off by changing the pull-down content,https://stackoverflow.com/q/72283968
+3,58156091,1.0,How do I click on 2nd html element which is a duplicate of first element using selenium and python?,https://stackoverflow.com/q/58156091
+3,56151821,1.0,"Selenium Webdriver, clicking a button not working",https://stackoverflow.com/q/56151821
+3,59497588,1.0,How to use enter button from keyboard as submit,https://stackoverflow.com/q/59497588
+3,59516134,1.0,Getting to the next button chain,https://stackoverflow.com/q/59516134
+3,55151553,1.0,html5 hide all div and show one on button click,https://stackoverflow.com/q/55151553
+4,57051655,1.0,is there any way to convert my mysql query into power bi dax?,https://stackoverflow.com/q/57051655
+4,54957400,1.0,Write a query to derive table B from table A,https://stackoverflow.com/q/54957400
+4,77947589,1.0,"How to build relationships in PowerBI , so that slicer filters will work correctly?",https://stackoverflow.com/q/77947589
+4,57081723,1.0,"TopN, Grouping, Show Others at the bottom POWERBI-DAX",https://stackoverflow.com/q/57081723
+4,68128115,1.0,Empty Table Views,https://stackoverflow.com/q/68128115
+4,54725229,1.0,How to query in sql from three table in one statement?,https://stackoverflow.com/q/54725229
+4,62404745,1.0,Combine three queries into one single query,https://stackoverflow.com/q/62404745
+4,74305181,1.0,Power BI Indirect Relationship Filter Issue,https://stackoverflow.com/q/74305181
+4,74157213,1.0,Compare two tables to get the differences between them,https://stackoverflow.com/q/74157213
+4,71191898,1.0,SUM for previous Weeknum in Power BI,https://stackoverflow.com/q/71191898
+5,55675300,1.0,What is the simplest way to animate `React.Component` with `react-spring` when prop is updated,https://stackoverflow.com/q/55675300
+5,74569174,1.0,react parent component not getting updated,https://stackoverflow.com/q/74569174
+5,58670259,1.0,React native re render all components including child,https://stackoverflow.com/q/58670259
+5,72264869,1.0,Evaluating react component string and embedding it into another component,https://stackoverflow.com/q/72264869
+5,66843492,1.0,Any explanation for this peculiar React unique key prop warning using React.cloneElement?,https://stackoverflow.com/q/66843492
+5,68422528,1.0,How to use Ref in a component that is forwarding its ref in React Native,https://stackoverflow.com/q/68422528
+5,72788676,1.0,How pass props to external async components in typeScript and reactQuery?,https://stackoverflow.com/q/72788676
+5,77164121,1.0,Do React class components get automatically converted into functional components during the compilation process?,https://stackoverflow.com/q/77164121
+5,71817089,1.0,react children component rendered twice?,https://stackoverflow.com/q/71817089
+5,60744641,1.0,How setState updates the DOM behind the scenes?,https://stackoverflow.com/q/60744641
+6,56734834,1.0,"(PY)Spark: How to read a "".txt"" file with extension name "".gz""",https://stackoverflow.com/q/56734834
+6,55413135,1.0,How to Write to File in Subdirectory Python 2.7?,https://stackoverflow.com/q/55413135
+6,55414061,1.0,How to pick latest CSV file in python?,https://stackoverflow.com/q/55414061
+6,71535732,1.0,How to convert .mat Matlab file to nii.gz Nifti file?,https://stackoverflow.com/q/71535732
+6,69305596,1.0,Having issue with downloading files with same name from outlook using Python. Only one file is showing on folder,https://stackoverflow.com/q/69305596
+6,71840824,1.0,Read a file within an archived archive (without extracting),https://stackoverflow.com/q/71840824
+6,74377502,1.0,Read files in XLSB format in scala,https://stackoverflow.com/q/74377502
+6,62366151,1.0,Updating a file without saving it to new using openpyxl,https://stackoverflow.com/q/62366151
+6,74902897,1.0,merging gcs files and pasting to another gcs bucket using python,https://stackoverflow.com/q/74902897
+6,69877386,1.0,What files should I download?,https://stackoverflow.com/q/69877386
+7,79686366,1.0,Docker image with both docker and git installed,https://stackoverflow.com/q/79686366
+7,58531951,1.0,How can I setup a container with container name as computer name?,https://stackoverflow.com/q/58531951
+7,62976761,1.0,How to check docker-compose installed or not using Ansible?,https://stackoverflow.com/q/62976761
+7,73783361,1.0,docker container The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 871920D1991BC93C,https://stackoverflow.com/q/73783361
+7,63901439,1.0,docker stack (swarm) not working but docker-compose ok,https://stackoverflow.com/q/63901439
+7,60636171,1.0,"Two docker containers attached to same network but can't reference each other by name, only IP",https://stackoverflow.com/q/60636171
+7,63871082,1.0,having a different IP for docker container?,https://stackoverflow.com/q/63871082
+7,73790593,1.0,What software is for hosting my own private OCI/docker container/image registry or repository?,https://stackoverflow.com/q/73790593
+7,75068822,1.0,Exit PHP command prompt in Docker container,https://stackoverflow.com/q/75068822
+7,60097132,1.0,Difference between docker exec and docker container exec,https://stackoverflow.com/q/60097132
+8,65745593,1.0,Javascript Compare Property Value of 2 Arrays of Objects,https://stackoverflow.com/q/65745593
+8,67429794,1.0,Extract array information and make a list,https://stackoverflow.com/q/67429794
+8,67430055,1.0,Can you use a function's returned value in a if statement?,https://stackoverflow.com/q/67430055
+8,63623535,1.0,In JavaScript how to make sure that array has at least one specific element and the others meet another condition?,https://stackoverflow.com/q/63623535
+8,61912451,1.0,Getting names of objects that have and haven't some properties in their arrays,https://stackoverflow.com/q/61912451
+8,59902043,1.0,Group values of an object in a new array - JavaScript,https://stackoverflow.com/q/59902043
+8,59902123,1.0,How to compare object array inside object array and remove duplicate object in Javascript?,https://stackoverflow.com/q/59902123
+8,65745917,1.0,"When looping through an array of objects, how do I push object values into a new array?",https://stackoverflow.com/q/65745917
+8,70739600,1.0,how to get a dictionary out of a list,https://stackoverflow.com/q/70739600
+8,65744323,1.0,Comparing 2D arrays of varying object type,https://stackoverflow.com/q/65744323
+9,69245176,1.0,How to fix Gradle in android studio?,https://stackoverflow.com/q/69245176
+9,68142000,1.0,Android Billing Subscription will not automatically renew,https://stackoverflow.com/q/68142000
+9,67764205,1.0,volley.NoConnectionError,https://stackoverflow.com/q/67764205
+9,79702429,1.0,Google Assistant plugin alternative,https://stackoverflow.com/q/79702429
+9,58143861,1.0,Is There a way to connect to laser scanner of a android device?,https://stackoverflow.com/q/58143861
+9,79347030,1.0,Permissions in Android application,https://stackoverflow.com/q/79347030
+9,70634724,1.0,Android Studio does not see my physical device,https://stackoverflow.com/q/70634724
+9,65049264,1.0,Stop Android Studio from hiding/shortening code?,https://stackoverflow.com/q/65049264
+9,67774482,1.0,Can't implement firebase dependencies on my android app,https://stackoverflow.com/q/67774482
+9,56913463,1.0,Android Studio Crash on Code autocomplete,https://stackoverflow.com/q/56913463
