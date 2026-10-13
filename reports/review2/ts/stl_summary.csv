@@ -1,0 +1,15 @@
+tag,n_weeks,seasonal_strength,trend_strength,peak_phase,peak_month,trough_phase,trough_month,dip_start_phase,dip_end_phase,dip_name
+ALL,400,0.5744311789533785,0.9969129315389864,9,March,0,January,51,1,January / December
+java,400,0.4916298306272483,0.9946930798860264,12,March,32,August,25,41,June / July / August / September / October
+r,400,0.4363109711707974,0.9898657882704217,12,March,0,January,51,1,January / December
+python,400,0.36357364743728493,0.9949969856763071,9,March,0,January,51,1,January / December
+excel,400,0.3372775768360131,0.9859284028396581,10,March,0,January,50,0,January / December
+docker,400,0.30209586548076095,0.9829179345362093,6,February,33,August,32,33,August
+fastapi,400,0.26555918095891295,0.9358568067189362,16,April,35,September,33,38,August / September
+sql,400,0.24683624166475648,0.9891563822407496,8,February,0,January,50,3,January / December
+android,400,0.19949542813041576,0.9910315345840544,8,February,32,August,29,32,July / August
+powerbi,400,0.19248287784465723,0.9446395228657478,48,December,0,January,49,1,January / December
+javascript,400,0.17575317315694994,0.9941794070470071,16,April,51,December,49,1,January / December
+pandas,400,0.16431079111867586,0.9830577102602202,19,May,51,December,51,2,January / December
+openai-api,400,0.03030846548504551,0.8635031133537887,14,April,37,September,36,37,September
+reactjs,400,0.0,0.9889619395450273,6,February,18,May,17,18,April / May

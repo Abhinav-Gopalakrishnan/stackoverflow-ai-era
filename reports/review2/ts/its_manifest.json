@@ -1,0 +1,13 @@
+{
+  "model": "segmented regression: log_count ~ week + post + (week - t0)*post + sin/cos(2*pi*k*week/52.18), k=1,2",
+  "t0": "2022-11-30 (Tuesday-start week 2022-11-29; one week before the 2022-12-05 ban; mirrors the M5 SARIMAX intervention)",
+  "placebo": "break at 2021-11-30 with the same model; the real effect should be larger",
+  "estimator": "OLS with Newey-West HAC standard errors, lag 4, t-based tests",
+  "level_change": "exp(beta2) - 1: immediate multiplicative change in weekly count at 2022-11-30",
+  "slope_change": "exp(beta3) - 1: weekly slope change after 2022-11-30 on the multiplicative scale, with 95% CI",
+  "slope_pre_post": "exp(beta1) - 1 and exp(beta1 + beta3) - 1 are the pre and post weekly growth rates",
+  "status_rule": "status is significant when the slope-change 95% CI excludes 0; direction follows the sign of beta3",
+  "significance": 0.05,
+  "series": 14,
+  "interpretation": "the real break should be larger than the placebo; an immediate level change does not imply a sustained slope change. Association is observation-level, not causal."
+}

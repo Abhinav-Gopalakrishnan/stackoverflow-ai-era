@@ -1,0 +1,11 @@
+{
+  "adf": "adfuller, regression=c, autolag=AIC; null = unit root",
+  "kpss": "kpss, regression=c, nlags=auto; null = level stationary",
+  "transformations": "level = log1p weekly count; first_difference = level.diff()",
+  "significance": 0.05,
+  "verdict_rule": "stationary if ADF rejects and KPSS does not; non-stationary if ADF does not reject and KPSS rejects; else conflicting",
+  "decision_rule": "d=0 on a stationary level; d=1 on a non-stationary level; conflicting levels use the first difference and the ADF level result, labelled ambiguous",
+  "series": 14,
+  "rows": 56,
+  "interpretation": "decisions support the fixed d=1 used by the M5 SARIMAX backtest; conflicting cases are reported, not hidden"
+}
