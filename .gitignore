@@ -45,3 +45,6 @@ data/processed/question_metadata_for_topics.parquet
 
 # Build artifact for md-to-pdf conversion
 reports/review2/final_report.html
+
+# Presentations (large slide decks)
+presentations/*.pptx
