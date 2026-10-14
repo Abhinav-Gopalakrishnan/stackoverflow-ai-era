@@ -15,12 +15,20 @@ from src.review2_common import ROOT,TEXT,TS,write_json,study_groups,bootstrap_st
 R=ROOT/'reports/review2'
 
 
-def notebook(path,title,sections):
+def notebook(path,title,sections,preserve_before=None):
     nb=nbf.v4.new_notebook();nb.metadata={'kernelspec':{'name':'python3','display_name':'Python 3','language':'python'},'language_info':{'name':'python'}}
     nb.cells=[nbf.v4.new_markdown_cell(title),nbf.v4.new_code_cell("from pathlib import Path\nimport json, pandas as pd\nfrom IPython.display import display, Image\nROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p/'config.yaml').exists())\n")]
     for heading,code in sections:
         nb.cells.append(nbf.v4.new_markdown_cell(heading))
         if code:nb.cells.append(nbf.v4.new_code_cell(code))
+    # Keep any cell a co-owner inserted before the marker (e.g. M3 Part A) instead of overwriting it.
+    if preserve_before and Path(path).exists():
+        src=lambda c: c['source'] if isinstance(c['source'],str) else ''.join(c['source'])
+        new_cut=next((i for i,c in enumerate(nb.cells) if src(c).startswith(preserve_before)),None)
+        old=nbf.read(path,as_version=4)
+        old_cut=next((i for i,c in enumerate(old.cells) if src(c).startswith(preserve_before)),None)
+        if new_cut is not None and old_cut is not None:
+            nb.cells=old.cells[:old_cut]+nb.cells[new_cut:]
     nbf.write(nb,path)
 
 
@@ -74,7 +82,7 @@ def m5():
         ('## Statistical and residual checks\nDM is a paired scaled-error comparison with HAC adjustment; results are exploratory on short overlapping horizons.',"display(pd.read_csv(TS/'diebold_mariano.csv'))\ndisplay(pd.read_csv(TS/'residual_checks.csv'))\ndisplay(Image(filename=str(TS/'acf_ALL.png')))"),
         ('## Forecasts through February 2027\nBands are labelled 80/95%; measured coverage may be much lower. The point is a back-transformed log median.',"fc=pd.read_csv(TS/'forecasts_26w.csv')\ndisplay(fc[fc.selected].groupby('tag').agg(weeks=('horizon','size'),last_date=('week_start','max')))\ndisplay(Image(filename=str(TS/'forecast_ALL.png')))\ndisplay(pd.read_csv(TS/'tag_classes.csv'))"),
         ('## Findings, handoff and remaining dependencies',"print((ROOT/'reports/review2/m5_findings.md').read_text())\ndisplay(json.loads((TS/'dashboard_handoff.json').read_text()))"),
-        ('## Optional appendix\nThe GRU and classifier what-if page are stretch items and are not represented as completed analyses.',None)])
+        ('## Optional appendix\nThe GRU and classifier what-if page are stretch items and are not represented as completed analyses.',None)],preserve_before='## Part B')
     write_json(TS/'slide_data.json',{'findings':findings,'summary':metrics.to_dict('records'),'site':site.replace({np.nan:None}).to_dict(),'rows':len(pd.read_csv(TS/'series_long.csv')),
         'tag_groups':{k:list(g.tag) for k,g in classes[classes.tag.ne('ALL')].groupby('forecast_class')}})
     (R/'m5_viva.md').write_text('# Adhikkesh: Review 2 viva\n\n'+
