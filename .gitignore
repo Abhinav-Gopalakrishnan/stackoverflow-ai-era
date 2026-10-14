@@ -42,3 +42,6 @@ data/processed/question_metadata_for_topics.parquet
 
 # Local state for the user-run GitHub publication workflow
 .review2_git_state.json
+
+# Build artifact for md-to-pdf conversion
+reports/review2/final_report.html
