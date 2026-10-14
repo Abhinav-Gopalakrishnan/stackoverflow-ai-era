@@ -1,0 +1,48 @@
+{
+  "generated_utc": "2026-10-14T11:11:43+00:00",
+  "rows": 13,
+  "tags": [
+    "android",
+    "docker",
+    "excel",
+    "fastapi",
+    "java",
+    "javascript",
+    "openai-api",
+    "pandas",
+    "powerbi",
+    "python",
+    "r",
+    "reactjs",
+    "sql"
+  ],
+  "pre_post_boundary": {
+    "pre": "<= 2022-10",
+    "transition": "2022-11..2022-12",
+    "post": ">= 2023-01"
+  },
+  "units": {
+    "frustration_*": "percentage points",
+    "complexity_prose_words_change": "words (median)",
+    "complexity_code_lines_change": "lines (median)",
+    "complexity_version_flag_change": "percentage points (mean share)",
+    "resolved_rate_*": "fraction of questions resolved within 7 days, weighted by est_questions"
+  },
+  "inputs": [
+    "reports/review2/ts/tag_classes.csv",
+    "reports/review2/ts/its_results.csv",
+    "reports/review2/text/tone_prepost.csv",
+    "reports/review2/text/complexity_prepost.csv",
+    "reports/review2/text/topic_prepost.csv",
+    "reports/review2/text/topic_labels.csv",
+    "reports/review2/text/topic_outcomes.csv",
+    "reports/review2/text/keywords_prepost.csv",
+    "reports/review2/ts/forecasts_26w.csv",
+    "data/processed/monthly_tag_tables.csv",
+    "reports/review1/m5/shap_top.csv"
+  ],
+  "outputs": [
+    "reports/review2/insight_matrix.csv",
+    "reports/review2/recommendations.csv"
+  ]
+}
