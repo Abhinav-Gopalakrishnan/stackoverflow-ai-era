@@ -334,6 +334,14 @@ EXPORT_SPECS = {
         "src": ROOT / "docs" / "event_list.csv",
         "columns": ["event_id", "event_name", "date", "category", "description", "source_url"],
     },
+    "ts_captions.csv": {
+        "src": ROOT / "reports" / "review2" / "ts" / "dashboard_captions.csv",
+        "columns": ["chart", "file", "takeaway", "caveat"],
+    },
+    "text_captions.csv": {
+        "src": ROOT / "reports" / "review2" / "text" / "dashboard_captions.csv",
+        "columns": ["chart", "file", "takeaway", "caveat"],
+    },
 }
 
 
