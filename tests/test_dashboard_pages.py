@@ -48,7 +48,7 @@ def test_dashboard_page_render_with_filters(
     for key, value in state_overrides.items():
         at.session_state[key] = value
 
-    at.run()
+    at.run(timeout=10)
     elapsed = time.perf_counter() - start_time
 
     assert not at.exception, (
