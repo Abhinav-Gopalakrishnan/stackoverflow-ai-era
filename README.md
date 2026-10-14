@@ -26,7 +26,7 @@ This project investigates how Stack Overflow's question-resolution dynamics have
 | `notebooks/review1_main.ipynb` | Main notebook for Review 1 deliverable |
 | `notebooks/colab_timeseries_gpu.ipynb` | Time series forecaster (Holt's & PyTorch GPU) |
 | `reports/review1/` | Artefacts for Review 1 (charts, speech guides, exported tables) |
-| `reports/review1/Full_PPT_BA_Review_1.pdf` | Final compiled Review 1 presentation deck |
+| `presentations/Full_PPT_BA_Review_1.pdf` | Final compiled Review 1 presentation deck |
 | `requirements.txt` | Python dependencies |
 | `.env` | API key (never committed — see setup instructions below) |
 | `.env.example` | Template showing required environment variables |
