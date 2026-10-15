@@ -133,8 +133,8 @@ python src/collect_questions.py --tags python --check-only
 ### Overview
 
 In **Review 2**, our investigation shifts from question-level classification to platform-level structural dynamics surrounding the emergence of Generative AI (November 30, 2022). We address two primary research questions:
-- **RQ4 (Macro Time-Series Dynamics):** Did the arrival of Generative AI cause a persistent structural break in question volume across software ecosystems, and how do trajectories project into the next 26 weeks?
-- **RQ5 (Micro Content & Text Evolution):** How did latent technical topics, structural question complexity, asker frustration, and distinctive vocabulary evolve between pre-AI and post-AI eras?
+- **RQ4:** Topics and complexity — what developers still bring to human communities (text mining): how latent technical topics, structural question complexity, asker tone, and distinctive vocabulary evolved between pre-AI and post-AI eras.
+- **RQ5:** Technology forecasting — which tags keep declining or stabilise (time series): how weekly question volumes evolved around the 2022 break, and what 26-week forecast trajectories project across technologies.
 
 ---
 
@@ -149,7 +149,7 @@ In **Review 2**, our investigation shifts from question-level classification to 
 | `reports/review2/recommendations.csv` | 6 stakeholder-aligned policy recommendations with evidence, actions, KPIs, and caveats |
 | `reports/review2/board_audit_member1.md` | Read-only audit of Project Board #3 issues, milestones, and metadata |
 | `dashboard/` | Multi-page Streamlit analytical application |
-| `dashboard/app.py` | Dashboard root entry point (Overview page with 400-week macro series) |
+| `dashboard/app.py` | Dashboard root entry point (Overview page with 400-week weekly volume series) |
 | `dashboard/common.py` | Shared state management, sidebar filters, publication color palette, and cached data loaders |
 | `dashboard/pages/` | Interactive pages: `2_Patterns_and_2022_Break`, `3_Forecasts`, `4_Topics`, `5_Tone_and_Complexity`, `6_Recommendations` |
 | `dashboard/data/` | Exported data bundle: 27 schema-validated CSV files (1.62 MB total, 0 PII, 0 full bodies) |
