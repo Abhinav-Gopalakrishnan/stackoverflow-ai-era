@@ -12,7 +12,7 @@ This document provides the exact slide content, presentation cues, data figures,
 ## Slide 1: Title, Team & Methodological Evolution since Review 1
 
 ### Slide Content
-- **Project Title:** Stack Overflow in the AI Era: Macro Trajectories & Content Evolution
+- **Project Title:** Stack Overflow in the AI Era: Platform Trajectories & Content Evolution
 - **Course / Phase:** Business Analytics Group Case Study — Review 2 (Unit 3 Deliverable)
 - **Team Members:**
   - Member 1: Abhinav (Data Governance, Architecture, Dashboard & Unified Synthesis)
@@ -27,7 +27,7 @@ This document provides the exact slide content, presentation cues, data figures,
   4. *Quasi-Experimental Identification:* 2021 placebo counterfactual tests to verify that the November 2022 break was structural, not regular seasonal variance.
 
 ### Speaker Notes (Opening: 0:00 – 0:35)
-> *"Good morning professors. In Review 1, our team explored question resolution predictors on Stack Overflow. In Review 2, we tackle the macro structural shift: how has the platform evolved since ChatGPT launched on November 30, 2022?*
+> *"Good morning professors. In Review 1, our team explored question resolution predictors on Stack Overflow. In Review 2, we tackle the structural shift: how has the platform evolved since ChatGPT launched on November 30, 2022?*
 >
 > *Before presenting our results, we addressed every critique from Review 1: we enforced zero data leakage by isolating training windows, benchmarked every forecast against formal naive and drift baselines with Diebold-Mariano tests, and validated structural breaks against an empirical 2021 placebo test. Every notebook executes top-to-bottom cleanly without synthetic numbers."*
 
@@ -36,17 +36,17 @@ This document provides the exact slide content, presentation cues, data figures,
 ## Slide 2: Research Questions (RQ4, RQ5) & Two Analytical Methods
 
 ### Slide Content
-- **RQ4 (Macro Dynamics):** Did the arrival of Generative AI create an unprecedented structural break in developer activity, and what is the trajectory for the next 26 weeks?
-  - *Method 1:* Time Series Analysis on 400 weekly observations per tag (2019–2026).
-  - *Pipeline:* STL Loess decomposition (annual 52-week cycle), ADF/KPSS unit-root tests, Ruptures PELT changepoints, segmented Interrupted Time Series (ITS) regressions with 2021 placebo checks, and rolling-origin backtested forecasts.
-- **RQ5 (Micro Evolution):** How did latent topics, question complexity, asker tone, and distinctive keywords shift between pre- and post-AI eras?
+- **RQ4 (Topics and Complexity):** What developers still bring to human communities (text mining) — how latent topics, question complexity, asker tone, and distinctive keywords shifted between pre- and post-AI eras.
   - *Method 2:* Natural Language Processing & Text Mining on stratified question corpora.
   - *Pipeline:* NMF Topic Modeling grid ($k=8$ selected), Monroe weighted log-odds vocabulary shift, VADER sentiment/frustration tracking, and 1,000-resample bootstrap intervals for question code/prose complexity.
+- **RQ5 (Technology Forecasting):** Which tags keep declining or stabilise (time series) — how weekly volume trajectories evolve around the 2022 break, and what 26-week forecast projections emerge across technologies.
+  - *Method 1:* Time Series Analysis on 400 weekly observations per tag (2019–2026).
+  - *Pipeline:* STL Loess decomposition (annual 52-week cycle), ADF/KPSS unit-root tests, Ruptures PELT changepoints, segmented Interrupted Time Series (ITS) regressions with 2021 placebo checks, and rolling-origin backtested forecasts.
 
 ### Speaker Notes (Opening: 0:35 – 1:00)
-> *"Our Review 2 framework bridges two complementary lenses. Method 1 evaluates macro time series across 400 continuous weeks for 13 representative software technologies. We decompose trends, detect unsupervised change points, and estimate segmented ITS slopes.*
+> *"Our Review 2 framework bridges two complementary lenses. Method 2 addresses RQ4 by examining topics and complexity to uncover what developers still bring to human communities. Method 1 addresses RQ5 through time-series forecasting across 400 continuous weeks for 13 representative technologies to determine which tags keep declining or stabilise.*
 >
-> *Method 2 dives into content: did questions merely decline, or did their nature fundamentally transform? Through 8-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we prove that while overall volume dropped, residual questions grew significantly longer and more architecturally complex."*
+> *Through 8-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we show that while question volume dropped, residual questions grew significantly longer and more architecturally complex."*
 
 ---
 
@@ -55,7 +55,7 @@ This document provides the exact slide content, presentation cues, data figures,
 ### Slide Content
 - **Live Streamlit URL:** `https://stackoverflow-ai-era.streamlit.app` (Local: `dashboard/app.py`)
 - **Interactive Multi-Page Architecture:**
-  - *Page 1 (Overview):* 400-week macro trajectory across 13 technologies with log/linear toggles.
+  - *Page 1 (Overview):* 400-week volume trajectory across 13 technologies with log/linear toggles.
   - *Page 2 (Patterns & 2022 Break):* STL decomposition, PELT changepoints, and ITS segmented regression with placebo check.
   - *Page 3 (Forecasts):* 26-week fan chart with 80%/95% prediction intervals, backtest metrics, and tag classification badges.
   - *Page 4 (Topics):* NMF topic share shifts, top term bars, 95% bootstrap CIs, and 7-day resolution outcomes.

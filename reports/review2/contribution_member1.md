@@ -40,7 +40,7 @@ Every task above is authored by me (git author `Abhinav-Gopalakrishnan`) and ver
 ## Key Outputs Delivered
 
 1. **`dashboard/` Multi-Page Streamlit Application:**
-   - **`dashboard/app.py`:** Root entry point displaying the 400-week macro series across 13 technologies with logarithmic/linear scaling and milestone overlays.
+   - **`dashboard/app.py`:** Root entry point displaying the 400-week weekly volume series across 13 technologies with logarithmic/linear scaling and milestone overlays.
    - **`dashboard/common.py`:** Centralized state engine managing `st.session_state["selected_tags"]`, date windows, and observation period radio buttons. Features cached data loaders (`@st.cache_data`) and the standardized 14-color palette.
    - **`dashboard/pages/2_Patterns_and_2022_Break.py`:** 3-panel STL decomposition, Pelt unsupervised changepoints, and segmented ITS regression with an interactive 2021 placebo counterfactual toggle.
    - **`dashboard/pages/3_Forecasts.py`:** 26-week horizon fan charts with 80% and 95% prediction intervals, 5-model selector, backtest metrics table, and tag trajectory badges.
