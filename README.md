@@ -144,7 +144,7 @@ In **Review 2**, our investigation shifts from question-level classification to 
 |---|---|
 | `notebooks/review2_main.ipynb` | Unified, top-to-bottom executed final notebook covering Sections 0–8 |
 | `reports/review2/ts/` | Time-series outputs: STL decomposition, stationarity decisions, PELT changepoints, ITS models, forecast backtests, Diebold-Mariano tests, and 26-week projections |
-| `reports/review2/text/` | Text-mining outputs: NMF topic selection ($k=8$), top semantic terms, pre/post share dynamics, VADER tone, complexity bootstrap CIs, Monroe log-odds keywords, and tone validation audit |
+| `reports/review2/text/` | Text-mining outputs: NMF topic selection ($k=10$), top semantic terms, pre/post share dynamics, VADER tone, complexity bootstrap CIs, Monroe log-odds keywords, and tone validation audit |
 | `reports/review2/insight_matrix.csv` | Cross-method synthesis table integrating time-series, topic, tone, and complexity metrics for all 13 tags |
 | `reports/review2/recommendations.csv` | 6 stakeholder-aligned policy recommendations with evidence, actions, KPIs, and caveats |
 | `reports/review2/board_audit_member1.md` | Read-only audit of Project Board #3 issues, milestones, and metadata |
@@ -178,7 +178,7 @@ python -m src.ts_forecast
 # 1. Prepare text features, vocabulary dictionaries, and stratified corpus samples
 python -m src.text_prep
 
-# 2. Fit NMF topic model grid (k=4..12), extract top terms, compute pre/post shares and 7-day resolution rates
+# 2. Fit NMF topic model grid (k=10, 15, 20, 25, 30, 40), extract top terms, compute pre/post shares and 7-day resolution rates
 python -m src.topics
 
 # 3. Score VADER sentiment polarity shares, frustration phrases, and politeness flags
