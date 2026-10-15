@@ -1,0 +1,15 @@
+tag,selected_model,p,q,validation_end,selection
+ALL,sarimax,2,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+android,sarimax,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+docker,drift,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+excel,sarimax,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+fastapi,sarimax,1,2,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+java,sarimax,2,2,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+javascript,sarimax,2,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+openai-api,ets,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+pandas,sarimax,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+powerbi,naive,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+python,drift,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+r,sarimax,2,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+reactjs,sarimax,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required
+sql,drift,1,1,2024-12-31,lowest mean validation MASE across four horizons; complete coverage required

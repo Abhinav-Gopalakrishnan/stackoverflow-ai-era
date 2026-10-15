@@ -1,0 +1,11 @@
+topic,top_terms,name_m4,name_m2,final_name,agreement
+0,"error, run, code, python, message, request",Python Execution & Runtime Errors,,Python Execution & Runtime Errors,pending_m2
+1,"column, dataframe, row, value, panda, like",Pandas Dataframe & Data Manipulation,,Pandas Dataframe & Data Manipulation,pending_m2
+2,"numbertoken, numbertoken numbertoken, date, year, month, day","Time Series, Dates & Numeric Formatting",,"Time Series, Dates & Numeric Formatting",pending_m2
+3,"button, click, page, user, html, text","Web Frontend, DOM & User Events",,"Web Frontend, DOM & User Events",pending_m2
+4,"table, power, date, bi, power bi, query",Power BI DAX & Data Modeling,,Power BI DAX & Data Modeling,pending_m2
+5,"component, react, render, js, state, prop",React UI & State Management,,React UI & State Management,pending_m2
+6,"file, csv, folder, read, excel, csv file","File I/O, CSV & Excel Data Export",,"File I/O, CSV & Excel Data Export",pending_m2
+7,"docker, image, container, run, compose, docker compose",Docker Containers & Cloud Deployment,,Docker Containers & Cloud Deployment,pending_m2
+8,"array, function, list, value, object, string","Core Syntax, Arrays & Data Structures",,"Core Syntax, Arrays & Data Structures",pending_m2
+9,"android, app, java, build, device, studio",Android Mobile App & Gradle Build,,Android Mobile App & Gradle Build,pending_m2
