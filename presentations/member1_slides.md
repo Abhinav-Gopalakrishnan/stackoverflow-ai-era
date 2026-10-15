@@ -36,17 +36,17 @@ This document provides the exact slide content, presentation cues, data figures,
 ## Slide 2: Research Questions (RQ4, RQ5) & Two Analytical Methods
 
 ### Slide Content
-- **RQ4 (Macro Dynamics):** Did the arrival of Generative AI create an unprecedented structural break in developer activity, and what is the trajectory for the next 26 weeks?
+- **RQ5 (Technology Forecasting / Macro Dynamics):** Did the arrival of Generative AI create an unprecedented structural break in developer activity, and what is the trajectory for the next 26 weeks?
   - *Method 1:* Time Series Analysis on 400 weekly observations per tag (2019–2026).
   - *Pipeline:* STL Loess decomposition (annual 52-week cycle), ADF/KPSS unit-root tests, Ruptures PELT changepoints, segmented Interrupted Time Series (ITS) regressions with 2021 placebo checks, and rolling-origin backtested forecasts.
-- **RQ5 (Micro Evolution):** How did latent topics, question complexity, asker tone, and distinctive keywords shift between pre- and post-AI eras?
+- **RQ4 (Topic & Complexity Shifts / Micro Evolution):** How did latent topics, question complexity, asker tone, and distinctive keywords shift between pre- and post-AI eras?
   - *Method 2:* Natural Language Processing & Text Mining on stratified question corpora.
-  - *Pipeline:* NMF Topic Modeling grid ($k=8$ selected), Monroe weighted log-odds vocabulary shift, VADER sentiment/frustration tracking, and 1,000-resample bootstrap intervals for question code/prose complexity.
+  - *Pipeline:* NMF Topic Modeling grid ($k=10$ selected), Monroe weighted log-odds vocabulary shift, VADER sentiment/frustration tracking, and 1,000-resample bootstrap intervals for question code/prose complexity.
 
 ### Speaker Notes (Opening: 0:35 – 1:00)
 > *"Our Review 2 framework bridges two complementary lenses. Method 1 evaluates macro time series across 400 continuous weeks for 13 representative software technologies. We decompose trends, detect unsupervised change points, and estimate segmented ITS slopes.*
 >
-> *Method 2 dives into content: did questions merely decline, or did their nature fundamentally transform? Through 8-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we prove that while overall volume dropped, residual questions grew significantly longer and more architecturally complex."*
+> *Method 2 dives into content: did questions merely decline, or did their nature fundamentally transform? Through 10-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we prove that while overall volume dropped, residual questions grew significantly longer and more architecturally complex."*
 
 ---
 
@@ -74,7 +74,7 @@ This document provides the exact slide content, presentation cues, data figures,
 > *Here on Page 2, our STL decomposition strips out holiday dips to reveal the true trajectory. The PELT algorithm detects breaks clustering between November 2022 and March 2023. Notice our ITS model: Python exhibits a -2.34% per week slope decline post-break ($p < 0.001$). When I toggle the 2021 Placebo test, we see the actual intervention vastly exceeds any pre-AI variation.*
 >
 > *(Click Page 3: Select 'fastapi' or 'pandas')*  
-> *On Page 3, we project the next 26 weeks. Six tags are classed in 'steep decline' losing over 50% volume. Our backtesting proves Seasonal Naive and ETS dominate with MASE < 1.0, and prediction intervals widen appropriately to reflect uncertainty.*
+> *On Page 3, we project the next 26 weeks. Six tags are classed in 'steep decline' losing over 50% volume. Our rolling-origin backtests show SARIMAX consistently outperforms naive benchmarks, achieving a 26-week skill of 55.9% over naive (95% prediction interval coverage 52.0%), with prediction intervals widening appropriately to reflect uncertainty.*
 >
 > *(Click Page 4: Topics)*  
 > *On Page 4, text mining reveals where activity moved. Basic syntax topics dropped by over 2 percentage points, while runtime errors and container deployment gained share. But crucially, runtime error topics resolve at only 33.2% within 7 days.*
