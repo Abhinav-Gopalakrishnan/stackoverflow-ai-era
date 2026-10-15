@@ -38,7 +38,7 @@ This document provides the exact slide content, presentation cues, data figures,
 ### Slide Content
 - **RQ4 (Topics and Complexity):** What developers still bring to human communities (text mining) — how latent topics, question complexity, asker tone, and distinctive keywords shifted between pre- and post-AI eras.
   - *Method 2:* Natural Language Processing & Text Mining on stratified question corpora.
-  - *Pipeline:* NMF Topic Modeling grid ($k=8$ selected), Monroe weighted log-odds vocabulary shift, VADER sentiment/frustration tracking, and 1,000-resample bootstrap intervals for question code/prose complexity.
+  - *Pipeline:* NMF Topic Modeling grid ($k=10$ selected), Monroe weighted log-odds vocabulary shift, VADER sentiment/frustration tracking, and 1,000-resample bootstrap intervals for question code/prose complexity.
 - **RQ5 (Technology Forecasting):** Which tags keep declining or stabilise (time series) — how weekly volume trajectories evolve around the 2022 break, and what 26-week forecast projections emerge across technologies.
   - *Method 1:* Time Series Analysis on 400 weekly observations per tag (2019–2026).
   - *Pipeline:* STL Loess decomposition (annual 52-week cycle), ADF/KPSS unit-root tests, Ruptures PELT changepoints, segmented Interrupted Time Series (ITS) regressions with 2021 placebo checks, and rolling-origin backtested forecasts.
@@ -46,7 +46,7 @@ This document provides the exact slide content, presentation cues, data figures,
 ### Speaker Notes (Opening: 0:35 – 1:00)
 > *"Our Review 2 framework bridges two complementary lenses. Method 2 addresses RQ4 by examining topics and complexity to uncover what developers still bring to human communities. Method 1 addresses RQ5 through time-series forecasting across 400 continuous weeks for 13 representative technologies to determine which tags keep declining or stabilise.*
 >
-> *Through 8-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we show that while question volume dropped, residual questions grew significantly longer and more architecturally complex."*
+> *Through 10-topic NMF modeling, Monroe weighted log-odds, and 1,000-sample bootstrap intervals, we show that while question volume dropped, residual questions grew significantly longer (+13 median prose words, 95% CI [12, 13]) and contained more code (+4 median code lines, 95% CI [3, 4])."*
 
 ---
 
