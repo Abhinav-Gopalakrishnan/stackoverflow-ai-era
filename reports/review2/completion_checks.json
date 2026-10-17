@@ -9,18 +9,16 @@
     "all backtest training cutoffs precede first forecast week",
     "364 selected forecast rows; correct end date and nested intervals",
     "complexity: 1000 bootstrap resamples; tone sheet: 100 pre + 100 post",
-    "07_timeseries: 7 genuinely executed code cells, zero errors",
-    "08_text_mining: 14 genuinely executed code cells (Part A + Part B), zero errors",
-    "M4: NMF k=10 winning model (NPMI=+0.2175, Diversity=0.8000, Stability=1.0000)",
+    "07_timeseries: 12 genuinely executed code cells, zero errors",
+    "08_text_mining: 21 genuinely executed code cells, zero errors",
     "M2: exactly two presentation slides",
     "M5: exactly two presentation slides"
   ],
-  "unit_tests_passed": 11,
+  "unit_tests_passed": 7,
   "human_validation": "awaiting_independent_human_labels",
   "pending": [
     "M2 and M3 independent tone labels",
-    "M2 independent naming on topic_labels.csv (M4 labels ready)",
-    "M3 ITS estimates for integrated forecast interpretation"
+    "M4 topic terms/examples before M2 names topics"
   ],
   "not_claimed": [
     "optional GRU",

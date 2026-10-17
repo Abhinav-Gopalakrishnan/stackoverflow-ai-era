@@ -8,7 +8,7 @@ Owner branches are `m2/review2-text-mining` for Rishiikesh first and `m5/review2
 | M5-21 baselines, backtest, metrics and tests | Complete: ts_forecast.py; contract tests | M3 review |
 | M5-22 damped ETS and intervention SARIMAX | Complete: training-only AIC and 2024 H2 selection | M3 review |
 | M5-23 backtest, matched tables, DM, ACF/Ljung–Box | Complete: outputs for 14 series with failed fits reported | M3 review |
-| M5-24 forecasts, classes, half-life, load index | Forecasts complete; zero-baseline classes explicitly undefined | M3 ITS estimates for the integrated class/slope presentation |
+| M5-24 forecasts, classes, half-life, load index | Complete: forecasts, zero-baseline classes, M3 ITS estimates and post-2023 shares integrated into tag classes | Integrated in tag_classes.csv; M3 review |
 | M5-25 GRU appendix | Optional; not run or represented as completed | Only run later if needed on the same backtest |
 | M5-26 notebook Part B | Complete after real nbconvert execution | M3 adds Part A; M1 integrates final notebook |
 | M5-27 Forecasts-page handoff | Complete: data schemas, files and captions | M1 wires dashboard; optional classifier check needs M4 train-only topic features |

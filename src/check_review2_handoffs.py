@@ -47,7 +47,7 @@ def main():
         checked.append(f'M{member}: exactly two presentation slides')
     status={'local_implementation':'complete','checks':checked,'unit_tests_passed':test_count,
         'human_validation':json.loads((TEXT/'tone_validation_status.json').read_text())['status'],
-        'pending':['M2 and M3 independent tone labels','M4 topic terms/examples before M2 names topics','M3 ITS estimates for integrated forecast interpretation'],
+        'pending':['M2 and M3 independent tone labels','M4 topic terms/examples before M2 names topics'],
         'not_claimed':['optional GRU','optional classifier feature extension/what-if page','M1/M3 final team integration and deployment']}
     write_json(ROOT/'reports/review2/completion_checks.json',status)
     print(json.dumps(status,indent=2))
