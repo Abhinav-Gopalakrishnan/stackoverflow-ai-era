@@ -3,13 +3,13 @@ test_naive_forecast_never_uses_future (test_ts_forecast.Contracts.test_naive_for
 test_naive_identity_and_intervals (test_ts_forecast.Contracts.test_naive_identity_and_intervals) ... ok
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.075s
+Ran 3 tests in 0.092s
 
 OK
 
-test_technical_word_overrides (test_text_review2.Contracts.test_technical_word_overrides) ... C:\Users\konch\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\vaderSentiment\vaderSentiment.py:201: DeprecationWarning: codecs.open() is deprecated. Use open() instead.
+test_technical_word_overrides (test_text_review2.Contracts.test_technical_word_overrides) ... /tmp/ba-review2-finish-env/lib/python3.14/site-packages/vaderSentiment/vaderSentiment.py:201: DeprecationWarning: codecs.open() is deprecated. Use open() instead.
   with codecs.open(lexicon_full_filepath, encoding='utf-8') as f:
-C:\Users\konch\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\vaderSentiment\vaderSentiment.py:206: DeprecationWarning: codecs.open() is deprecated. Use open() instead.
+/tmp/ba-review2-finish-env/lib/python3.14/site-packages/vaderSentiment/vaderSentiment.py:206: DeprecationWarning: codecs.open() is deprecated. Use open() instead.
   with codecs.open(emoji_full_filepath, encoding='utf-8') as f:
 ok
 test_technology_tokens_and_html (test_text_review2.Contracts.test_technology_tokens_and_html) ... ok
@@ -17,16 +17,6 @@ test_transition_period (test_text_review2.Contracts.test_transition_period) ... 
 test_weighted_bootstrap_preserves_constant (test_text_review2.Contracts.test_weighted_bootstrap_preserves_constant) ... ok
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.014s
-
-OK
-
-test_diversity_metric (test_topics.TestTopicModeling.test_diversity_metric) ... ok
-test_monroe_log_odds_direction (test_topics.TestTopicModeling.test_monroe_log_odds_direction) ... ok
-test_npmi_coherence_bounded (test_topics.TestTopicModeling.test_npmi_coherence_bounded) ... ok
-test_stability_metric (test_topics.TestTopicModeling.test_stability_metric) ... ok
-
-----------------------------------------------------------------------
-Ran 4 tests in 0.011s
+Ran 4 tests in 0.010s
 
 OK

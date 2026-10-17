@@ -230,8 +230,26 @@ def section_method2(ctx):
 
 ![Tone and complexity]({FIGURES['tone']})
 
-Tone validation is **pending**: {ts['labelled_rows']} of {ts['required_rows']} questions are independently hand-labelled, so accuracy, macro-F1 and Cohen's kappa are not claimed. Topic human-naming agreement is likewise pending (M2 names are not yet compared). These are stated as not done rather than invented.
+{tone_validation_text(ts)}
 """
+
+
+def tone_validation_text(status):
+    if status.get('status') == 'complete_ai_assisted':
+        return (f"**Disclosed AI-assisted validation:** VADER was scored against all {status['required_rows']} "
+                f"existing M3 human labels: accuracy {status['accuracy']:.1%}, macro-F1 {status['macro_f1']:.3f}. "
+                f"Separately, Codex AI annotations agreed with M3 on {status['ai_human_agreement']:.1%} of posts "
+                f"(human–AI Cohen's kappa {status['ai_human_kappa']:.3f}). This is one human plus an AI, "
+                "not two independent human raters or an adjudicated gold standard. VADER is weak against this "
+                "reference; frustration flags remain the primary exploratory tone proxy. Ten disclosed AI topic-name "
+                "proposals and qualitative comparisons are in topic_naming_comparison.csv; topic 2 is mixed. "
+                "The original human M2 labels, two-human kappa and human topic-naming agreement remain unavailable.")
+    if status.get('status') == 'complete':
+        return (f"VADER against {status['labelled_rows']} adjudicated human labels: "
+                f"accuracy {status['accuracy']:.1%}, macro-F1 {status['macro_f1']:.3f}; "
+                f"two-human Cohen's kappa {status['cohen_kappa']:.3f}.")
+    return ('Tone validation and human topic-naming agreement remain pending; '
+            'accuracy, macro-F1 and two-human kappa are unavailable.')
 
 
 def section_combined(ctx):
@@ -368,12 +386,26 @@ def to_html(md_text, out_html):
 
 
 def to_pdf(html_path, pdf_path):
-    chromium = 'chromium'
-    subprocess.run([
-        chromium, '--headless', '--no-sandbox', '--disable-gpu',
-        '--no-pdf-header-footer', '--virtual-time-budget=8000',
-        f'--print-to-pdf={pdf_path}', html_path.as_uri(),
-    ], check=True, capture_output=True)
+    import shutil
+    if shutil.which('chromium'):
+        subprocess.run([
+            'chromium', '--headless', '--no-sandbox', '--disable-gpu',
+            '--no-pdf-header-footer', '--virtual-time-budget=8000',
+            f'--print-to-pdf={pdf_path}', html_path.as_uri(),
+        ], check=True, capture_output=True)
+    elif shutil.which('google-chrome'):
+        subprocess.run([
+            'google-chrome', '--headless', '--no-sandbox', '--disable-gpu',
+            '--no-pdf-header-footer', '--virtual-time-budget=8000',
+            f'--print-to-pdf={pdf_path}', html_path.as_uri(),
+        ], check=True, capture_output=True)
+    elif shutil.which('libreoffice'):
+        subprocess.run([
+            'libreoffice', '--headless', '--convert-to', 'pdf',
+            str(html_path), '--outdir', str(pdf_path.parent)
+        ], check=True, capture_output=True)
+    else:
+        raise RuntimeError('Neither chromium, google-chrome, nor libreoffice available for PDF export')
     return pdf_path
 
 

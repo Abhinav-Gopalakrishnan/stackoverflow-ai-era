@@ -49,7 +49,7 @@ async function main() {
   text(s,Number(num).toLocaleString('en-IN'),8.2,2.05+i*1.32,4.2,.5,{fontSize:29,bold:true,color:C.teal});text(s,label,8.2,2.67+i*1.32,4.15,.3,{fontSize:15,color:C.muted});
  }
  s.addNotes('I prepared the corpus from titles and prose with code removed. HTML entities are decoded and technology names are protected before punctuation is stripped. The text is lemmatised using spaCy with a written stopword list. Code is excluded from topics and tone but measured separately for complexity. The corpus retains identifiers, periods and sampling weights so Nishanth can calculate weighted topic trends and join the outcome metadata. Empty documents are counted explicitly.');
- s=slide(p,'RISHIIKESH / MEMBER 2','Questions became longer; tone validation is pending',2);
+ s=slide(p,'RISHIIKESH / MEMBER 2','Questions became longer; VADER agrees poorly with a human',2);
  const get=name=>m.complexity.find(r=>r.metric===name);
  const prose=get('prose_words'), code=get('code_lines');
  s.addChart(p.ChartType.bar,[{name:'Pre',labels:['Prose words','Code lines'],values:[prose.pre,code.pre]},{name:'Post',labels:['Prose words','Code lines'],values:[prose.post,code.post]}],{x:.6,y:1.82,w:6.7,h:3.82,barDir:'col',catAxisLabelColor:C.white,valAxisLabelColor:C.muted,chartColors:['7EAAA0',C.teal],showLegend:true,legendColor:C.white,showValue:true,dataLabelColor:C.white,dataLabelPosition:'outEnd',showTitle:false,valAxisMinVal:0,showCatName:false,showBorder:false,showCatName:false,chartArea:{fill:{color:C.bg}},plotArea:{fill:{color:C.bg}},valGridLine:{color:'394541',width:.5},catGridLine:{style:'none'},fontFace:'Arial',showSerName:false});
@@ -58,8 +58,12 @@ async function main() {
  card(s,7.72,1.82,5.0,4.8);text(s,'PRE → POST',8.04,2.12,4.2,.3,{fontSize:13,bold:true,color:C.teal});
  text(s,'Prose-word change: +'+prose.change+'\n95% interval ['+prose.lower95+', '+prose.upper95+']',8.04,2.72,4.18,.85,{fontSize:19,bold:true});
  text(s,'Frustration-phrase flag:\n'+(100*fr.pre).toFixed(1)+'% → '+(100*fr.post).toFixed(1)+'%',8.04,3.91,4.16,.78,{fontSize:18});
- text(s,'200 independent human labels still needed.\nVADER accuracy, macro-F1 and kappa are not yet available.',8.04,5.06,4.16,1.12,{fontSize:14,color:C.muted});
- s.addNotes('The pre and post comparisons use sampling weights and exclude the transition months. Median prose length and code lines both increased. Bootstrap intervals are based on one thousand question resamples while retaining those weights. Tone is measured from original prose with technical words made neutral and separate frustration and politeness phrase flags. Those lexicon flags are descriptive proxies. The two hundred-question sheet is ready, but independent labels from Rishiikesh and Akshay are still needed before reporting VADER accuracy, macro F1 or kappa.');
+ const v=m.validation;
+ const validation=v.accuracy==null?'Human reference incomplete; metrics unavailable.':
+  'VADER vs 200 M3 human labels: '+(100*v.accuracy).toFixed(1)+'% accuracy; macro-F1 '+v.macro_f1.toFixed(3)+'.\n'+
+  (v.ai_human_kappa==null?'Two-human validation complete.':'Human–AI κ '+v.ai_human_kappa.toFixed(3)+'. Two-human validation remains incomplete.');
+ text(s,validation,8.04,5.06,4.16,1.22,{fontSize:13,color:C.muted});
+ s.addNotes('The comparisons use sampling weights and exclude transition months. Median prose length and code lines increased, with one thousand bootstrap resamples. '+validation+' The AI annotations were created by Codex, not by a second human. They are not adjudicated gold labels. Use the frustration-phrase flag as the primary exploratory tone proxy, with no claim that the flag measures verified emotion.');
  await p.writeFile({fileName:path.join(out,'member2_review2_slides.pptx')});
  }
 }

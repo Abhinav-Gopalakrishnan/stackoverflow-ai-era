@@ -1,4 +1,4 @@
-﻿question_id,period,title,link,label_m2,label_m3,agreed_tone
+question_id,period,title,link,label_m2,label_m3,agreed_tone
 55366240,pre,Python convert CSV section of list to Pandas dataframe,https://stackoverflow.com/q/55366240,,neutral,
 65940464,pre,Syntax error when creating statsmodels Model from formula,https://stackoverflow.com/q/65940464,,neutral,
 73739026,pre,How to get return data from function in another js file on javascript,https://stackoverflow.com/q/73739026,,neutral,
@@ -198,4 +198,4 @@
 68056855,pre,Pandas Style conditional formatting (highlight) on text,https://stackoverflow.com/q/68056855,,positive,
 66897557,pre,"Excel counting taking into account adjacent cells (summing along a column, but looking across a row)",https://stackoverflow.com/q/66897557,,positive,
 77162911,post,Android Thread.sleep after button click,https://stackoverflow.com/q/77162911,,positive,
-79959293,post,How can I show only the first instance of a SQL count?,https://stackoverflow.com/q/79959293,,neutral
+79959293,post,How can I show only the first instance of a SQL count?,https://stackoverflow.com/q/79959293,,neutral,

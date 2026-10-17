@@ -24,6 +24,10 @@ def tone_scores(texts):
     return np.array(scores)
 
 def validate(sheet_path):
+    # AI assistance is disclosed and never inserted into the human-label columns.
+    if (TEXT/'tone_ai_annotations.csv').exists():
+        from src.review2_validation import summarize_tone
+        return summarize_tone(sheet_path)
     sheet=pd.read_csv(sheet_path);need=['label_m2','label_m3','agreed_tone'];allowed={'negative','neutral','positive'}
     if any(c not in sheet for c in need):raise ValueError('Missing human-label columns')
     valid=sheet[need].apply(lambda c:c.isin(allowed)).all(axis=1)

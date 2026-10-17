@@ -1,6 +1,14 @@
 {
   "owner": "M2 Rishiikesh",
   "schemas": {
+    "topic_labels.csv": [
+      "topic",
+      "top_terms",
+      "name_m4",
+      "name_m2",
+      "final_name",
+      "agreement"
+    ],
     "complexity_monthly.csv": [
       "tag",
       "month",
@@ -17,6 +25,19 @@
       "version_flag_share",
       "multi_technology_flag_share"
     ],
+    "topic_ai_annotations.csv": [
+      "topic",
+      "name_ai",
+      "rationale",
+      "comparison_note",
+      "annotation_source"
+    ],
+    "topics_top_terms.csv": [
+      "topic",
+      "rank",
+      "term",
+      "weight"
+    ],
     "tone_prepost.csv": [
       "tag",
       "measure",
@@ -32,6 +53,12 @@
       "file",
       "takeaway",
       "caveat"
+    ],
+    "tone_ai_human_confusion.csv": [
+      "human_m3",
+      "negative",
+      "neutral",
+      "positive"
     ],
     "complexity_prepost.csv": [
       "tag",
@@ -54,6 +81,12 @@
       "upper95",
       "p_value"
     ],
+    "topic_outcomes.csv": [
+      "topic",
+      "n_questions",
+      "resolved_rate_7d",
+      "median_hours_to_first_answer"
+    ],
     "tone_validation_sample.csv": [
       "question_id",
       "period",
@@ -63,13 +96,88 @@
       "label_m3",
       "agreed_tone"
     ],
+    "topic_naming_comparison.csv": [
+      "topic",
+      "name_m4",
+      "name_m2",
+      "final_name",
+      "name_ai",
+      "rationale",
+      "comparison_note",
+      "annotation_source"
+    ],
+    "topic_prepost.csv": [
+      "topic",
+      "pre_share",
+      "post_share",
+      "change",
+      "change_pct",
+      "lower95",
+      "upper95",
+      "bootstrap_resamples"
+    ],
+    "tone_rater_comparison.csv": [
+      "question_id",
+      "period",
+      "title",
+      "link",
+      "label_ai",
+      "label_m3",
+      "ai_matches_m3",
+      "rationale",
+      "annotation_source"
+    ],
+    "keywords_prepost.csv": [
+      "term",
+      "z_score",
+      "log_odds",
+      "count_pre",
+      "count_post",
+      "freq_pre_pct",
+      "freq_post_pct",
+      "direction",
+      "rank",
+      "tag_scope"
+    ],
+    "tone_confusion.csv": [
+      "actual",
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "topic_monthly_share.csv": [
+      "topic",
+      "month",
+      "period",
+      "weighted_share",
+      "n_questions"
+    ],
+    "topic_examples.csv": [
+      "topic",
+      "question_id",
+      "weight",
+      "title",
+      "link"
+    ],
     "tone_validation.csv": [
-      "status",
-      "labelled_rows",
       "required_rows",
+      "label_m2",
+      "label_m3",
+      "agreed_tone",
       "accuracy",
       "macro_f1",
-      "cohen_kappa"
+      "cohen_kappa",
+      "human_human_kappa",
+      "original_two_human_requirement_complete",
+      "status",
+      "labelled_rows",
+      "label_ai",
+      "reference",
+      "ai_human_kappa",
+      "ai_human_agreement",
+      "ai_macro_f1_vs_human",
+      "annotation_file_sha256",
+      "limitation"
     ],
     "tone_monthly.csv": [
       "tag",
@@ -82,6 +190,23 @@
       "positive_share",
       "frustration_flag_share",
       "politeness_flag_share"
+    ],
+    "tone_ai_annotations.csv": [
+      "question_id",
+      "label_ai",
+      "rationale",
+      "annotation_source",
+      "input_sha256"
+    ],
+    "topic_model_selection.csv": [
+      "model_family",
+      "k",
+      "coherence_npmi",
+      "diversity",
+      "stability",
+      "reconstruction_error",
+      "satisfies_rule",
+      "fit_seconds"
     ]
   },
   "captions_file": "dashboard_captions.csv",

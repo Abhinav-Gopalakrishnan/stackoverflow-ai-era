@@ -1,0 +1,10 @@
+{
+  "status": "complete_ai_assisted",
+  "topics": 10,
+  "human_m2_names": 0,
+  "ai_names": 10,
+  "interpretation": "AI naming and qualitative comparison with M4-provided names",
+  "original_two_human_requirement_complete": false,
+  "human_naming_agreement": null,
+  "limitation": "AI names are disclosed assistance, not independent human M2 labels. M4 names were visible during the earlier repository audit; the topic comparison is not blind or a human agreement estimate."
+}

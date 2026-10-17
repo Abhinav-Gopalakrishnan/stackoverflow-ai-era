@@ -6,4 +6,6 @@
 - The written frustration-phrase flag changed from 5.1% to 4.9%; this is a lexicon measure, not independently verified emotion.
 - Questions with at least two study tags changed from 22.8% to 19.4%; share-change 95% interval [-3.82, -2.87] percentage points.
 
-VADER accuracy, macro-F1 and rater kappa are pending 200 independent human labels. Do not claim model validation or AI causality from these outputs.
+VADER against M3's single-human reference: accuracy 36.0%, macro-F1 0.344. Human–AI kappa 0.214; this is not two-human validation.
+
+Use frustration flags as the primary exploratory tone proxy; they are not a validated emotion classifier. AI annotations are explicitly disclosed. The original two-human agreement requirement remains unmet. Do not claim AI causality.
