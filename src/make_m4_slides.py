@@ -93,267 +93,31 @@ def add_card(slide, left, top, width, height):
 
 
 def build_deck():
-    prs = Presentation()
-    prs.slide_width = SLIDE_W
-    prs.slide_height = SLIDE_H
-    
-    # =========================================================================
-    # SLIDE 1 (Team Deck Slide 9): Topic Model Choice & Evaluation
-    # =========================================================================
-    s1 = add_slide_base(
-        prs,
-        "NISHANTH / MEMBER 4",
-        "Topic model choice: coherence, diversity, stability, human agreement",
-        9
-    )
-    
-    # Left Card: Candidate Grid Design & Pre-registered Rule
-    add_card(s1, Inches(0.6), Inches(1.55), Inches(4.5), Inches(5.25))
-    
-    tb_l = s1.shapes.add_textbox(Inches(0.85), Inches(1.75), Inches(4.0), Inches(4.85))
-    tf_l = tb_l.text_frame
-    tf_l.word_wrap = True
-    
-    p = tf_l.paragraphs[0]
-    p.text = "CANDIDATE GRID & DECISION RULE"
-    p.font.size = Pt(13)
-    p.font.bold = True
-    p.font.color.rgb = TEAL_COLOR
-    p.space_after = Pt(10)
-    
-    bullets = [
-        ("Corpus Sample", "80,000 stratified questions (5,000 per half-year across 2019 H1 - 2026 H2)."),
-        ("Features", "TF-IDF 30,000 unigrams/bigrams (min_df=20, max_df=0.40)."),
-        ("Model Grid", "NMF (Frobenius, KL) vs. LDA across k in {10, 15, 20, 25, 30, 40}."),
-        ("Selection Rule", "Highest held-out NPMI topic coherence with diversity >= 0.70 and multi-seed stability >= 0.60."),
-        ("Winning Model", "NMF k=10 selected objectively. Dominates LDA on coherence, diversity, and seed stability."),
-        ("Human Validation", "Top 15 terms + 10 representative question titles exported for independent human labeling by Member 2.")
-    ]
-    
-    for title, desc in bullets:
-        p_b = tf_l.add_paragraph()
-        p_b.space_after = Pt(6)
-        r1 = p_b.add_run()
-        r1.text = f"{title}: "
-        r1.font.bold = True
-        r1.font.size = Pt(12)
-        r1.font.color.rgb = WHITE_COLOR
-        r2 = p_b.add_run()
-        r2.text = desc
-        r2.font.size = Pt(11.5)
-        r2.font.color.rgb = MUTED_COLOR
+    import json
+    import pandas as pd
+    text=OUT/'text'
+    status=json.loads((text/'topics_status.json').read_text())
+    grid=pd.read_csv(text/'topic_model_selection.csv')
+    chosen=grid[(grid.model_family==status['model_family'])&(grid.k==status['k'])].iloc[0]
+    shifts=pd.read_csv(text/'topic_prepost.csv').merge(pd.read_csv(text/'topic_labels.csv'),on='topic')
+    prs=Presentation();prs.slide_width=SLIDE_W;prs.slide_height=SLIDE_H
+    def paragraph(slide, text, x,y,w,h,size=17):
+        frame=slide.shapes.add_textbox(Inches(x),Inches(y),Inches(w),Inches(h)).text_frame
+        frame.word_wrap=True
+        for line in text.split('\n'):
+            p=frame.paragraphs[0] if not frame.paragraphs[0].text else frame.add_paragraph()
+            p.text=line;p.font.size=Pt(size);p.font.color.rgb=WHITE_COLOR;p.font.name='Arial'
+    s=add_slide_base(prs,'NISHANTH / MEMBER 4 — CORRECTED REFERENCE','Measured topic comparison and selection',1)
+    paragraph(s,f"{chosen.model_family} k={int(chosen.k)} selected by the written rule\nDocument NPMI {chosen.coherence_npmi:.4f} | diversity {chosen.diversity:.3f} | stability {chosen.stability:.3f}",.6,1.5,12,1.1,19)
+    s.shapes.add_picture(str(text/'topic_model_selection.png'),Inches(.6),Inches(2.7),width=Inches(12))
+    paragraph(s,'Same training IDs and vocabulary; 3 seeds. Document NPMI differs from sliding-window c_npmi. Names are automatic; no human agreement claimed.',.6,6.35,12,.55,13)
+    s.notes_slide.notes_text_frame.text='This reference replaces the superseded hardcoded grid. Read current per-seed results and protocol. Coherence is not accuracy.'
+    s=add_slide_base(prs,'NISHANTH / MEMBER 4 — CORRECTED REFERENCE','Observed topic share changes',2)
+    for i,(_,r) in enumerate(pd.concat([shifts.nsmallest(2,'change'),shifts.nlargest(2,'change')]).iterrows()):
+        paragraph(s,f"T{int(r.topic)}: {r.final_name}\n{r.change*100:+.2f} pp; 95% CI [{r.lower95*100:+.2f}, {r.upper95*100:+.2f}] pp",.7,1.55+i*1.1,11.8,1.0,19)
+    paragraph(s,'Weighted question bootstrap: 1,000 resamples. Pre/post excludes transition. Changes do not demonstrate AI substitution, difficulty or causality.',.7,6.15,11.8,.65,14)
+    s.notes_slide.notes_text_frame.text='Topic names are automatic descriptions from this fitted model. Original topic IDs and human/AI labels are archived and cannot be transferred.'
+    prs.save(OUT/'member4_review2_slides.pptx')
+    print('Updated existing two-slide member reference from measured outputs; final team presentation is a separate task.')
 
-    # Right Card: Grid Comparison Table & Diagnostics
-    add_card(s1, Inches(5.3), Inches(1.55), Inches(7.45), Inches(5.25))
-    
-    tb_r_head = s1.shapes.add_textbox(Inches(5.55), Inches(1.75), Inches(7.0), Inches(0.4))
-    p_rh = tb_r_head.text_frame.paragraphs[0]
-    p_rh.text = "MODEL EVALUATION GRID (NMF vs LDA)"
-    p_rh.font.size = Pt(13)
-    p_rh.font.bold = True
-    p_rh.font.color.rgb = TEAL_COLOR
-    
-    # Table of candidate models
-    table_shape = s1.shapes.add_table(7, 6, Inches(5.55), Inches(2.2), Inches(6.95), Inches(2.4))
-    table = table_shape.table
-    table.columns[0].width = Inches(1.2)
-    table.columns[1].width = Inches(0.65)
-    table.columns[2].width = Inches(1.35)
-    table.columns[3].width = Inches(1.2)
-    table.columns[4].width = Inches(1.2)
-    table.columns[5].width = Inches(1.35)
-    
-    headers = ["Model", "k", "Held-out NPMI", "Diversity", "Stability", "Recon Error"]
-    for col_idx, h in enumerate(headers):
-        cell = table.cell(0, col_idx)
-        cell.fill.solid()
-        cell.fill.fore_color.rgb = RGBColor(0x24, 0x2E, 0x2B)
-        p = cell.text_frame.paragraphs[0]
-        p.text = h
-        p.font.size = Pt(11)
-        p.font.bold = True
-        p.font.color.rgb = TEAL_COLOR
-        p.alignment = PP_ALIGN.CENTER
-        
-    rows_data = [
-        ("NMF (Winner)", "10", "+0.2175", "0.8000", "1.0000", "268.7"),
-        ("NMF", "15", "+0.1742", "0.8200", "0.9421", "258.4"),
-        ("NMF", "20", "+0.1410", "0.8450", "0.8930", "251.2"),
-        ("NMF", "25", "+0.1189", "0.8640", "0.8415", "245.9"),
-        ("LDA", "10", "-0.0820", "0.6500", "0.5210", "1.24e5"),
-        ("LDA", "20", "-0.1145", "0.6120", "0.4890", "1.31e5")
-    ]
-    
-    for row_idx, r_vals in enumerate(rows_data, start=1):
-        is_winner = "Winner" in r_vals[0]
-        for col_idx, val in enumerate(r_vals):
-            cell = table.cell(row_idx, col_idx)
-            cell.fill.solid()
-            cell.fill.fore_color.rgb = RGBColor(0x1E, 0x29, 0x26) if is_winner else PANEL_COLOR
-            p = cell.text_frame.paragraphs[0]
-            p.text = val
-            p.font.size = Pt(11)
-            p.font.bold = is_winner
-            p.font.color.rgb = GREEN_COLOR if (is_winner and col_idx == 0) else (WHITE_COLOR if is_winner else MUTED_COLOR)
-            p.alignment = PP_ALIGN.CENTER
-            
-    # Bottom Callout Box inside Right Card
-    tb_sub = s1.shapes.add_textbox(Inches(5.55), Inches(4.8), Inches(6.95), Inches(1.8))
-    tf_sub = tb_sub.text_frame
-    tf_sub.word_wrap = True
-    
-    p = tf_sub.paragraphs[0]
-    p.text = "KEY METHODOLOGICAL TAKEAWAYS:"
-    p.font.size = Pt(11.5)
-    p.font.bold = True
-    p.font.color.rgb = WHITE_COLOR
-    p.space_after = Pt(4)
-    
-    sub_points = [
-        "NMF achieves positive semantic coherence (+0.2175) on developer vocabulary, whereas LDA produces negative NPMI (-0.0820) due to broad, overlapping dirichlet priors.",
-        "NMF k=10 exhibits 1.0000 Jaccard stability across 3 random seeds; higher k splits coherent topics into brittle micro-clusters.",
-        "302,026 full corpus questions transformed to dominant topics; inter-annotator agreement tracking awaiting Member 2 independent names in topic_labels.csv."
-    ]
-    for pt in sub_points:
-        p_pt = tf_sub.add_paragraph()
-        p_pt.space_after = Pt(3)
-        r = p_pt.add_run()
-        r.text = f"- {pt}"
-        r.font.size = Pt(10.5)
-        r.font.color.rgb = MUTED_COLOR
-        
-    s1.notes_slide.notes_text_frame.text = (
-        "Speaker Notes (Nishanth / Member 4 - 1:15 min):\n"
-        "I evaluated candidate topic models across NMF and LDA for k between 10 and 40 using a stratified sample of "
-        "80,000 questions balanced across 16 half-years. Candidate selection followed a pre-registered objective rule: "
-        "maximizing held-out NPMI topic coherence while maintaining semantic diversity above 0.70 and multi-seed stability above 0.60.\n\n"
-        "NMF k=10 won cleanly on all three criteria, achieving +0.2175 NPMI coherence, 0.80 diversity, and perfect 1.00 stability. "
-        "In contrast, LDA struggled on this technical vocabulary with negative NPMI coherence (-0.082) and low stability across seeds. "
-        "We transformed all 302,026 questions to dominant topics, and exported top terms and representative question titles to topic_labels.csv "
-        "and topic_examples.csv so Member 2 can perform blind independent human naming."
-    )
-
-    # =========================================================================
-    # SLIDE 2 (Team Deck Slide 10): Topic Share Shifts and Distinctive Keywords
-    # =========================================================================
-    s2 = add_slide_base(
-        prs,
-        "NISHANTH / MEMBER 4",
-        "What developers still bring to humans: topic share change and rising/falling words",
-        10
-    )
-    
-    # Left Card: Topic Share Shifts & Outcomes
-    add_card(s2, Inches(0.6), Inches(1.55), Inches(5.9), Inches(5.25))
-    
-    tb_s2_l = s2.shapes.add_textbox(Inches(0.85), Inches(1.75), Inches(5.4), Inches(4.85))
-    tf_s2_l = tb_s2_l.text_frame
-    tf_s2_l.word_wrap = True
-    
-    p = tf_s2_l.paragraphs[0]
-    p.text = "TOPIC SHARE PRE -> POST SHIFTS & RESOLUTION"
-    p.font.size = Pt(13)
-    p.font.bold = True
-    p.font.color.rgb = TEAL_COLOR
-    p.space_after = Pt(8)
-    
-    # Metrics
-    shifts = [
-        ("SURGING: Docker & Cloud Deployment (Topic 7)", "+27.7% relative (+1.49pp)", "[+1.31pp, +1.67pp]", "34.2% resolved | 1.95h latency", GREEN_COLOR),
-        ("SURGING: Python Execution Errors (Topic 0)", "+14.8% relative (+1.85pp)", "[+1.62pp, +2.07pp]", "33.2% resolved | 1.58h latency", GREEN_COLOR),
-        ("COLLAPSED: Core Syntax & Arrays (Topic 8)", "-17.0% relative (-3.50pp)", "[-3.75pp, -3.24pp]", "58.6% resolved | 0.32h latency", RED_COLOR),
-        ("COLLAPSED: Pandas Data Manipulation (Topic 1)", "-10.7% relative (-1.13pp)", "[-1.34pp, -0.92pp]", "48.7% resolved | 0.65h latency", RED_COLOR)
-    ]
-    
-    for title, change, ci, outcome, color in shifts:
-        p_t = tf_s2_l.add_paragraph()
-        r = p_t.add_run()
-        r.text = title
-        r.font.bold = True
-        r.font.size = Pt(11)
-        r.font.color.rgb = color
-        
-        p_d = tf_s2_l.add_paragraph()
-        p_d.space_after = Pt(4)
-        r_d = p_d.add_run()
-        r_d.text = f"Share: {change} (95% CI {ci})\nOutcomes: {outcome}"
-        r_d.font.size = Pt(10)
-        r_d.font.color.rgb = MUTED_COLOR
-
-    p_div = tf_s2_l.add_paragraph()
-    p_div.space_after = Pt(2)
-    r_div = p_div.add_run()
-    r_div.text = "Operational Triage Finding:"
-    r_div.font.bold = True
-    r_div.font.size = Pt(11)
-    r_div.font.color.rgb = WHITE_COLOR
-    
-    p_div_desc = tf_s2_l.add_paragraph()
-    r_dd = p_div_desc.add_run()
-    r_dd.text = "Questions AI cannot answer (Docker/Cloud, execution errors) are surging but suffer low community resolution (~34%), directly justifying expert routing queues."
-    r_dd.font.size = Pt(10)
-    r_dd.font.color.rgb = MUTED_COLOR
-
-    # Right Card: Monroe et al. Distinctive Keyword Shift
-    add_card(s2, Inches(6.8), Inches(1.55), Inches(5.95), Inches(5.25))
-    
-    tb_s2_r = s2.shapes.add_textbox(Inches(7.05), Inches(1.75), Inches(5.45), Inches(4.85))
-    tf_s2_r = tb_s2_r.text_frame
-    tf_s2_r.word_wrap = True
-    
-    p = tf_s2_r.paragraphs[0]
-    p.text = "DISTINCTIVE KEYWORDS (MONROE LOG-ODDS)"
-    p.font.size = Pt(13)
-    p.font.bold = True
-    p.font.color.rgb = TEAL_COLOR
-    p.space_after = Pt(8)
-    
-    kw_info = [
-        ("Methodology", "Weighted log-odds ratio with informative Dirichlet prior (Monroe, Colaresi & Quinn 2008). Avoids small-sample count bias."),
-        ("Top Rising (Post-AI Surges)", "Modern build tools, web frameworks & deployment:\n"
-         "- nextjs (z = +126.7), vite (z = +115.2)\n"
-         "- version (z = +102.2), fastapi (z = +89.1)\n"
-         "- docker (z = +83.6), openai (z = +77.3)"),
-        ("Top Falling (Post-AI Collapses)", "Routine language syntax & basic operations:\n"
-         "- array (z = -129.4), list (z = -96.6)\n"
-         "- loop (z = -79.1), jquery (z = -68.8)\n"
-         "- string (z = -64.2), element (z = -58.9)"),
-        ("Tag-Level Nuance", "In Python, 'toml' and 'pyproject' surge (+35z) as packaging shifts, while basic 'list' and 'dataframe' fall sharply.")
-    ]
-    
-    for title, text_val in kw_info:
-        p_k = tf_s2_r.add_paragraph()
-        r = p_k.add_run()
-        r.text = f"{title}: "
-        r.font.bold = True
-        r.font.size = Pt(11)
-        r.font.color.rgb = WHITE_COLOR
-        
-        p_kd = tf_s2_r.add_paragraph()
-        p_kd.space_after = Pt(4)
-        r_kd = p_kd.add_run()
-        r_kd.text = text_val
-        r_kd.font.size = Pt(10)
-        r_kd.font.color.rgb = MUTED_COLOR
-        
-    s2.notes_slide.notes_text_frame.text = (
-        "Speaker Notes (Nishanth / Member 4 - 1:30 min):\n"
-        "Tracking monthly topic shares before and after AI adoption shows a clear structural divergence in what developers bring to human peers. "
-        "Routine syntax questions—such as basic arrays, loops, and simple pandas dataframe indexing—experienced steep relative drops of 11% to 17%, "
-        "confirming that developers now use LLMs for routine syntax lookups.\n\n"
-        "Conversely, infrastructure and multi-system integration questions surged dramatically. Docker and Cloud Deployment rose +27.7% in relative share "
-        "(+1.49 percentage points, bootstrap 95% CI +1.31 to +1.67pp), and Runtime Execution Errors rose +14.8% (+1.85pp). "
-        "Crucially, these surging topics have the lowest 7-day resolution rates on Stack Overflow—only 34% resolve, taking nearly 2 hours for a first answer, "
-        "compared to 59% resolved in 19 minutes for basic syntax. This provides concrete evidence for our recommendation to route rising topics to expert queues.\n\n"
-        "Finally, the Monroe et al. weighted log-odds analysis confirms this vocabulary shift: modern ecosystem frameworks like Next.js, Vite, and FastAPI, "
-        "along with versioning and deployment terms, show the strongest post-AI z-scores, whereas array, list, and loop show the steepest declines."
-    )
-
-    # Save presentation
-    out_file = OUT / 'member4_review2_slides.pptx'
-    prs.save(str(out_file))
-    print(f"Successfully generated Member 4 slides: {out_file}", flush=True)
-
-
-if __name__ == '__main__':
-    build_deck()
+if __name__=='__main__':build_deck()

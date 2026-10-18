@@ -151,8 +151,8 @@ In **Review 2**, our investigation shifts from question-level classification to 
 | `dashboard/` | Multi-page Streamlit analytical application |
 | `dashboard/app.py` | Dashboard root entry point (Overview page with 400-week weekly volume series) |
 | `dashboard/common.py` | Shared state management, sidebar filters, publication color palette, and cached data loaders |
-| `dashboard/pages/` | Interactive pages: `2_Patterns_and_2022_Break`, `3_Forecasts`, `4_Topics`, `5_Tone_and_Complexity`, `6_Recommendations` |
-| `dashboard/data/` | Exported data bundle: 27 schema-validated CSV files (1.62 MB total, 0 PII, 0 full bodies) |
+| `dashboard/pages/` | Interactive pages: `2_Patterns_and_2022_Break`, `3_Forecasts`, `4_Topics`, `5_Tone_and_Complexity`, `6_Recommendations`, `7_Dataset_and_Classification` |
+| `dashboard/data/` | Current schema-validated CSV bundle; aggregated results and title-only source examples, no user identifiers or bodies |
 | `dashboard/requirements.txt` | Minimal pinned deployment dependencies (`numpy`, `pandas`, `plotly`, `streamlit`) |
 | `docs/dashboard_deploy.md` | Streamlit Community Cloud setup, mobile responsive testing, and 2-minute fallback video script |
 | `docs/review2_adhi_rishi_handoff.md` | Teammate interface handoff specification between time series and text mining |
@@ -227,7 +227,7 @@ pytest tests/test_export_dashboard_data.py tests/test_dashboard_pages.py -v
 
 ### Hosted Cloud Deployment
 
-- **Live Streamlit App:** `https://stackoverflow-ai-era.streamlit.app` (Placeholder pending manual activation)
+- **Application:** locally runnable with `streamlit run dashboard/app.py`; no verified public deployment
 - Deployment configuration and mobile responsive audit instructions are located in `docs/dashboard_deploy.md`.
 
 ---
@@ -238,3 +238,17 @@ All Stack Overflow user-contributed content analyzed and displayed within this p
 - Individual questions are referenced exclusively by their post title and linked to canonical URLs: `https://stackoverflow.com/q/<id>`.
 - No full question bodies, answers, code blocks, or identifiable user profile information are distributed or hosted.
 - All analytical metrics represent aggregated, statistical, and anonymized summaries.
+
+
+### Corrected final submission
+
+Start with [the Review 2 submission guide](docs/review2_submission_guide.md),
+[the readiness checklist](reports/review2/readiness_checklist.md) and
+[the complete Units 1–3 notebook](notebooks/review2_main.ipynb).
+The topic comparison is measured across 36 actual fits; the exact document-NPMI
+protocol differs from sliding-window c_npmi and is [disclosed](docs/review2_topic_evaluation.md).
+Topic names are automatic descriptions; original two-human validation is not claimed.
+The local app includes dataset validation, classifier comparisons and both Unit 3 methods.
+Use `python scripts/package_review2.py --include-dataset` for local evaluator ZIPs;
+the full parquet is excluded from Git and supplied separately. A new final presentation
+is the next task; archived member topic slides contain superseded results.

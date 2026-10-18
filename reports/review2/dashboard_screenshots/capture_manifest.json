@@ -1,0 +1,48 @@
+{
+  "mode": "local browser captures, not public hosting",
+  "viewport_desktop": [
+    1440,
+    1000
+  ],
+  "viewport_mobile": [
+    390,
+    844
+  ],
+  "pages": [
+    {
+      "page": "app",
+      "title": "Stack Overflow in the AI Era: Executive Overview",
+      "body_characters": 1714
+    },
+    {
+      "page": "Patterns and 2022 Break",
+      "title": "Page 2: Time Series Patterns & 2022 Structural Break",
+      "body_characters": 2117
+    },
+    {
+      "page": "Forecasts",
+      "title": "Page 3: Demand Forecasts to February 2027",
+      "body_characters": 1998
+    },
+    {
+      "page": "Topics",
+      "title": "Topic Mining & Changing Question Shares",
+      "body_characters": 3230
+    },
+    {
+      "page": "Tone and Complexity",
+      "title": "Page 5: Tone and Complexity",
+      "body_characters": 3367
+    },
+    {
+      "page": "Recommendations",
+      "title": "Page 6: Strategic Recommendations",
+      "body_characters": 5668
+    },
+    {
+      "page": "Dataset and Classification",
+      "title": "Dataset & Predictive Modelling \u2014 Units 1 and 2",
+      "body_characters": 1837
+    }
+  ]
+}

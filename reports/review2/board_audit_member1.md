@@ -1,3 +1,5 @@
+> Historical handoff/audit snapshot. Current status and corrections evidence: `reports/review2/readiness_checklist.md`, `verification.json` and `board_audit_corrections.json`.
+
 # Board Audit — Review 2 (Member 1)
 
 **Date:** 2026-10-14  
