@@ -107,7 +107,6 @@ def m5():
         '- Why some tags have no class? Percentage change from a last observed count of zero is undefined.\n'+
         '- How are forecasts combined with ITS? ITS estimates the historical structural break at ChatGPT launch (all 14 series show significant slope declines of -1.6% to -3.9%/week), while our 26-week forecasts project forward from the current baseline through February 2027.\n'+
         '- Which tags gained vs lost share? Emerging AI/data tooling (openai-api, fastapi, docker, powerbi, excel) gained relative share of site activity post-2023, while legacy ecosystems (javascript, python, pandas, reactjs, java) lost share despite higher absolute counts.\n')
-    (R/'contribution_member5.md').write_text('# Member 5 — Adhikkesh\n\nImplemented and ran complete series preparation, training-only ETS/SARIMAX selection, three baselines, four-horizon expanding-window backtests, matched comparisons, DM/residual checks and 26-week forecasts. Generated charts, notebook Part B, handoff schemas/captions and findings. Source: `src/ts_forecast.py`. Evidence: `reports/review2/ts/`, `notebooks/07_timeseries.ipynb`.\n\nJoint input integrated: Akshay’s ITS slope changes, p-values and post-2023 relative shares joined into tag_classes.csv. Optional GRU/what-if/classifier feature extensions are not claimed. No PR, approval or commit is fabricated; link the actual commits and reviews after the owners commit.\n')
 
 
 def m2():
@@ -169,14 +168,17 @@ def m2():
         '- Why no code in tone/topics? Code words and identifiers can be mistaken for emotion; topics should describe prose. Code is measured separately for complexity.\n'+
         '- Why overrides? Technical words like fatal/kill/error should not count as negative human emotion by themselves.\n'+
         '- Why weights? Before 2025 sampled questions represent unequal amounts of the population, so weighted summaries preserve the sampling design.\n'+
-        '- What is kappa? Agreement between two independent human raters beyond chance; it remains unavailable until both raters label the sample.\n'+
+        '- What is kappa? Chance-adjusted agreement between two label sets. Human–AI kappa is not two-human agreement.\n'+
         '- Why bootstrap? Resampling questions with their existing weights estimates uncertainty in medians/share changes.\n'+
         '- Validation status: '+validation_note+'\n'+
         '- Can AI count as a human rater? No. The assisted comparison is disclosed and the original two-human requirement is not claimed.\n'+
-        '- Topic naming: ten AI proposals include a mixed numerical-table topic; the comparison is qualitative, not blind human agreement.\n')
-    (R/'contribution_member2.md').write_text('# Member 2 — Rishiikesh\n\nImplemented corpus preparation, tone scoring, weighted complexity summaries, uncertainty intervals and resolution association. The follow-up adds 200 disclosed Codex AI annotations, ten AI topic-name proposals, single-human VADER evaluation, human–AI agreement, confusion matrices and provenance records. '+validation_note+'\n\nAI annotations are not human Rishiikesh labels. The original two-human tone and topic-naming requirements remain open in issue #126.\n\n## Published implementation\n\n- [PR #129](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/129): corpus and shared preparation.\n- [PR #130](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/130): tone and validation workflow.\n- [PR #131](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/131): complexity, notebook, slides and handoffs.\n\n## Evidence\n\n`src/review2_validation.py`, `reports/review2/text/ai_annotation_manifest.json`, `tone_validation.csv`, `tone_rater_comparison.csv`, `topic_naming_comparison.csv`, and `notebooks/08_text_mining.ipynb`.\n')
+        '- Topic naming: current topic names are automatic descriptions. Earlier AI proposals belong to the archived model; no independent human agreement is claimed.\n')
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--member',choices=['m2','m5','all'],default='all');a=p.parse_args();R.mkdir(parents=True,exist_ok=True)
     if a.member in ['m5','all']:m5()
     if a.member in ['m2','all']:m2()
+    from src.review2_notebooks import main as build_current_notebooks
+    build_current_notebooks()
+
+# Keep the submission notebooks consistent when legacy member refreshes are used.

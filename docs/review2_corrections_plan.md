@@ -36,3 +36,11 @@ and locked classifier evidence. Period/date/tag interactions alter observation c
 fixed-model pages disable irrelevant controls. ITS units are weekly, topic intervals
 use percentage points, and AI/human provenance remains separate. Semantic tests,
 the full 146-test suite and all seven pages in a clean minimal dependency environment pass.
+
+## Phase 3 notebook outcome
+
+The complete notebook covers Units 1–3, data preview/validation, the locked classifier,
+both advanced methods, actual comparisons and combined recommendations. All three
+notebooks execute without errors (17, 7 and 7 code cells). Kernel metadata remains
+portable `python3`. Unsupported causal/AI-offloading claims and the incorrect STL
+headline are corrected. Original classifier test results remain unchanged.

@@ -562,7 +562,7 @@ def make_figure(comp: pd.DataFrame, summ: pd.DataFrame) -> None:
     for ax in axes[len(tags):]:
         ax.axis('off')
     axes[0].legend(fontsize=8, loc='lower left')
-    fig.suptitle('All 14 series share a sharp late-2022 level drop; within-year seasonality is small',
+    fig.suptitle('STL trends across 14 weekly API-count series; emerging tags have distinct trajectories',
                  fontsize=13, y=0.995)
     fig.tight_layout(rect=(0, 0, 1, 0.985))
     fig.savefig(TS / 'stl_small_multiples.png', dpi=150)
