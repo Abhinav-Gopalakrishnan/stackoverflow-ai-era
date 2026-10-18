@@ -32,13 +32,13 @@ SLIDE_H = Inches(7.5)
 def add_slide_base(prs: Presentation, speaker_tag: str, title: str, slide_num: int):
     blank_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(blank_layout)
-    
+
     # Background fill
     bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, SLIDE_W, SLIDE_H)
     bg.fill.solid()
     bg.fill.fore_color.rgb = BG_COLOR
     bg.line.color.rgb = BG_COLOR
-    
+
     # Header tag (Teal 11pt bold)
     tb_tag = slide.shapes.add_textbox(Inches(0.6), Inches(0.32), Inches(12.0), Inches(0.24))
     tf_tag = tb_tag.text_frame
@@ -49,7 +49,7 @@ def add_slide_base(prs: Presentation, speaker_tag: str, title: str, slide_num: i
     p_tag.font.bold = True
     p_tag.font.color.rgb = TEAL_COLOR
     p_tag.font.name = "Arial"
-    
+
     # Slide Title (White 26pt bold)
     tb_title = slide.shapes.add_textbox(Inches(0.6), Inches(0.68), Inches(12.1), Inches(0.72))
     tf_title = tb_title.text_frame
@@ -60,7 +60,7 @@ def add_slide_base(prs: Presentation, speaker_tag: str, title: str, slide_num: i
     p_title.font.bold = True
     p_title.font.color.rgb = WHITE_COLOR
     p_title.font.name = "Arial"
-    
+
     # Footer Left
     tb_foot = slide.shapes.add_textbox(Inches(0.6), Inches(7.05), Inches(10.0), Inches(0.25))
     tf_foot = tb_foot.text_frame
@@ -69,7 +69,7 @@ def add_slide_base(prs: Presentation, speaker_tag: str, title: str, slide_num: i
     p_foot.font.size = Pt(9)
     p_foot.font.color.rgb = MUTED_COLOR
     p_foot.font.name = "Arial"
-    
+
     # Footer Right
     tb_num = slide.shapes.add_textbox(Inches(12.2), Inches(7.05), Inches(0.6), Inches(0.25))
     tf_num = tb_num.text_frame
@@ -79,7 +79,7 @@ def add_slide_base(prs: Presentation, speaker_tag: str, title: str, slide_num: i
     p_num.font.size = Pt(9)
     p_num.font.color.rgb = MUTED_COLOR
     p_num.font.name = "Arial"
-    
+
     return slide
 
 
@@ -96,7 +96,7 @@ def build_deck():
     prs = Presentation()
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
-    
+
     # =========================================================================
     # SLIDE 1 (Team Deck Slide 9): Topic Model Choice & Evaluation
     # =========================================================================
@@ -106,21 +106,21 @@ def build_deck():
         "Topic model choice: coherence, diversity, stability, human agreement",
         9
     )
-    
+
     # Left Card: Candidate Grid Design & Pre-registered Rule
     add_card(s1, Inches(0.6), Inches(1.55), Inches(4.5), Inches(5.25))
-    
+
     tb_l = s1.shapes.add_textbox(Inches(0.85), Inches(1.75), Inches(4.0), Inches(4.85))
     tf_l = tb_l.text_frame
     tf_l.word_wrap = True
-    
+
     p = tf_l.paragraphs[0]
     p.text = "CANDIDATE GRID & DECISION RULE"
     p.font.size = Pt(13)
     p.font.bold = True
     p.font.color.rgb = TEAL_COLOR
     p.space_after = Pt(10)
-    
+
     bullets = [
         ("Corpus Sample", "80,000 stratified questions (5,000 per half-year across 2019 H1 - 2026 H2)."),
         ("Features", "TF-IDF 30,000 unigrams/bigrams (min_df=20, max_df=0.40)."),
@@ -129,7 +129,7 @@ def build_deck():
         ("Winning Model", "NMF k=10 selected objectively. Dominates LDA on coherence, diversity, and seed stability."),
         ("Human Validation", "Top 15 terms + 10 representative question titles exported for independent human labeling by Member 2.")
     ]
-    
+
     for title, desc in bullets:
         p_b = tf_l.add_paragraph()
         p_b.space_after = Pt(6)
@@ -145,14 +145,14 @@ def build_deck():
 
     # Right Card: Grid Comparison Table & Diagnostics
     add_card(s1, Inches(5.3), Inches(1.55), Inches(7.45), Inches(5.25))
-    
+
     tb_r_head = s1.shapes.add_textbox(Inches(5.55), Inches(1.75), Inches(7.0), Inches(0.4))
     p_rh = tb_r_head.text_frame.paragraphs[0]
     p_rh.text = "MODEL EVALUATION GRID (NMF vs LDA)"
     p_rh.font.size = Pt(13)
     p_rh.font.bold = True
     p_rh.font.color.rgb = TEAL_COLOR
-    
+
     # Table of candidate models
     table_shape = s1.shapes.add_table(7, 6, Inches(5.55), Inches(2.2), Inches(6.95), Inches(2.4))
     table = table_shape.table
@@ -162,7 +162,7 @@ def build_deck():
     table.columns[3].width = Inches(1.2)
     table.columns[4].width = Inches(1.2)
     table.columns[5].width = Inches(1.35)
-    
+
     headers = ["Model", "k", "Held-out NPMI", "Diversity", "Stability", "Recon Error"]
     for col_idx, h in enumerate(headers):
         cell = table.cell(0, col_idx)
@@ -174,7 +174,7 @@ def build_deck():
         p.font.bold = True
         p.font.color.rgb = TEAL_COLOR
         p.alignment = PP_ALIGN.CENTER
-        
+
     rows_data = [
         ("NMF (Winner)", "10", "+0.2175", "0.8000", "1.0000", "268.7"),
         ("NMF", "15", "+0.1742", "0.8200", "0.9421", "258.4"),
@@ -183,7 +183,7 @@ def build_deck():
         ("LDA", "10", "-0.0820", "0.6500", "0.5210", "1.24e5"),
         ("LDA", "20", "-0.1145", "0.6120", "0.4890", "1.31e5")
     ]
-    
+
     for row_idx, r_vals in enumerate(rows_data, start=1):
         is_winner = "Winner" in r_vals[0]
         for col_idx, val in enumerate(r_vals):
@@ -196,19 +196,19 @@ def build_deck():
             p.font.bold = is_winner
             p.font.color.rgb = GREEN_COLOR if (is_winner and col_idx == 0) else (WHITE_COLOR if is_winner else MUTED_COLOR)
             p.alignment = PP_ALIGN.CENTER
-            
+
     # Bottom Callout Box inside Right Card
     tb_sub = s1.shapes.add_textbox(Inches(5.55), Inches(4.8), Inches(6.95), Inches(1.8))
     tf_sub = tb_sub.text_frame
     tf_sub.word_wrap = True
-    
+
     p = tf_sub.paragraphs[0]
     p.text = "KEY METHODOLOGICAL TAKEAWAYS:"
     p.font.size = Pt(11.5)
     p.font.bold = True
     p.font.color.rgb = WHITE_COLOR
     p.space_after = Pt(4)
-    
+
     sub_points = [
         "NMF achieves positive semantic coherence (+0.2175) on developer vocabulary, whereas LDA produces negative NPMI (-0.0820) due to broad, overlapping dirichlet priors.",
         "NMF k=10 exhibits 1.0000 Jaccard stability across 3 random seeds; higher k splits coherent topics into brittle micro-clusters.",
@@ -221,7 +221,7 @@ def build_deck():
         r.text = f"- {pt}"
         r.font.size = Pt(10.5)
         r.font.color.rgb = MUTED_COLOR
-        
+
     s1.notes_slide.notes_text_frame.text = (
         "Speaker Notes (Nishanth / Member 4 - 1:15 min):\n"
         "I evaluated candidate topic models across NMF and LDA for k between 10 and 40 using a stratified sample of "
@@ -242,21 +242,21 @@ def build_deck():
         "What developers still bring to humans: topic share change and rising/falling words",
         10
     )
-    
+
     # Left Card: Topic Share Shifts & Outcomes
     add_card(s2, Inches(0.6), Inches(1.55), Inches(5.9), Inches(5.25))
-    
+
     tb_s2_l = s2.shapes.add_textbox(Inches(0.85), Inches(1.75), Inches(5.4), Inches(4.85))
     tf_s2_l = tb_s2_l.text_frame
     tf_s2_l.word_wrap = True
-    
+
     p = tf_s2_l.paragraphs[0]
     p.text = "TOPIC SHARE PRE -> POST SHIFTS & RESOLUTION"
     p.font.size = Pt(13)
     p.font.bold = True
     p.font.color.rgb = TEAL_COLOR
     p.space_after = Pt(8)
-    
+
     # Metrics
     shifts = [
         ("SURGING: Docker & Cloud Deployment (Topic 7)", "+27.7% relative (+1.49pp)", "[+1.31pp, +1.67pp]", "34.2% resolved | 1.95h latency", GREEN_COLOR),
@@ -264,7 +264,7 @@ def build_deck():
         ("COLLAPSED: Core Syntax & Arrays (Topic 8)", "-17.0% relative (-3.50pp)", "[-3.75pp, -3.24pp]", "58.6% resolved | 0.32h latency", RED_COLOR),
         ("COLLAPSED: Pandas Data Manipulation (Topic 1)", "-10.7% relative (-1.13pp)", "[-1.34pp, -0.92pp]", "48.7% resolved | 0.65h latency", RED_COLOR)
     ]
-    
+
     for title, change, ci, outcome, color in shifts:
         p_t = tf_s2_l.add_paragraph()
         r = p_t.add_run()
@@ -272,7 +272,7 @@ def build_deck():
         r.font.bold = True
         r.font.size = Pt(11)
         r.font.color.rgb = color
-        
+
         p_d = tf_s2_l.add_paragraph()
         p_d.space_after = Pt(4)
         r_d = p_d.add_run()
@@ -287,7 +287,7 @@ def build_deck():
     r_div.font.bold = True
     r_div.font.size = Pt(11)
     r_div.font.color.rgb = WHITE_COLOR
-    
+
     p_div_desc = tf_s2_l.add_paragraph()
     r_dd = p_div_desc.add_run()
     r_dd.text = "Questions AI cannot answer (Docker/Cloud, execution errors) are surging but suffer low community resolution (~34%), directly justifying expert routing queues."
@@ -296,18 +296,18 @@ def build_deck():
 
     # Right Card: Monroe et al. Distinctive Keyword Shift
     add_card(s2, Inches(6.8), Inches(1.55), Inches(5.95), Inches(5.25))
-    
+
     tb_s2_r = s2.shapes.add_textbox(Inches(7.05), Inches(1.75), Inches(5.45), Inches(4.85))
     tf_s2_r = tb_s2_r.text_frame
     tf_s2_r.word_wrap = True
-    
+
     p = tf_s2_r.paragraphs[0]
     p.text = "DISTINCTIVE KEYWORDS (MONROE LOG-ODDS)"
     p.font.size = Pt(13)
     p.font.bold = True
     p.font.color.rgb = TEAL_COLOR
     p.space_after = Pt(8)
-    
+
     kw_info = [
         ("Methodology", "Weighted log-odds ratio with informative Dirichlet prior (Monroe, Colaresi & Quinn 2008). Avoids small-sample count bias."),
         ("Top Rising (Post-AI Surges)", "Modern build tools, web frameworks & deployment:\n"
@@ -320,7 +320,7 @@ def build_deck():
          "- string (z = -64.2), element (z = -58.9)"),
         ("Tag-Level Nuance", "In Python, 'toml' and 'pyproject' surge (+35z) as packaging shifts, while basic 'list' and 'dataframe' fall sharply.")
     ]
-    
+
     for title, text_val in kw_info:
         p_k = tf_s2_r.add_paragraph()
         r = p_k.add_run()
@@ -328,14 +328,14 @@ def build_deck():
         r.font.bold = True
         r.font.size = Pt(11)
         r.font.color.rgb = WHITE_COLOR
-        
+
         p_kd = tf_s2_r.add_paragraph()
         p_kd.space_after = Pt(4)
         r_kd = p_kd.add_run()
         r_kd.text = text_val
         r_kd.font.size = Pt(10)
         r_kd.font.color.rgb = MUTED_COLOR
-        
+
     s2.notes_slide.notes_text_frame.text = (
         "Speaker Notes (Nishanth / Member 4 - 1:30 min):\n"
         "Tracking monthly topic shares before and after AI adoption shows a clear structural divergence in what developers bring to human peers. "
