@@ -18,6 +18,7 @@ PAGES = [
     ("Topics", ROOT / "dashboard" / "pages" / "4_Topics.py"),
     ("Tone & Complexity", ROOT / "dashboard" / "pages" / "5_Tone_and_Complexity.py"),
     ("Recommendations", ROOT / "dashboard" / "pages" / "6_Recommendations.py"),
+    ("Dataset & Classification", ROOT / "dashboard" / "pages" / "7_Dataset_and_Classification.py"),
 ]
 
 # Filter combinations: (description, session_state overrides)

@@ -3,7 +3,7 @@
   "annotator": "Codex AI assistant",
   "human_annotation": false,
   "questions": 200,
-  "topics": 10,
+  "topics": 0,
   "tone_inputs": "Full locally collected title and prose for all 200 original sample IDs; code excluded.",
   "tone_blinding": "Individual M3 labels and VADER predictions were excluded from the annotation view. Aggregate M3 counts had been observed in the repository audit.",
   "topic_blinding": "Not blind: M4-provided names were visible during the prior audit. Names use all 15 terms and all 10 supplied example titles per topic.",
@@ -12,7 +12,11 @@
     "Subjective AI interpretation; no guarantee of label correctness.",
     "Not a replacement for the original plan requirement of two independent human raters.",
     "No AI-authored label is copied into label_m2, label_m3 or agreed_tone.",
-    "Topic names are interpretive proposals; topic 2 remains mixed."
+    "Current topic names are automatic descriptions, not AI/human annotations or independent agreement."
   ],
-  "tone_annotations_sha256": "323267f6fd2e03208247db6a243bbd2268b059c68554fea100d6a545087868fc"
+  "tone_annotations_sha256": "323267f6fd2e03208247db6a243bbd2268b059c68554fea100d6a545087868fc",
+  "topic_annotations_status": "Old model topic annotations archived; current model uses automatic term rules",
+  "automatic_topic_description_rows": 15,
+  "topic_archive": "reports/review2/archive/pre_corrections_topics",
+  "updated_utc": "2026-10-18T16:28:40.316116+00:00"
 }

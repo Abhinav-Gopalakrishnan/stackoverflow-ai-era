@@ -72,18 +72,15 @@ def _resolved_rates(monthly):
 
 
 def _topic_strings(keywords, topic_prepost, labels):
+    per_tag = pd.read_csv(TEXT/'topic_prepost_by_tag.csv')
+    label_table = pd.read_csv(TOPIC_LABELS_CSV)
+    allowed = set(label_table.loc[~label_table['mixed'].fillna(False).astype(bool), 'topic'])
     def for_tag(tag):
-        if tag in PER_TAG_KEYWORD_SCOPE:
-            k = keywords[keywords.tag_scope == tag]
-            rising = k[k.direction == 'rising'].sort_values('rank').term.dropna().astype(str).head(5)
-            falling = k[k.direction == 'falling'].sort_values('rank').term.dropna().astype(str).head(5)
-            scope = f'per-tag keywords ({tag})'
-            return '; '.join(rising), '; '.join(falling), scope
-        rising = topic_prepost[topic_prepost.change > 0].sort_values('change', ascending=False).head(3)
-        falling = topic_prepost[topic_prepost.change < 0].sort_values('change').head(3)
-        up = '; '.join(labels[t] for t in rising.topic)
-        down = '; '.join(labels[t] for t in falling.topic)
-        return up, down, 'overall topics (fallback)'
+        table = per_tag[(per_tag.tag == tag) & per_tag.topic.isin(allowed)]
+        rising = table[table.change > 0].nlargest(3,'change')
+        falling = table[table.change < 0].nsmallest(3,'change')
+        text = lambda rows: '; '.join(f'{labels[r.topic]} ({r.change*100:+.2f} pp)' for r in rows.itertuples())
+        return text(rising), text(falling), f'weighted within-tag topic shifts ({tag}); automatic names'
     return for_tag
 
 
@@ -147,121 +144,58 @@ def _steepest(matrix, n):
 
 
 def build_recommendations(matrix):
-    tc = matrix.set_index('tag')
-    frust_all = pd.read_csv(TONE_CSV).query("tag == 'ALL' and measure == 'frustration'").change.iloc[0] * 100
-    rising = pd.read_csv(TOPIC_PREPOST_CSV)
-    rising = rising[rising.change > 0].sort_values('change', ascending=False)
-    labels = {int(r.topic): r.final_name for r in pd.read_csv(TOPIC_LABELS_CSV).itertuples()}
-    top_rising = labels[int(rising.topic.iloc[0])]
-    top_rising_pp = rising.change.iloc[0] * 100
-    falling = pd.read_csv(TOPIC_PREPOST_CSV).sort_values('change')
-    top_falling = labels[int(falling.topic.iloc[0])]
-    outcomes = pd.read_csv(TOPIC_OUTCOMES_CSV).set_index('topic')
-    rising_resolved = outcomes.loc[int(rising.topic.iloc[0]), 'resolved_rate_7d']
-    shap = pd.read_csv(SHAP_TOP_CSV, index_col=0)
-    shap_feat = 'account_age_days'
-    shap_val = float(shap.loc[shap_feat, 'mean_abs_shap'])
-    fc = pd.read_csv(FORECASTS_CSV)
-    fc = fc[fc.selected]
-    agg = fc[(fc.tag == 'ALL') & (fc.horizon == 26)].iloc[0]
-    oai = tc.loc['openai-api']
-    frust_up = matrix[matrix.frustration_change > 0].sort_values('frustration_change', ascending=False)
-    frust_up_txt = ', '.join(f'{r.tag} {r.frustration_change:+.1f}pp' for r in frust_up.head(3).itertuples())
-
-    kw = pd.read_csv(KEYWORDS_CSV)
-    mig_rx = re.compile(r'version|setup|install|migrat|upgrade|toml|pyproject|update', re.I)
-    mig = kw[(kw.direction == 'rising') & kw.term.astype(str).str.contains(mig_rx)]
-    mig_parts, mig_tags = [], []
-    for tag in PER_TAG_KEYWORD_SCOPE:
-        s = mig[mig.tag_scope == tag].sort_values('rank')
-        if len(s):
-            mig_tags.append(tag)
-            mig_parts.append(f"{tag}: " + ', '.join(f'{t} (rank {int(r)})' for t, r in zip(s.term, s['rank'])))
-    mig_txt = '; '.join(mig_parts)
-    mig_slopes = '; '.join(f'{t} {tc.loc[t, "its_slope_change_pct"]:+.2f}%/wk' for t in mig_tags)
-
-    steep = _steepest(matrix, 3)
-    mild = _steepest(matrix, 14).split(', ')[-3:]
-    mild = ', '.join(mild)
-    declined = int((matrix.forecast_class == 'steep decline').sum())
-
-    rows = [
-        {
-            'finding': 'Moderate the tags that are still falling fastest, and stop staffing the slower-declining ones.',
-            'time_series_evidence': (
-                f'ITS post-slope declines are steepest for {steep}; the mildest are {mild} '
-                f'(its_results.csv). {declined} of 13 tags are classed steep decline by the 26-week forecast.'),
-            'text_mining_evidence': (
-                f'Site-wide frustration share changed {frust_all:+.1f}pp after the break (tone_prepost.csv).'),
-            'action': 'Reallocate moderation hours from stabilising tags to the steep-decline tags, and refresh the forecast each quarter.',
-            'stakeholder': 'Q&A platform product team',
-            'kpi_to_track': 'Moderation hours per 1,000 questions on steep-decline tags',
-            'caveat': 'The break is associated with, not caused by, AI adoption; slope ranks are model-based.',
-        },
-        {
-            'finding': 'Turn rising setup, version and migration language into a documentation backlog.',
-            'time_series_evidence': (
-                f'The tags with rising version/setup keywords are still declining: {mig_slopes} (its_results.csv).'),
-            'text_mining_evidence': (
-                f'Rising per-tag keywords include {mig_txt} (keywords_prepost.csv).'),
-            'action': 'Promote these rising version/setup keywords into the DevRel guide backlog for the tags that show them.',
-            'stakeholder': 'DevRel teams',
-            'kpi_to_track': 'Guides shipped against the rising-keyword backlog',
-            'caveat': 'Keyword frequency is a proxy for demand, not a direct measure of documentation need.',
-        },
-        {
-            'finding': 'Route topics that gain share but resolve poorly to an expert queue.',
-            'time_series_evidence': (
-                f'The {top_rising} topic rises {top_rising_pp:+.2f}pp site-wide (topic_prepost.csv) while '
-                f'python post-slope is {tc.loc["python","its_slope_change_pct"]:+.2f}%/wk (its_results.csv).'),
-            'text_mining_evidence': (
-                f'{top_rising} resolves at {rising_resolved * 100:.1f}% within 7 days (topic_outcomes.csv).'),
-            'action': 'Send rising, low-resolution topics to an expert routing queue with topic tags.',
-            'stakeholder': 'developer-forum managers',
-            'kpi_to_track': '7-day resolved rate and time-to-first-answer on routed topics',
-            'caveat': 'NMF topics are coarse; a question can span several topics.',
-        },
-        {
-            'finding': 'Give first-time askers a guided template where frustration is rising and new accounts resolve less.',
-            'time_series_evidence': (
-                f'Frustration share rose only for {frust_up_txt} and fell slightly site-wide '
-                f'({frust_all:+.1f}pp, tone_prepost.csv); python and javascript still decline '
-                f'({tc.loc["python","its_slope_change_pct"]:+.2f} and '
-                f'{tc.loc["javascript","its_slope_change_pct"]:+.2f}%/wk, its_results.csv).'),
-            'text_mining_evidence': (
-                f'Review 1 SHAP ranks {shap_feat} second of all features (mean |SHAP| {shap_val:.3f}), so '
-                f'account age matters almost as much as tag volume (shap_top.csv).'),
-            'action': 'Add a guided question template for first posts, prompted when the frustration flag is set.',
-            'stakeholder': 'Q&A platform product team',
-            'kpi_to_track': '7-day resolved rate for first posts',
-            'caveat': 'The template is a UX intervention; its effect is not identified by the pre/post analysis.',
-        },
-        {
-            'finding': 'Trigger a review when weekly volume leaves the forecast band.',
-            'time_series_evidence': (
-                f'The 26-week forecast carries a 95% band; for ALL the week-26 band is '
-                f'{agg.lower95:.0f}-{agg.upper95:.0f} around {agg.pred:.0f} (forecasts_26w.csv).'),
-            'text_mining_evidence': (
-                f'Falling topics such as {top_falling} signal where traffic is moving (topic_prepost.csv).'),
-            'action': 'Alert the analytics lead when a tag closes a week outside its 95% forecast band.',
-            'stakeholder': 'Q&A platform product team',
-            'kpi_to_track': 'Shares flagged and reviewed per quarter',
-            'caveat': 'Bands are wide for volatile tags, so alerts are a prompt to look, not a conclusion.',
-        },
-        {
-            'finding': 'Treat openai-api as an emerging tag: a step change without a stable trend.',
-            'time_series_evidence': (
-                f'openai-api shows a {oai.its_level_change_pct:+.0f}% level change but a '
-                f'{oai.its_slope_change_pct:+.2f}%/wk post-slope, with a {oai.half_life_weeks:.0f}-week '
-                f'half-life and no classifiable 26-week change (its_results.csv, tag_classes.csv).'),
-            'text_mining_evidence': (
-                'Docker and Android topics also gained share site-wide (topic_prepost.csv), the same emerging-stack pattern.'),
-            'action': 'Monitor openai-api monthly and review routing and tagging once a baseline exists.',
-            'stakeholder': 'developer-forum managers',
-            'kpi_to_track': 'Weekly openai-api volume versus its forecast band',
-            'caveat': 'A single level jump does not imply a lasting slope change.',
-        },
-    ]
+    topics=pd.read_csv(TOPIC_PREPOST_CSV).merge(pd.read_csv(TOPIC_LABELS_CSV),on='topic')
+    topics=topics[~topics['mixed'].fillna(False).astype(bool)]
+    rise=topics.nlargest(1,'change').iloc[0]
+    fall=topics.nsmallest(1,'change').iloc[0]
+    outcome=pd.read_csv(TOPIC_OUTCOMES_CSV).set_index('topic').loc[rise.topic]
+    tone=pd.read_csv(TONE_CSV).query("tag=='ALL' and measure=='frustration'").iloc[0]
+    selected=pd.read_csv(TAGS_CSV).set_index('tag')
+    site=selected.loc['ALL']
+    bt=pd.read_csv(TS/'backtest_summary_matched.csv').query("model=='sarimax' and horizon==26").iloc[0]
+    comp=pd.read_csv(COMPLEXITY_CSV).query("tag=='ALL' and statistic=='median'").set_index('metric')
+    kw=pd.read_csv(KEYWORDS_CSV).query("tag_scope=='ALL' and direction=='rising'")
+    kw=kw[~kw.term.astype(str).str.contains(r'(?:^|\s)(?:numbertoken|pathtoken|urltoken)(?:\s|$)',regex=True)].nlargest(3,'z_score')
+    keyword_text='; '.join(f'{r.term} (z={r.z_score:.1f})' for r in kw.itertuples())
+    oai=matrix.set_index('tag').loc['openai-api']
+    steep=int(matrix.forecast_class.eq('steep decline').sum())
+    rows=[
+        dict(finding='Review workload by tag before changing resource allocation.',
+            time_series_evidence=f'{steep}/13 study tags meet the fixed steep-decline forecast threshold; ALL changes {site.change_26w_pct:+.1f}% at 26 weeks.',
+            text_mining_evidence=f'Global frustration-phrase share changes {tone.change*100:+.2f} pp (95% CI {tone.lower95*100:+.2f} to {tone.upper95*100:+.2f}).',
+            action='Compare question counts, queue age and observed moderation workload monthly; pilot allocation changes only after measuring demand.',
+            stakeholder='Q&A platform product team',kpi_to_track='Queue age and moderation hours per 1,000 questions',
+            caveat='No staffing or effort data were collected; declining traffic does not itself imply less moderation demand.'),
+        dict(finding='Test documentation topics suggested by changing vocabulary.',
+            time_series_evidence=f'ALL validation-selected 26-week forecast is {site.forecast_week26:.1f} questions/week versus {site.last_week_count:.0f} last observed.',
+            text_mining_evidence=f'Top global rising keywords: {keyword_text}.',
+            action='Inspect linked questions for these keywords and trial a documentation guide with an explicit success measure.',
+            stakeholder='DevRel teams',kpi_to_track='Guide use and repeat-question share before/after a controlled pilot',
+            caveat='Keyword shifts are proxies, may reflect technical-token artifacts and do not establish documentation need.'),
+        dict(finding='Pilot expert routing for a growing topic and measure resolution.',
+            time_series_evidence=f'Python ITS growth-rate shift is {matrix.set_index("tag").loc["python","its_slope_change_pct"]:+.2f}%/week after the fixed launch boundary.',
+            text_mining_evidence=f'{rise.final_name}: global share {rise.change*100:+.2f} pp; dominant-topic 7-day resolution {outcome.resolved_rate_7d:.1%} (n={int(outcome.n_questions):,}).',
+            action='Use a small expert-routing pilot and compare outcomes against a contemporaneous control queue.',
+            stakeholder='developer-forum managers',kpi_to_track='7-day resolution and median first-answer hours in pilot versus control',
+            caveat='Automatic topic labels are provisional. A gain in global share does not demonstrate difficulty or migration from AI tools.'),
+        dict(finding='Evaluate a clearer question template as an experiment.',
+            time_series_evidence=f'ALL projected 26-week volume change is {site.change_26w_pct:+.1f}%; no intervention effect is estimated.',
+            text_mining_evidence=f'Global weighted median prose changes {comp.loc["prose_words","change"]:+.0f} words and code {comp.loc["code_lines","change"]:+.0f} lines.',
+            action='Trial prompts for expected behaviour, minimal code and version details, with a control group.',
+            stakeholder='Q&A platform product team',kpi_to_track='Completion rate, question edits and 7-day resolution under random assignment',
+            caveat='Longer text is not proof of greater difficulty. VADER and frustration flags are weak exploratory signals and should not gate users.'),
+        dict(finding='Audit forecast calibration before setting automatic alerts.',
+            time_series_evidence=f'SARIMAX 26-week matched-origin 95% coverage is {bt.coverage95:.1%}; skill versus naive is {bt.skill_vs_naive:.1%}.',
+            text_mining_evidence=f'{fall.final_name} shows a global topic-share change of {fall.change*100:+.2f} pp.',
+            action='Track live forecast errors and recalibrate intervals before using them as operational alert thresholds.',
+            stakeholder='Q&A platform product team',kpi_to_track='Rolling 80/95% interval coverage and false-alert rate',
+            caveat='Current intervals under-cover; their nominal label must not be interpreted as verified reliability.'),
+        dict(finding='Monitor emerging tags without percentage classes from a zero baseline.',
+            time_series_evidence=f'openai-api ITS level shift {oai.its_level_change_pct:+.1f}%; growth-rate shift {oai.its_slope_change_pct:+.2f}%/week; class: {oai.forecast_class}.',
+            text_mining_evidence=f'openai-api within-tag topics: {oai.rising_topics}.',
+            action='Review absolute counts and linked topic examples monthly before proposing specialist routing.',
+            stakeholder='developer-forum managers',kpi_to_track='Absolute weekly questions and tag-specific resolution rate',
+            caveat='Sparse tags and automatic labels make interpretation uncertain; a level step is not a sustained growth trend.')]
     return pd.DataFrame(rows)
 
 
@@ -307,6 +241,7 @@ def main():
         'pre_post_boundary': {'pre': '<= 2022-10', 'transition': '2022-11..2022-12', 'post': '>= 2023-01'},
         'units': {
             'frustration_*': 'percentage points',
+            'its_slope_change_pct': 'percent change in weekly growth rate',
             'complexity_prose_words_change': 'words (median)',
             'complexity_code_lines_change': 'lines (median)',
             'complexity_version_flag_change': 'percentage points (mean share)',
@@ -314,7 +249,7 @@ def main():
         },
         'inputs': [str(p.relative_to(ROOT)) for p in (
             TAGS_CSV, ITS_CSV, TONE_CSV, COMPLEXITY_CSV, TOPIC_PREPOST_CSV,
-            TOPIC_LABELS_CSV, TOPIC_OUTCOMES_CSV, KEYWORDS_CSV, FORECASTS_CSV,
+            TOPIC_LABELS_CSV, TOPIC_OUTCOMES_CSV, TEXT/'topic_prepost_by_tag.csv', KEYWORDS_CSV, FORECASTS_CSV,
             MONTHLY_TAG_TABLES, SHAP_TOP_CSV)],
         'outputs': [str(OUT_MATRIX.relative_to(ROOT)), str(OUT_RECS.relative_to(ROOT))],
     })

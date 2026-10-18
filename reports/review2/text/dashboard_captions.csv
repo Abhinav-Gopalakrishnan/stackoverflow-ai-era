@@ -1,4 +1,6 @@
 chart,file,takeaway,caveat
-Tone and complexity,tone_complexity.png,Weighted question prose and code medians increased between pre and post periods.,"VADER against M3's single-human reference: accuracy 36.0%, macro-F1 0.344. Human–AI kappa 0.214; this is not two-human validation."
-Complexity intervals,complexity_prepost.csv,"Weighted median prose length changed from 76 to 89 words; difference 13, with 95% question-bootstrap interval [12, 13].",Question bootstrap retains survey weights; transition excluded.
-Frustration phrases,tone_prepost.csv,"The written frustration-phrase flag changed from 5.1% to 4.9%; this is a lexicon measure, not independently verified emotion.","Lexicon flags are imperfect proxies, not diagnosed emotion."
+Topic model comparison,topic_model_selection.png,"Measured selection: NMF k=15; document NPMI -0.0270, diversity 0.735, three-seed stability 0.788.",Document NPMI; three seeds; no human naming agreement.
+Topic shifts,topic_prepost_by_tag.csv,"Use actual weighted within-tag changes with 1,000-resample confidence intervals.","Automatic names; observed associations, not destination traffic."
+Tone and complexity,tone_complexity.png,VADER accuracy 36.0% against one human reference.,Weak sentiment validity; technical phrasing and one-rater subjectivity.
+Frustration phrases,tone_prepost.csv,Compare phrase shares with their confidence intervals.,Phrase flags are not independently validated emotions.
+Complexity intervals,complexity_prepost.csv,Compare weighted medians/means under fixed pre/post periods.,Reading ease is imperfect for technical prose.

@@ -1,10 +1,12 @@
 {
-  "status": "complete_ai_assisted",
-  "topics": 10,
+  "status": "automatic_descriptions_not_human_validation",
+  "topics": 15,
+  "model_fingerprint": "cc9e6a857d7fbc3f4435b8f4dd1f21e3b32f614205729df0ae4cc1883b1c15bb",
   "human_m2_names": 0,
-  "ai_names": 10,
-  "interpretation": "AI naming and qualitative comparison with M4-provided names",
+  "human_m4_names": 0,
+  "ai_names": 0,
   "original_two_human_requirement_complete": false,
   "human_naming_agreement": null,
-  "limitation": "AI names are disclosed assistance, not independent human M2 labels. M4 names were visible during the earlier repository audit; the topic comparison is not blind or a human agreement estimate."
+  "interpretation": "Automatic descriptions derived from current top terms; old model AI names archived",
+  "limitation": "No independent human naming agreement. IDs and archived names from the previous model are not transferable."
 }

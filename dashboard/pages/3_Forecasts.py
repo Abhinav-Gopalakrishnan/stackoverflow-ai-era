@@ -14,9 +14,9 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 
 st.set_page_config(
     page_title="Page 3: Forecasts to Feb 2027",
@@ -25,7 +25,8 @@ st.set_page_config(
 )
 
 # Render global sidebar
-filters = render_sidebar()
+filters = render_sidebar(observations=False, log=False, events=False)
+st.caption("These are saved full-period fits and comparisons. Observation-window controls are disabled; use the page controls below.")
 
 st.title("Page 3: Demand Forecasts to February 2027")
 st.markdown(
@@ -44,22 +45,8 @@ backtest_metrics = load_data("backtest_metrics_matched.csv")
 captions_df = load_data("ts_captions.csv")
 
 # Tag selector
-default_tag = (
-    st.session_state["selected_tags"][0]
-    if st.session_state.get("selected_tags") and st.session_state["selected_tags"][0] in ALL_TAGS
-    else "ALL"
-)
-col_tag, col_badge = st.columns([2, 3])
-with col_tag:
-    selected_tag = st.selectbox(
-        "Select Technology Tag:",
-        options=ALL_TAGS,
-        index=ALL_TAGS.index(default_tag),
-        key="page3_tag_selector",
-    )
-    if selected_tag not in st.session_state["selected_tags"]:
-        st.session_state["selected_tags"] = [selected_tag]
-
+selected_tag = focus_tag(filters, 'page3_tag_selector', 'Select Technology Tag:')
+col_badge = st.container()
 # Tag class badge
 tag_class_row = tag_classes_df[tag_classes_df["tag"] == selected_tag]
 with col_badge:
@@ -68,7 +55,7 @@ with col_badge:
         st.markdown(f"**Trajectory Classification for `{selected_tag}`:**")
         b1, b2, b3 = st.columns(3)
         b1.info(f"Class: **{r['forecast_class'].title()}**")
-        b2.metric("26w Forecast Drift", f"{r['change_26w_pct']:+.1f}%")
+        b2.metric("26w Forecast Drift", f"{r['change_26w_pct']:+.1f}%" if pd.notna(r["change_26w_pct"]) else "Undefined: zero baseline")
         half_life = f"{r['half_life_weeks']:.1f} wks" if not np.isnan(r["half_life_weeks"]) else "Indeterminate"
         b3.metric("Half-Life", half_life)
 
@@ -77,7 +64,9 @@ st.divider()
 # Controls row: model picker, horizon slider, band toggle
 tag_forecasts = forecasts_df[forecasts_df["tag"] == selected_tag]
 available_models = sorted(tag_forecasts["model"].unique().tolist())
-default_model = "sarimax" if "sarimax" in available_models else available_models[0]
+default_model = str(tag_class_row.iloc[0].selected_model) if not tag_class_row.empty else available_models[0]
+if default_model not in available_models: default_model = available_models[0]
+st.caption(f"Validation-selected model: {default_model}. The trajectory class uses that model even if you explore another model below.")
 
 c_model, c_horiz, c_bands = st.columns([2, 2, 2])
 with c_model:
@@ -110,11 +99,11 @@ hist_recent = hist_series.tail(104)
 if not selected_fc.empty:
     end_val = selected_fc["pred"].iloc[-1]
     start_val = hist_series["count"].iloc[-1]
-    chg_pct = ((end_val - start_val) / start_val) * 100.0 if start_val > 0 else 0.0
+    chg_pct = ((end_val - start_val) / start_val) * 100.0 if start_val > 0 else np.nan
     direction = "decline" if chg_pct < 0 else "increase"
     takeaway_title = (
-        f"{model_choice.upper()} 26-Week Forecast for {selected_tag}: "
-        f"{abs(chg_pct):.1f}% {direction} to February 2027 "
+        f"{model_choice.upper()} {horizon_max}-Week Forecast for {selected_tag}: " +
+        (f"{abs(chg_pct):.1f}% {direction} " if pd.notna(chg_pct) else "Percentage change undefined (zero baseline) ") +
         f"({int(round(end_val))} questions vs {int(round(start_val))} observed)"
     )
 else:
@@ -180,7 +169,7 @@ if not selected_fc.empty:
     )
 
 fig_fc.update_layout(
-    title=dict(text=f"<b>{takeaway_title}</b>", font=dict(size=15, color="#1F2937")),
+    title=dict(text=f"<b>{selected_tag}: {model_choice} forecast, {horizon_max} weeks</b>", font=dict(size=15, color="#1F2937")),
     xaxis=dict(title="Week", showgrid=True, gridcolor="#E5E7EB"),
     yaxis=dict(title="Weekly Questions", showgrid=True, gridcolor="#E5E7EB"),
     height=480,
@@ -190,7 +179,8 @@ fig_fc.update_layout(
     margin=dict(l=40, r=40, t=60, b=40),
 )
 
-st.plotly_chart(fig_fc, use_container_width=True)
+st.plotly_chart(fig_fc, width='stretch')
+st.caption(takeaway_title)
 
 # Owner caption from ts_captions.csv
 fan_caption = captions_df[captions_df["chart"] == "Forecast fan"]
@@ -219,10 +209,10 @@ if not tag_bm.empty:
     display_bm["skill_vs_naive"] = (display_bm["skill_vs_naive"] * 100).round(1).astype(str) + "%"
     display_bm["coverage80"] = (display_bm["coverage80"] * 100).round(1).astype(str) + "%"
     display_bm["coverage95"] = (display_bm["coverage95"] * 100).round(1).astype(str) + "%"
-    st.dataframe(display_bm, use_container_width=True)
+    st.dataframe(display_bm, width='stretch')
 else:
     st.info("Global matched summary across 14 series:")
-    st.dataframe(backtest_summary, use_container_width=True)
+    st.dataframe(backtest_summary, width='stretch')
 
 # Owner caption for backtest skill
 skill_caption = captions_df[captions_df["chart"] == "Backtest skill"]

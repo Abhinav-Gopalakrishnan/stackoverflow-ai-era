@@ -344,6 +344,35 @@ EXPORT_SPECS = {
     },
 }
 
+EXPORT_SPECS['monthly_rates_masked.csv']['src'] = ROOT/'reports/review2/dataset/monthly_rates_with_all.csv'
+
+# Preserve current inference fields and transparent annotation provenance.
+EXPORT_SPECS['tag_classes.csv']['columns'] += [
+    'its_slope_ci_lo', 'its_slope_ci_hi', 'its_slope_p',
+    'post2023_share_pct', 'share_change_pp', 'share_trend']
+EXPORT_SPECS['tone_validation.csv']['columns'] += [
+    'reference', 'label_m2', 'label_m3', 'label_ai', 'ai_human_kappa',
+    'ai_human_agreement', 'human_human_kappa',
+    'original_two_human_requirement_complete', 'limitation']
+EXPORT_SPECS['topic_labels.csv']['columns'] += ['label_source', 'mixed']
+EXPORT_SPECS['topic_monthly_share.csv']['columns'] += ['low_sample']
+EXPORT_SPECS['topic_prepost.csv']['columns'] += ['n_pre','n_post']
+for name in ('topic_monthly_share', 'topic_prepost', 'topic_outcomes'):
+    EXPORT_SPECS[name + '_by_tag.csv'] = {
+        'src': ROOT / 'reports/review2/text' / (name + '_by_tag.csv'),
+        'columns': ['tag'] + EXPORT_SPECS[name + '.csv']['columns']}
+EXPORT_SPECS['topic_model_selection.csv'] = {'src': ROOT/'reports/review2/text/topic_model_selection.csv',
+    'columns':['model_family','k','coherence_npmi','coherence_sd','diversity','stability','reconstruction_error','satisfies_rule','fit_seconds','seeds','training_rows','reference_rows','warning_runs']}
+EXPORT_SPECS['tone_confusion.csv'] = {'src':ROOT/'reports/review2/text/tone_confusion.csv',
+    'columns':['actual','negative','neutral','positive']}
+
+EXPORT_SPECS['dataset_validation.csv'] = {'src':ROOT/'reports/review2/dataset/dataset_validation.csv','columns':['file', 'rows', 'columns', 'bytes', 'sha256', 'date_min', 'date_max', 'weight_min', 'weight_max', 'missing_account_age_flagged', 'body_truncated_flagged', 'all_passed', 'availability', 'license']}
+EXPORT_SPECS['dataset_schema.csv'] = {'src':ROOT/'reports/review2/dataset/dataset_schema.csv','columns':['column', 'dtype', 'missing', 'description_source']}
+EXPORT_SPECS['final_dataset_sample.csv'] = {'src':ROOT/'reports/review2/dataset/final_dataset_sample.csv','columns':['question_id', 'title', 'created_at', 'sampling_weight', 'n_code_blocks', 'code_ratio', 'has_error_text', 'target_resolved_7d', 'target_answered_7d', 'link']}
+for name, source_name in [('classifier_validation','model_comparison_val'), ('classifier_test','test_metrics')]:
+    source = ROOT / 'reports/review1/m5' / (source_name + '.csv')
+    EXPORT_SPECS[name + '.csv'] = {'src': source, 'columns': ['model','n','positive_rate','threshold','precision','recall','f1','pr_auc','roc_auc','capture_rate_20']}
+
 
 def export_all():
     DATA_DIR.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "checks": [
+    "37 shipped CSV exports equal their current sources; 2744763 bytes; no forbidden fields",
+    "Final dataset: 302026 unique rows, 39 columns, eight checks pass; 40 sanitized linked samples",
+    "Measured topic grid and current automatic naming provenance are consistent",
+    "AI annotations remain separate from human labels and adjudication",
+    "Genuinely executed notebooks without errors: {'review2_main': 17, '07_timeseries': 7, '08_text_mining': 7}",
+    "Report: 8 pages, 6 embedded images, no TODO markers; five member contributions present"
+  ],
+  "notebooks": {
+    "review2_main": 17,
+    "07_timeseries": 7,
+    "08_text_mining": 7
+  },
+  "pdf_pages": 8,
+  "pdf_images": 6,
+  "checked_utc": "2026-10-18T16:38:42.932244+00:00",
+  "pytest": {
+    "passed": 147,
+    "warnings": 5,
+    "seconds": 31.76,
+    "mode": "Entire suite in isolated repository copy; collection tests use a dummy key and mocked calls"
+  },
+  "fresh_application": {
+    "pages_passed": 7,
+    "mode": "Isolated minimal dependency environment, no full-data parquet inputs; a separate seven-page check also passed with STACK_API_KEY unset"
+  },
+  "browser": {
+    "desktop_pages": 7,
+    "mobile_viewport": [
+      390,
+      844
+    ],
+    "screenshots": "reports/review2/dashboard_screenshots/"
+  },
+  "visual_review": {
+    "report_pages_inspected": 8,
+    "embedded_figures": 6,
+    "member4_reference_slides_inspected": 2
+  },
+  "topic_artifact_check": "Selected NMF k=15; threshold fallback=False\nPASS: 12 measured candidates, 36 seed fits, disjoint split, 302,026 transformed IDs, 15 topics, 14 tag groups, bootstrap and global/tag consistency.",
+  "runtime": {
+    "python": "3.14.8",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scikit-learn": "1.9.1",
+      "streamlit": "1.65.0",
+      "plotly": "7.1.0",
+      "weasyprint": "70.0"
+    }
+  },
+  "remaining": [
+    "New final team presentation and rehearsal/live demonstration",
+    "Original two-human annotation protocol remains unmet and disclosed in issue126"
+  ]
+}

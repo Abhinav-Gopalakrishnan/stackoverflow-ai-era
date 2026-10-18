@@ -91,6 +91,16 @@ def summarize_tone(sheet_path=None):
 
 def summarize_topics():
     names = pd.read_csv(TEXT / 'topic_labels.csv')
+    model_status = json.loads((TEXT/'topics_status.json').read_text())
+    if 'label_source' in names and names.label_source.eq('automatic top-term rules').all():
+        result = dict(status='automatic_descriptions_not_human_validation', topics=len(names),
+            model_fingerprint=model_status['fingerprint'], human_m2_names=int(names.name_m2.notna().sum()),
+            human_m4_names=int(names.name_m4.notna().sum()), ai_names=0,
+            original_two_human_requirement_complete=False, human_naming_agreement=None,
+            interpretation='Automatic descriptions derived from current top terms; old model AI names archived',
+            limitation='No independent human naming agreement. IDs and archived names from the previous model are not transferable.')
+        write_json(TEXT/'topic_naming_status.json',result)
+        return result
     ai = pd.read_csv(TEXT / 'topic_ai_annotations.csv')
     if not names.topic.is_unique or not ai.topic.is_unique or set(names.topic) != set(ai.topic):
         raise ValueError('AI topic IDs must exactly match the supplied topic model')

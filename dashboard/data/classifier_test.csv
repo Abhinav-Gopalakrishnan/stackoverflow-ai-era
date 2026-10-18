@@ -1,0 +1,2 @@
+model,n,positive_rate,threshold,precision,recall,f1,pr_auc,roc_auc,capture_rate_20
+xgboost,16695,0.2969,0.3669,0.3626,0.7712,0.4933,0.4315,0.6548,0.2415

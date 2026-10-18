@@ -1,9 +1,9 @@
-# Member 4: Topic Modeling & Keyword Shift Findings
+# Topics and keywords — corrected findings
 
-- **Model Selection & Semantic Quality**: NMF $k=10$ won under the pre-registered decision rule, achieving the highest NPMI coherence (+0.2175 on 20,000 held-out validation questions), 0.8000 topic diversity, and 1.0000 multi-seed stability. LDA failed semantic stability ($\le 0.28$) and yielded negative coherence ($-0.20$ to $-0.38$), proving NMF's superiority on sparse technical documents.
-- **Offloading Routine Coding to AI**: Core syntax and basic data structures (Topic 8: arrays, loops, strings) dropped by **-16.96% relative community share** (pre: 20.49% to post: 17.02%, 95% bootstrap CI `[-0.0375, -0.0324]`). Pandas dataframe basic manipulation (Topic 1) similarly fell by **-10.74% relative share**, consistent with developers shifting simple lookups to AI assistants.
-- **Persistence of Complex DevOps & Runtime Issues**: Docker containerization and cloud deployment (Topic 7) experienced a **+27.69% relative surge in share** (pre: 5.37% to post: 6.86%, 95% bootstrap CI `[+0.0131, +0.0167]`). Python runtime errors and execution exceptions (Topic 0) rose by **+14.80% relative share**, demonstrating that complex multi-environment problems still require human expertise.
-- **Resolution Bottle-necks for Emerging Topics**: While routine syntax questions resolve rapidly (58.64% 7-day resolution, median 0.32 hours to first answer), surging DevOps and build topics suffer severe resolution bottlenecks (Docker: 34.19% resolution, 1.95 hours to answer; Android builds: 29.69% resolution, 2.13 hours to answer). This directly justifies platform expert routing queues.
-- **Vocabulary Evolution (Monroe Log-Odds)**: Statistical keyword shift using Dirichlet priors shows monumental growth in modern tooling and orchestration (`nextjs` $z=126.7$, `vite` $z=115.2$, `version` $z=102.2$, `fastapi` $z=89.1$, `docker` $z=83.6$, `openai` $z=77.3$) alongside steep declines in elementary programming concepts (`array` $z=-129.4$, `list` $z=-96.6$, `loop` $z=-79.1$, `jquery` $z=-68.8$).
-
-*Note: In accordance with project integrity standards, all findings denote observational associations consistent with AI adoption, not causal proof.*
+- Measured selection: NMF k=15; document NPMI -0.0270, diversity 0.735, three-seed stability 0.788.
+- Both families use 75,814 identical training IDs, a shared vocabulary and 20,000 disjoint reference questions. Document NPMI is explicitly different from sliding-window c_npmi.
+- Transformed 302,026 questions; 0 zero-vocabulary records have no assigned topic.
+- Names are automatic top-term descriptions; independent human naming agreement is unavailable. Old model IDs/names are archived.
+- Largest decreases: T8 Arrays and object manipulation: -1.80 pp (95% CI -1.96 to -1.66); T13 Collections and programming operations: -1.66 pp (95% CI -1.83 to -1.49); T1 Dataframe rows and columns: -1.04 pp (95% CI -1.24 to -0.81)
+- Largest increases: T12 Docker containers and images: +1.28 pp (95% CI +1.13 to +1.43); T9 Android development and builds: +1.06 pp (95% CI +0.88 to +1.23); T11 API requests and responses: +0.86 pp (95% CI +0.68 to +1.05)
+- These are changes within the observed collection. They do not demonstrate AI offloading, topic difficulty or causal effects. Keyword rankings remain a separate saved analysis.

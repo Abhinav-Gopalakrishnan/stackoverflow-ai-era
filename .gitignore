@@ -48,3 +48,10 @@ reports/review2/final_report.html
 
 # Presentations (large slide decks)
 presentations/*.pptx
+
+# Per-question topic scores and learned models are reproducible private artifacts
+data/processed/question_topics_v2.parquet
+
+# Local evaluator ZIPs and optional separate full-dataset bundle
+submission/
+.venv-dashboard/

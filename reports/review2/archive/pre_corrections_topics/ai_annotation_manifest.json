@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-10-17T13:09:15.886928+00:00",
+  "annotator": "Codex AI assistant",
+  "human_annotation": false,
+  "questions": 200,
+  "topics": 10,
+  "tone_inputs": "Full locally collected title and prose for all 200 original sample IDs; code excluded.",
+  "tone_blinding": "Individual M3 labels and VADER predictions were excluded from the annotation view. Aggregate M3 counts had been observed in the repository audit.",
+  "topic_blinding": "Not blind: M4-provided names were visible during the prior audit. Names use all 15 terms and all 10 supplied example titles per topic.",
+  "tone_rule": "Negative: expressed frustration, distress or personal struggle; positive: expressed optimism, praise, satisfaction or actual gratitude; neutral: factual technical requests/failures. Technical error vocabulary and conventional courtesy alone are neutral. In mixed cases sustained frustration outweighs a closing thanks.",
+  "limitations": [
+    "Subjective AI interpretation; no guarantee of label correctness.",
+    "Not a replacement for the original plan requirement of two independent human raters.",
+    "No AI-authored label is copied into label_m2, label_m3 or agreed_tone.",
+    "Topic names are interpretive proposals; topic 2 remains mixed."
+  ],
+  "tone_annotations_sha256": "323267f6fd2e03208247db6a243bbd2268b059c68554fea100d6a545087868fc"
+}

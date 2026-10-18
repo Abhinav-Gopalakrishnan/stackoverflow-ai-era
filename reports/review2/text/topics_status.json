@@ -1,13 +1,25 @@
 {
   "status": "complete",
-  "k": 10,
+  "k": 15,
   "model_family": "NMF",
-  "topics_count": 10,
+  "topics_count": 15,
+  "corpus_rows": 302026,
+  "training_rows": 75814,
+  "reference_rows": 20000,
+  "zero_projection_documents": 0,
+  "fingerprint": "cc9e6a857d7fbc3f4435b8f4dd1f21e3b32f614205729df0ae4cc1883b1c15bb",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "selected_export_seed": 42,
+  "label_source": "automatic term rules; no human naming agreement claimed",
   "top_terms_file": "topics_top_terms.csv",
   "examples_file": "topic_examples.csv",
   "labels_file": "topic_labels.csv",
   "monthly_share_file": "topic_monthly_share.csv",
   "prepost_file": "topic_prepost.csv",
   "outcomes_file": "topic_outcomes.csv",
-  "timestamp": "2026-10-11 15:34:13"
+  "completed_utc": "2026-10-18T16:28:16.698884+00:00"
 }

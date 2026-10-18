@@ -13,9 +13,9 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 
 st.set_page_config(
     page_title="Page 6: Recommendations",
@@ -24,7 +24,8 @@ st.set_page_config(
 )
 
 # Render global sidebar
-filters = render_sidebar()
+filters = render_sidebar(observations=False, log=False, events=False)
+st.caption("These are saved full-period fits and comparisons. Observation-window controls are disabled; use the page controls below.")
 
 st.title("Page 6: Strategic Recommendations")
 st.markdown(
@@ -56,20 +57,7 @@ if not sel_stakeholders:
 recs_filtered = recs[recs["stakeholder"].isin(sel_stakeholders)].copy()
 
 # Tag selector (synced with session_state for cross-page linking)
-default_tag = (
-    st.session_state["selected_tags"][0]
-    if st.session_state.get("selected_tags") and st.session_state["selected_tags"][0] in ALL_TAGS
-    else "ALL"
-)
-selected_tag = st.selectbox(
-    "Focus Technology Tag (for insight matrix below):",
-    options=ALL_TAGS,
-    index=ALL_TAGS.index(default_tag),
-    key="page6_tag_selector",
-)
-if selected_tag not in st.session_state["selected_tags"]:
-    st.session_state["selected_tags"] = [selected_tag]
-
+selected_tag = focus_tag(filters, 'page6_tag_selector')
 st.divider()
 
 # =============================================================
@@ -134,7 +122,7 @@ st.markdown(
 )
 
 # Highlight selected tag row
-insight_display = insight.copy()
+insight_display = insight.copy() if selected_tag == "ALL" else insight[insight.tag == selected_tag].copy()
 
 # Define readable column groups
 TS_COLS = ["tag", "forecast_class", "change_26w_pct", "half_life_weeks", "load_index_vs_2025"]
@@ -217,11 +205,11 @@ if not tag_row.empty:
         st.metric("26-Week Change", f"{change_26:.1f}%" if pd.notna(change_26) else "N/A")
     with col_s3:
         slope = tr["its_slope_change_pct"]
-        st.metric("ITS Slope Change", f"{slope:+.1f}%" if pd.notna(slope) else "N/A")
+        st.metric("ITS Growth-Rate Shift (%/week)", f"{slope:+.1f}%" if pd.notna(slope) else "N/A")
     with col_s4:
         frust = tr["frustration_change"]
         st.metric("Frustration Δ (pp)",
-                  f"{frust * 100:+.1f}" if pd.notna(frust) else "N/A")
+                  f"{frust:+.1f}" if pd.notna(frust) else "N/A")
 
     # Evidence narrative
     rising = tr["rising_topics"] if pd.notna(tr["rising_topics"]) else "—"
@@ -235,4 +223,4 @@ if not tag_row.empty:
         f"**Version flag change:** {tr['complexity_version_flag_change']:+.2f}"
     )
 else:
-    st.info(f"No insight matrix entry for '{selected_tag}'.")
+    st.info("ALL displays all 13 study tags above. Select a technology to see its summary.")

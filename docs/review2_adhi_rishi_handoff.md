@@ -1,3 +1,5 @@
+> Historical handoff/audit snapshot. Current status and corrections evidence: `reports/review2/readiness_checklist.md`, `verification.json` and `board_audit_corrections.json`.
+
 # Review 2: Adhikkesh and Rishiikesh execution and handoff
 
 Publish Rishiikesh's work first on `m2/review2-text-mining`. After his PRs are merged, publish Adhikkesh's work on `m5/review2-forecasting`, created from updated main. No commits or staged changes are created by the implementation scripts; each member's file groups are kept separate.

@@ -1,5 +1,5 @@
 {
-  "owner": "M5 Adhikkesh",
+  "owner": "M3/M5",
   "schemas": {
     "backtest_winners.csv": [
       "tag",
@@ -311,5 +311,5 @@
   },
   "captions_file": "dashboard_captions.csv",
   "full_parquet_not_for_dashboard": true,
-  "license": "CC BY-SA 4.0; question examples are title + original link only"
+  "license": "CC BY-SA 4.0 title-only examples and canonical links"
 }

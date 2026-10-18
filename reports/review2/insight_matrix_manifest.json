@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-14T11:11:43+00:00",
+  "generated_utc": "2026-10-18T16:36:17+00:00",
   "rows": 13,
   "tags": [
     "android",
@@ -23,6 +23,7 @@
   },
   "units": {
     "frustration_*": "percentage points",
+    "its_slope_change_pct": "percent change in weekly growth rate",
     "complexity_prose_words_change": "words (median)",
     "complexity_code_lines_change": "lines (median)",
     "complexity_version_flag_change": "percentage points (mean share)",
@@ -36,6 +37,7 @@
     "reports/review2/text/topic_prepost.csv",
     "reports/review2/text/topic_labels.csv",
     "reports/review2/text/topic_outcomes.csv",
+    "reports/review2/text/topic_prepost_by_tag.csv",
     "reports/review2/text/keywords_prepost.csv",
     "reports/review2/ts/forecasts_26w.csv",
     "data/processed/monthly_tag_tables.csv",

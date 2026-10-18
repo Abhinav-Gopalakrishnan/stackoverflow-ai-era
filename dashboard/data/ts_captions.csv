@@ -1,4 +1,4 @@
 chart,file,takeaway,caveat
 Forecast fan,forecast_ALL.png,"The validation-selected site model is sarimax; its week-26 median is 134.2 questions versus 215 in the last observed week (-37.6%). Forecasts end February 23, 2027.",Prediction intervals are uncertain and empirical coverage is below nominal.
 Backtest skill,backtest_skill.png,"On matched origins, SARIMAX's mean 26-week skill versus naive is 55.9%; this is a retrospective model-family comparison, not a new selection from test results.",Identical successful origins; nonconverged fits are explicitly reported.
-Tag classes,tag_classes.csv,Compare forecast decline against each tag’s last observed count.,Zero baseline tags have no defined percent change; ITS inputs pending.
+Tag classes,tag_classes.csv,Compare forecast decline against each tag’s last observed count.,Zero baseline tags have no defined percent change; ITS slope estimates and relative shares integrated.

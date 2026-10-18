@@ -1,0 +1,16 @@
+topic,suggested_name,top_terms,source,mixed
+0,Python errors and package execution,"error, python, code, run, function, follow, message, package, script, version, module, line, import, error message, instal",automatic top-term rules; not human labels,False
+1,Dataframe rows and columns,"column, dataframe, value, row, panda, datum, like, value column, panda dataframe, frame, group, cell, output, new, new column",automatic top-term rules; not human labels,False
+2,Mixed numerical tables and calculations,"numbertoken, numbertoken numbertoken, date, year, month, day, time, number, date numbertoken, format, calculate, result, value numbertoken, sum, value",automatic top-term rules; not human labels,True
+3,User-interface events and elements,"button, click, page, html, text, code, change, user, element, javascript, input, event, add, select, click button",automatic top-term rules; not human labels,False
+4,SQL queries and tables,"table, query, sql, row, database, join, record, datum, filter, result, date, table table, select, create, insert",automatic top-term rules; not human labels,False
+5,React components and state,"component, react, render, js, state, child, prop, react native, native, hook, parent, update, react component, app, pass",automatic top-term rules; not human labels,False
+6,Files and data import/export,"file, csv, folder, read, excel, csv file, directory, json, save, import, path, download, upload, excel file, js",automatic top-term rules; not human labels,False
+7,"Mixed plotting, images and screenshot boilerplate","image, plot, display, image description, enter image, description, enter, size, upload, color, code, axis, background, like, load",automatic top-term rules; not human labels,True
+8,Arrays and object manipulation,"array, object, value, function, return, array object, element, numpy, key, javascript, json, loop, string, variable, array array",automatic top-term rules; not human labels,False
+9,Android development and builds,"android, app, build, studio, device, android studio, gradle, project, version, flutter, google, native, java, android app, screen",automatic top-term rules; not human labels,False
+10,Power BI measures and tables,"power, bi, power bi, date, report, measure, month, filter, dax, datum, chart, visual, slicer, day, bi report",automatic top-term rules; not human labels,False
+11,API requests and responses,"request, api, datum, send, server, response, fastapi, user, post, client, token, json, model, endpoint, url",automatic top-term rules; not human labels,False
+12,Docker containers and images,"docker, container, run, compose, docker compose, docker container, dockerfile, command, build, server, host, connect, port, application, service",automatic top-term rules; not human labels,False
+13,Collections and programming operations,"list, string, item, element, number, dictionary, list list, loop, output, like, python, word, print, return, contain",automatic top-term rules; not human labels,False
+14,Java classes and methods,"class, method, java, type, test, object, spring, like, create, instance, way, boot, spring boot, parameter, add",automatic top-term rules; not human labels,False

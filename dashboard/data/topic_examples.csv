@@ -1,101 +1,151 @@
 topic,title,link
-0,How to fix an error in running rbokeh package?,https://stackoverflow.com/q/79262621
-0,Pyqt5 WebEngineWidgets Requested OpenGL implementation is not supported. Implementation,https://stackoverflow.com/q/62357392
-0,Issue with gpt 3.5 Turbo while putting my API key in a basic code,https://stackoverflow.com/q/77006420
-0,"Airflow installation error:""python setup.py egg_info"" failed with error code 1""",https://stackoverflow.com/q/58213521
-0,Tensorflow mirrored strategy error: Non-OK-status: GpuLaunchKernel( SwapDimension1And2InTensor3UsingTiles),https://stackoverflow.com/q/69957376
-0,how do I get a detailed Plsql Error review,https://stackoverflow.com/q/76050189
-0,Langchain's AzureOpenAI error: Resource not found,https://stackoverflow.com/q/76050070
-0,Getting 403 Access Forbidden error in Tweepy,https://stackoverflow.com/q/70963075
-0,moto @mock_ec2 got error ImportError: cannot import name 'DictLoader'?,https://stackoverflow.com/q/70963005
-0,Run time error related to main method error,https://stackoverflow.com/q/79671742
-1,Dropping rows whose row sum = zero keeping the original structure same,https://stackoverflow.com/q/79384848
-1,Cut/copy/paste alternate cell rows onto the next column & delete empty rows after,https://stackoverflow.com/q/54070335
-1,Convert a DataFrame of 2 columns into a dict ColA -> ColB,https://stackoverflow.com/q/77929049
-1,Splitting a column into multiple columns,https://stackoverflow.com/q/68178067
-1,Pandas merge two series to a dataframe jointly,https://stackoverflow.com/q/68180837
-1,dataframe match column,https://stackoverflow.com/q/68240571
-1,Identify the smallest subset of columns that uniquely identifies the rows of a pandas DataFrame,https://stackoverflow.com/q/68250834
-1,Drop duplicate rows from a dataframe based on condition,https://stackoverflow.com/q/77842040
-1,How to flat a string to several columns in pandas?,https://stackoverflow.com/q/68254086
-1,Is there a way to sort a pandas dataframe by column of numerical strings?,https://stackoverflow.com/q/62914701
-2,Grouping of records in case values are null,https://stackoverflow.com/q/79824640
-2,Find a list of users with the same set of permission groups,https://stackoverflow.com/q/75610285
-2,Pandas - Optimizing dataframe multiple conditions reverse nested loop,https://stackoverflow.com/q/68181480
-2,Calculate difference between time over midnight and condition,https://stackoverflow.com/q/68133528
-2,Breitung-Candelon's Granger Causality in R,https://stackoverflow.com/q/63119341
-2,Adding unique ID to calculate duration of the status per status and ID but with multiple duplicate statuses occurring during the day,https://stackoverflow.com/q/75434825
-2,Creating groupings based on criteria,https://stackoverflow.com/q/71243273
+0,Error while trying to run a discord bot (python),https://stackoverflow.com/q/54432531
+0,I can't install this repository,https://stackoverflow.com/q/66194406
+0,"Issue with getting robust SEs using Sandwich, merDeriv and glmer of lme4",https://stackoverflow.com/q/72621271
+0,Errrors while installing NLTK,https://stackoverflow.com/q/62040993
+0,How to solve this error of downloading pyautogui library?,https://stackoverflow.com/q/63621131
+0,IndentationError: unexpected indent Python 3 Error,https://stackoverflow.com/q/63643457
+0,"Warning: NAs introduced by coercionWarning: predictions failed for Fold1: alpha=0, lambda=1 Error in h(simpleError(msg, call)) :",https://stackoverflow.com/q/74062125
+0,why I am getting this error even though I have installed openai?,https://stackoverflow.com/q/74291048
+0,i need to resolve error highlighted in my question,https://stackoverflow.com/q/70917764
+0,R: Error in py_initialize() while using Reticulate package,https://stackoverflow.com/q/74055242
+1,Finding a value of a dataset in different ones,https://stackoverflow.com/q/79489698
+1,Classifying column in data.frame based on vectors,https://stackoverflow.com/q/54076339
+1,Create column based on distinctive sets of multiple row values,https://stackoverflow.com/q/70503798
+1,Vectorialised column addition,https://stackoverflow.com/q/70502165
+1,Duplicate column A element if designated column is not null,https://stackoverflow.com/q/62909740
+1,How to slice n rows and append these at the end of dataframe by given n in a column,https://stackoverflow.com/q/70511328
+1,How to create a Data frame with n columns,https://stackoverflow.com/q/70508537
+1,Excel formula to find the last occurrence value,https://stackoverflow.com/q/78470264
+1,determine which columns are equal after pandas merge betwen two dataframes,https://stackoverflow.com/q/79238610
+1,How to delete rows which has nan or empty value in SPECIFIC column?,https://stackoverflow.com/q/73633777
+2,Calculate Diagonal Values By Two Dates and Prepare Matrix in PowerBI,https://stackoverflow.com/q/77961735
+2,Using Lag on date logged in data to work out time between logins,https://stackoverflow.com/q/64942593
 2,How to compare row with previous row to detect changes?,https://stackoverflow.com/q/76499602
-2,How to express a range over multiple columns with hierarchic relation?,https://stackoverflow.com/q/68136233
-2,Comparing 4 variables in one graph using Python,https://stackoverflow.com/q/78936643
-3,hide and show a divs on button clicks using jquery,https://stackoverflow.com/q/70927733
-3,Leave bottom layout button hidden when adjustResize is used within a scroll view,https://stackoverflow.com/q/71125428
-3,How can I change icon of the custom stock-tool button on click event?,https://stackoverflow.com/q/64788985
-3,Module naming overlaps,https://stackoverflow.com/q/64810310
-3,The option button does not switch on and off by changing the pull-down content,https://stackoverflow.com/q/72283968
-3,How do I click on 2nd html element which is a duplicate of first element using selenium and python?,https://stackoverflow.com/q/58156091
-3,"Selenium Webdriver, clicking a button not working",https://stackoverflow.com/q/56151821
-3,How to use enter button from keyboard as submit,https://stackoverflow.com/q/59497588
-3,Getting to the next button chain,https://stackoverflow.com/q/59516134
-3,html5 hide all div and show one on button click,https://stackoverflow.com/q/55151553
-4,is there any way to convert my mysql query into power bi dax?,https://stackoverflow.com/q/57051655
+2,"problem 8 project euler ,Can anyone explain to me?",https://stackoverflow.com/q/64264198
+2,SQL row-wise comparison within group,https://stackoverflow.com/q/79595325
+2,How to read Text file with multi delimiter and arrange the columns accordingly in pandas,https://stackoverflow.com/q/56052694
+2,Assign Same Value to All Months of the Year in DAX,https://stackoverflow.com/q/77872268
+2,How to add a counter based on dates?,https://stackoverflow.com/q/78041316
+2,Changing Dataframes in Python Pandas,https://stackoverflow.com/q/72944765
+2,Get a line chart of Portfolio Value over Time by using historic data from a different table,https://stackoverflow.com/q/77841981
+3,How to open new modal when add radio button validation and submit it JavaScript?,https://stackoverflow.com/q/71349534
+3,Material-UI progress/spinner,https://stackoverflow.com/q/67043645
+3,I am needing a paypal button to replace a submit button. Right now i have both and it is weird,https://stackoverflow.com/q/67453015
+3,Tooltip with click button to close -Leaflet,https://stackoverflow.com/q/63613198
+3,Adding a event listener for a click search button as well as the enter button,https://stackoverflow.com/q/64741305
+3,Jquery - Triggering click on mouseenter on div and unclick if clicked on any other button,https://stackoverflow.com/q/54836383
+3,How to create an overlay on click of a button?,https://stackoverflow.com/q/55878979
+3,Targeting Accept Policy With Selenium,https://stackoverflow.com/q/75422897
+3,Creating sliders with arrow buttons,https://stackoverflow.com/q/72299227
+3,Grant role on button click discord.py,https://stackoverflow.com/q/71098304
 4,Write a query to derive table B from table A,https://stackoverflow.com/q/54957400
-4,"How to build relationships in PowerBI , so that slicer filters will work correctly?",https://stackoverflow.com/q/77947589
-4,"TopN, Grouping, Show Others at the bottom POWERBI-DAX",https://stackoverflow.com/q/57081723
-4,Empty Table Views,https://stackoverflow.com/q/68128115
+4,Summarize multiple tables into one table,https://stackoverflow.com/q/76635556
+4,JOIN of 2 tables where cross all records,https://stackoverflow.com/q/76412944
+4,How to Populate Data from a table to another,https://stackoverflow.com/q/76446772
+4,How to calculate stock in 2 tables,https://stackoverflow.com/q/62967966
+4,Strange behaviour of filters in disconnected tables of star schema,https://stackoverflow.com/q/65804445
+4,"How to replace the originStation and destinationStation in Journey Table with the station-id from a different table i,e Station Table in Postgres",https://stackoverflow.com/q/67104035
+4,Compare between 2 tables and insert missing records pl sql,https://stackoverflow.com/q/68136070
+4,SQL query to select from multiple tables and create third table,https://stackoverflow.com/q/65287288
 4,How to query in sql from three table in one statement?,https://stackoverflow.com/q/54725229
-4,Combine three queries into one single query,https://stackoverflow.com/q/62404745
-4,Power BI Indirect Relationship Filter Issue,https://stackoverflow.com/q/74305181
-4,Compare two tables to get the differences between them,https://stackoverflow.com/q/74157213
-4,SUM for previous Weeknum in Power BI,https://stackoverflow.com/q/71191898
-5,What is the simplest way to animate `React.Component` with `react-spring` when prop is updated,https://stackoverflow.com/q/55675300
-5,react parent component not getting updated,https://stackoverflow.com/q/74569174
-5,React native re render all components including child,https://stackoverflow.com/q/58670259
-5,Evaluating react component string and embedding it into another component,https://stackoverflow.com/q/72264869
-5,Any explanation for this peculiar React unique key prop warning using React.cloneElement?,https://stackoverflow.com/q/66843492
-5,How to use Ref in a component that is forwarding its ref in React Native,https://stackoverflow.com/q/68422528
-5,How pass props to external async components in typeScript and reactQuery?,https://stackoverflow.com/q/72788676
-5,Do React class components get automatically converted into functional components during the compilation process?,https://stackoverflow.com/q/77164121
-5,react children component rendered twice?,https://stackoverflow.com/q/71817089
-5,How setState updates the DOM behind the scenes?,https://stackoverflow.com/q/60744641
-6,"(PY)Spark: How to read a "".txt"" file with extension name "".gz""",https://stackoverflow.com/q/56734834
-6,How to Write to File in Subdirectory Python 2.7?,https://stackoverflow.com/q/55413135
-6,How to pick latest CSV file in python?,https://stackoverflow.com/q/55414061
-6,How to convert .mat Matlab file to nii.gz Nifti file?,https://stackoverflow.com/q/71535732
+5,How to use history.push from Homepage to other components?,https://stackoverflow.com/q/68320626
+5,Replace State Component with Functional Component using Hooks in React,https://stackoverflow.com/q/61327633
+5,"How can I avoid unnecessary re rendering of an HOC component, when the parameter component renders in ReactJS with react router",https://stackoverflow.com/q/62489362
+5,How to make forwarding react router 5,https://stackoverflow.com/q/56509787
+5,"React.memo not working for functional component. if the feature ain't supported as i have seen , what is the other way to optimize?",https://stackoverflow.com/q/58248120
+5,How would you pass a Markdown component to a React or Preact component in Astro?,https://stackoverflow.com/q/74214220
+5,React functional component not rendering but used to,https://stackoverflow.com/q/67856365
+5,Update State of React Component from ag-grid Custom Renderer,https://stackoverflow.com/q/56749108
+5,Change children state from parent component in React JS,https://stackoverflow.com/q/66263571
+5,How to render React Component from Kendo SiteFinity Template,https://stackoverflow.com/q/64133634
+6,How can I edit the translation file from ftp,https://stackoverflow.com/q/61699585
 6,Having issue with downloading files with same name from outlook using Python. Only one file is showing on folder,https://stackoverflow.com/q/69305596
-6,Read a file within an archived archive (without extracting),https://stackoverflow.com/q/71840824
-6,Read files in XLSB format in scala,https://stackoverflow.com/q/74377502
-6,Updating a file without saving it to new using openpyxl,https://stackoverflow.com/q/62366151
+6,"(PY)Spark: How to read a "".txt"" file with extension name "".gz""",https://stackoverflow.com/q/56734834
 6,merging gcs files and pasting to another gcs bucket using python,https://stackoverflow.com/q/74902897
+6,How to get STDOUT from termial to a file,https://stackoverflow.com/q/64022882
+6,i want to get audio file duration using nodejs,https://stackoverflow.com/q/78271832
+6,How to rename and copy a file without renaming the source file?,https://stackoverflow.com/q/66341220
+6,Read a file within an archived archive (without extracting),https://stackoverflow.com/q/71840824
+6,Download excel cannot open the file because the file format or file extension,https://stackoverflow.com/q/57111392
 6,What files should I download?,https://stackoverflow.com/q/69877386
-7,Docker image with both docker and git installed,https://stackoverflow.com/q/79686366
-7,How can I setup a container with container name as computer name?,https://stackoverflow.com/q/58531951
-7,How to check docker-compose installed or not using Ansible?,https://stackoverflow.com/q/62976761
-7,docker container The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 871920D1991BC93C,https://stackoverflow.com/q/73783361
-7,docker stack (swarm) not working but docker-compose ok,https://stackoverflow.com/q/63901439
-7,"Two docker containers attached to same network but can't reference each other by name, only IP",https://stackoverflow.com/q/60636171
-7,having a different IP for docker container?,https://stackoverflow.com/q/63871082
-7,What software is for hosting my own private OCI/docker container/image registry or repository?,https://stackoverflow.com/q/73790593
-7,Exit PHP command prompt in Docker container,https://stackoverflow.com/q/75068822
-7,Difference between docker exec and docker container exec,https://stackoverflow.com/q/60097132
-8,Javascript Compare Property Value of 2 Arrays of Objects,https://stackoverflow.com/q/65745593
-8,Extract array information and make a list,https://stackoverflow.com/q/67429794
-8,Can you use a function's returned value in a if statement?,https://stackoverflow.com/q/67430055
-8,In JavaScript how to make sure that array has at least one specific element and the others meet another condition?,https://stackoverflow.com/q/63623535
-8,Getting names of objects that have and haven't some properties in their arrays,https://stackoverflow.com/q/61912451
-8,Group values of an object in a new array - JavaScript,https://stackoverflow.com/q/59902043
-8,How to compare object array inside object array and remove duplicate object in Javascript?,https://stackoverflow.com/q/59902123
-8,"When looping through an array of objects, how do I push object values into a new array?",https://stackoverflow.com/q/65745917
-8,how to get a dictionary out of a list,https://stackoverflow.com/q/70739600
-8,Comparing 2D arrays of varying object type,https://stackoverflow.com/q/65744323
-9,How to fix Gradle in android studio?,https://stackoverflow.com/q/69245176
-9,Android Billing Subscription will not automatically renew,https://stackoverflow.com/q/68142000
-9,volley.NoConnectionError,https://stackoverflow.com/q/67764205
-9,Google Assistant plugin alternative,https://stackoverflow.com/q/79702429
-9,Is There a way to connect to laser scanner of a android device?,https://stackoverflow.com/q/58143861
-9,Permissions in Android application,https://stackoverflow.com/q/79347030
-9,Android Studio does not see my physical device,https://stackoverflow.com/q/70634724
-9,Stop Android Studio from hiding/shortening code?,https://stackoverflow.com/q/65049264
-9,Can't implement firebase dependencies on my android app,https://stackoverflow.com/q/67774482
-9,Android Studio Crash on Code autocomplete,https://stackoverflow.com/q/56913463
+7,Black image instead of linear image correction,https://stackoverflow.com/q/75684874
+7,"When pasting an image on another image, how to keep the foreground image transparent?",https://stackoverflow.com/q/66339930
+7,cursor revealing image underneath,https://stackoverflow.com/q/63181551
+7,How to alpha_composite() two images with different sizes (Pillow),https://stackoverflow.com/q/72756931
+7,How to correctly resize images to retain quality in Phaser 3,https://stackoverflow.com/q/56220214
+7,How to force images to load in a certain order?,https://stackoverflow.com/q/62239307
+7,Crop image from a horizontal edge to the bottom using OpenCV or any other image processing library,https://stackoverflow.com/q/75483370
+7,The problem is that the linear image correlation does not have any effect on the images and they appear the same as the original image,https://stackoverflow.com/q/75686961
+7,How do I draw images in layers on canvas?,https://stackoverflow.com/q/65391486
+7,how can I shape Circular the selected image from gallery,https://stackoverflow.com/q/59750076
+8,Searching for a specific array in an array of arrays,https://stackoverflow.com/q/70443851
+8,Make formation of array into multiple arrays with having minimum items - JavaScript,https://stackoverflow.com/q/73952335
+8,Merge array within array,https://stackoverflow.com/q/56400323
+8,Get a one-dimensional array from an array of objects,https://stackoverflow.com/q/70449226
+8,"UseEffect without Array always iterate, why?",https://stackoverflow.com/q/72591686
+8,How to find a value from array object in JavaScript?,https://stackoverflow.com/q/73950039
+8,Compare two arrays in Numpy,https://stackoverflow.com/q/56303784
+8,Vectorizing pairwise permutation,https://stackoverflow.com/q/63928848
+8,filling array with joblib Parallel,https://stackoverflow.com/q/63857085
+8,Get array of all words (split sentences) included in another array,https://stackoverflow.com/q/59708010
+9,Is there a way that I can change the backward compatibility of an android app?,https://stackoverflow.com/q/61337215
+9,Android Studio (version unknown),https://stackoverflow.com/q/78287638
+9,The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.application',https://stackoverflow.com/q/79850546
+9,"Ionic 4 problem with cordova-android@8.0.0, with Ionic serve works fine, but on device the screen just goes blank",https://stackoverflow.com/q/57491579
+9,Go to another activity in Android Studio after last question in a quiz,https://stackoverflow.com/q/61564585
+9,android studio 3.3 clang-tidy,https://stackoverflow.com/q/54196730
+9,Why is Google Ads crashing android app only on release version?,https://stackoverflow.com/q/61707965
+9,"Android studio crash, nothing in logcat",https://stackoverflow.com/q/78248182
+9,Bluetooth setPin Android 9 Pie not working anymore,https://stackoverflow.com/q/55517254
+9,How can I realize a LAN Scanner with Android Studio?,https://stackoverflow.com/q/67195009
+10,How to Integrate IBM Rational Team Concert and Power bi tool,https://stackoverflow.com/q/59158640
+10,Slicer selection in Power BI,https://stackoverflow.com/q/68437583
+10,How to calcluate MAX on measure in Power BI?,https://stackoverflow.com/q/63838546
+10,How to convert yyyymm(numeric) to mmm-yyyy in power bi?,https://stackoverflow.com/q/68306810
+10,MDX (Tableau) to DAX (Power BI) calculations,https://stackoverflow.com/q/71956952
+10,Making a dynamic microsoft power bi report for every company,https://stackoverflow.com/q/58436062
+10,Power Bi non understandable Dax Formula,https://stackoverflow.com/q/60547255
+10,Assistance visualising data in power BI / power bi report builder,https://stackoverflow.com/q/77495623
+10,Power BI to DOMO,https://stackoverflow.com/q/60350423
+10,Is DAX from Power BI same as LOD in Tableau,https://stackoverflow.com/q/66949969
+11,Polar Accesslink API 403,https://stackoverflow.com/q/76794942
+11,What to do If the request is not completed in a certain time,https://stackoverflow.com/q/69976727
+11,How to optimize the prompt and make it a single prompt to reduce the api request,https://stackoverflow.com/q/79181784
+11,Multiple axios requests,https://stackoverflow.com/q/63753961
+11,How to proxy an HTTPS request with encryption still in JavaScript,https://stackoverflow.com/q/63326998
+11,GET Request works with cUrl but not in axios,https://stackoverflow.com/q/60469823
+11,how to send 10 python get requests in a burst,https://stackoverflow.com/q/66883918
+11,Unable to send OpenAI stream response via Flask API,https://stackoverflow.com/q/76311866
+11,request before another request axios,https://stackoverflow.com/q/76435266
+11,Cancelling in-flight request at middleware or client side?,https://stackoverflow.com/q/66841871
+12,curl: (5) Could not resolve proxy in docker container,https://stackoverflow.com/q/71491680
+12,Semaphore using docker-compose | issue in cloning git repo,https://stackoverflow.com/q/79701735
+12,Password authenticated failed + Docker + Django,https://stackoverflow.com/q/60480590
+12,Docker container can't connect to the internet. But can ping any external ip,https://stackoverflow.com/q/58074632
+12,docker stack (swarm) not working but docker-compose ok,https://stackoverflow.com/q/63901439
+12,Netty gRPC Connection Refused in Docker,https://stackoverflow.com/q/74003367
+12,Docker container can not resolve .test domain running on localhost,https://stackoverflow.com/q/74122660
+12,How to attach a pseudo-tty to a Docker container with docker-py to replicate behaviour of `docker exec -ti <container> <command>`?,https://stackoverflow.com/q/66328780
+12,Using sequelize-cli with docker-compose,https://stackoverflow.com/q/62705170
+12,"Unable to connect to kafka while hitting the producer, in docker-compose",https://stackoverflow.com/q/79588477
+13,List comprehension applicable for removing matching items from another list?,https://stackoverflow.com/q/68842717
+13,How to refer to a string as the name of a list?,https://stackoverflow.com/q/73433114
+13,Keep first occurrence of string in nested list of tuples,https://stackoverflow.com/q/68847340
+13,Sorting multiple lists to get a single organised list,https://stackoverflow.com/q/73435680
+13,Append a space separated string to a list,https://stackoverflow.com/q/59236984
+13,list of lists of which the sum is within a given range (homework),https://stackoverflow.com/q/59373023
+13,"Flattening a list of lists, replacing empty sublists with a certain value",https://stackoverflow.com/q/59215423
+13,Flatten a multi-dimensional list,https://stackoverflow.com/q/79448739
+13,How to sort a list of binary strings,https://stackoverflow.com/q/59006362
+13,Extract maximum list based on a common element in lists in a list,https://stackoverflow.com/q/59004848
+14,How do I call the method from a class that creates other objects?,https://stackoverflow.com/q/79557597
+14,What are the dangers to using unsafe_hash in python dataclasses and when should I use it?,https://stackoverflow.com/q/72385844
+14,Anonymous inner class - getClass(),https://stackoverflow.com/q/55579952
+14,What is the best to extend functionality of a Library class method,https://stackoverflow.com/q/70957440
+14,Confused with the use of super() in Pytorch for neural net construction,https://stackoverflow.com/q/65173493
+14,NestJS Typescript extend multiple classes,https://stackoverflow.com/q/76676439
+14,Kotlin - Cannot access method in another class,https://stackoverflow.com/q/59021644
+14,How to use one class attribute of a class as a type inside another class in pydantic?,https://stackoverflow.com/q/69244668
+14,JNI received outer class this instead of inner class this in inner class method,https://stackoverflow.com/q/76498631
+14,Extend three classes that implements an interface in Java,https://stackoverflow.com/q/65163624
