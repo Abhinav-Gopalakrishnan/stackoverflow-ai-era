@@ -1,8 +1,20 @@
 {
-  "status": "awaiting_independent_human_labels",
-  "labelled_rows": 0,
   "required_rows": 200,
-  "accuracy": null,
-  "macro_f1": null,
-  "cohen_kappa": null
+  "label_m2": 0,
+  "label_m3": 200,
+  "agreed_tone": 0,
+  "accuracy": 0.36,
+  "macro_f1": 0.34415857927121324,
+  "cohen_kappa": null,
+  "human_human_kappa": null,
+  "original_two_human_requirement_complete": false,
+  "status": "complete_ai_assisted",
+  "labelled_rows": 200,
+  "label_ai": 200,
+  "reference": "Akshay/M3 single-human labels; no adjudicated gold standard",
+  "ai_human_kappa": 0.2139983157106765,
+  "ai_human_agreement": 0.58,
+  "ai_macro_f1_vs_human": 0.41704845687077197,
+  "annotation_file_sha256": "323267f6fd2e03208247db6a243bbd2268b059c68554fea100d6a545087868fc",
+  "limitation": "AI annotation is not a second independent human rating. Original two-human kappa/adjudication remains unavailable."
 }

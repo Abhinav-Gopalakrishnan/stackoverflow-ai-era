@@ -15,7 +15,7 @@ from src.review2_common import ROOT,TEXT,TS,write_json,study_groups,bootstrap_st
 R=ROOT/'reports/review2'
 
 
-def notebook(path,title,sections,preserve_before=None):
+def notebook(path,title,sections,preserve_before=None,preserve_after=None):
     nb=nbf.v4.new_notebook();nb.metadata={'kernelspec':{'name':'python3','display_name':'Python 3','language':'python'},'language_info':{'name':'python'}}
     nb.cells=[nbf.v4.new_markdown_cell(title),nbf.v4.new_code_cell("from pathlib import Path\nimport json, pandas as pd\nfrom IPython.display import display, Image\nROOT = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p/'config.yaml').exists())\n")]
     for heading,code in sections:
@@ -29,6 +29,19 @@ def notebook(path,title,sections,preserve_before=None):
         old_cut=next((i for i,c in enumerate(old.cells) if src(c).startswith(preserve_before)),None)
         if new_cut is not None and old_cut is not None:
             nb.cells=old.cells[:old_cut]+nb.cells[new_cut:]
+    if preserve_after and Path(path).exists():
+        old=nbf.read(path,as_version=4)
+        source=lambda c: c.source
+        cuts=[i for i,c in enumerate(old.cells) if source(c).startswith(preserve_after)]
+        new_cut=next((i for i,c in enumerate(nb.cells) if source(c).startswith(preserve_after)),None)
+        if cuts and new_cut is not None:
+            # M4's original notebook contains the same Part B twice. Keep one
+            # copy only when every source cell in the repeated blocks matches.
+            suffix=old.cells[cuts[0]:]
+            if len(cuts)==2:
+                first=old.cells[cuts[0]:cuts[1]];second=old.cells[cuts[1]:]
+                if [source(c) for c in first]==[source(c) for c in second]:suffix=first
+            nb.cells=nb.cells[:new_cut]+suffix
     nbf.write(nb,path)
 
 
@@ -99,6 +112,15 @@ def m5():
 
 def m2():
     stats=json.loads((TEXT/'corpus_stats.json').read_text())
+    validation=json.loads((TEXT/'tone_validation_status.json').read_text())
+    naming_path=TEXT/'topic_naming_status.json'
+    naming=json.loads(naming_path.read_text()) if naming_path.exists() else {}
+    scored=validation.get('accuracy') is not None
+    validation_note=(f"VADER against M3's single-human reference: accuracy {validation['accuracy']:.1%}, "
+        f"macro-F1 {validation['macro_f1']:.3f}. Human–AI kappa {validation['ai_human_kappa']:.3f}; "
+        "this is not two-human validation." if validation.get('status')=='complete_ai_assisted' else
+        (f"VADER accuracy {validation['accuracy']:.1%}; macro-F1 {validation['macro_f1']:.3f}." if scored else
+         'VADER accuracy, macro-F1 and rater kappa await complete human labels.'))
     tone=pd.read_parquet(ROOT/'data/processed/question_tone_v1.parquet')
     g=study_groups(tone);rows=[]
     for tag,s in g.groupby('tag'):
@@ -118,7 +140,7 @@ def m2():
     fig,axes=plt.subplots(1,2,figsize=(10,4))
     x=np.arange(3);cats=['negative','neutral','positive']
     axes[0].bar(x-.18,100*allt.loc[cats,'pre'],width=.36,label='Pre');axes[0].bar(x+.18,100*allt.loc[cats,'post'],width=.36,label='Post')
-    axes[0].set(xticks=x,xticklabels=cats,ylabel='Weighted share (%)',title='VADER labels — human validation pending');axes[0].legend()
+    axes[0].set(xticks=x,xticklabels=cats,ylabel='Weighted share (%)',title='VADER labels — weak against one human' if scored else 'VADER labels — human validation pending');axes[0].legend()
     labels=['Prose words','Code lines'];metrics=['prose_words','code_lines'];x=np.arange(2)
     axes[1].bar(x-.18,allc.loc[metrics,'pre'],width=.36,label='Pre');axes[1].bar(x+.18,allc.loc[metrics,'post'],width=.36,label='Post')
     axes[1].set(xticks=x,xticklabels=labels,ylabel='Weighted median',title='Question text/code grew longer');axes[1].legend();fig.tight_layout();fig.savefig(TEXT/'tone_complexity.png',dpi=150);plt.close(fig)
@@ -128,29 +150,31 @@ def m2():
         f"Weighted median code lines changed from {code.pre:.0f} to {code.post:.0f}; difference {code.change:.0f}, with 95% interval [{code.lower95:.0f}, {code.upper95:.0f}].",
         f"The written frustration-phrase flag changed from {fr.pre:.1%} to {fr.post:.1%}; this is a lexicon measure, not independently verified emotion.",
         f"Questions with at least two study tags changed from {multi.pre:.1%} to {multi.post:.1%}; share-change 95% interval [{100*multi.lower95:.2f}, {100*multi.upper95:.2f}] percentage points."]
-    (R/'m2_findings.md').write_text('# Member 2: tone and complexity findings\n\n'+'\n'.join('- '+f for f in findings)+'\n\nVADER accuracy, macro-F1 and rater kappa are pending 200 independent human labels. Do not claim model validation or AI causality from these outputs.\n')
+    (R/'m2_findings.md').write_text('# Member 2: tone and complexity findings\n\n'+'\n'.join('- '+f for f in findings)+'\n\n'+validation_note+'\n\nUse frustration flags as the primary exploratory tone proxy; they are not a validated emotion classifier. AI annotations are explicitly disclosed. The original two-human agreement requirement remains unmet. Do not claim AI causality.\n')
     handoff(TEXT,'M2 Rishiikesh',[
-        ('Tone and complexity','tone_complexity.png','Weighted question prose and code medians increased between pre and post periods.','Tone labels are exploratory; human validation pending.'),
+        ('Tone and complexity','tone_complexity.png','Weighted question prose and code medians increased between pre and post periods.',validation_note),
         ('Complexity intervals','complexity_prepost.csv',findings[1],'Question bootstrap retains survey weights; transition excluded.'),
         ('Frustration phrases','tone_prepost.csv',findings[3],'Lexicon flags are imperfect proxies, not diagnosed emotion.')])
     notebook(ROOT/'notebooks/08_text_mining.ipynb','# Review 2 — Method 2\n\nMember 2 Part A: corpus, tone, complexity and interpretation. **Member 4 Part B (topics and keywords) is supplied separately. Human labels remain an explicit dependency.**',[
         ('## Corpus preparation and audit',"TEXT=ROOT/'reports/review2/text'\nassert json.loads((TEXT/'corpus_stats.json').read_text())['documents_after']==302026\ndisplay(json.loads((TEXT/'corpus_stats.json').read_text()))\ndisplay(json.loads((TEXT/'text_preprocessing.json').read_text()))\ndisplay(pd.read_parquet(TEXT/'corpus_sample_metadata.parquet').head(8))"),
         ('## Tone on original prose, without code\nTechnical-word overrides are written down; lowercase clean topic text is not used for VADER.',"display(json.loads((TEXT/'tone_method.json').read_text()))\ndisplay(pd.read_csv(TEXT/'tone_monthly.csv').head(10))\ndisplay(pd.read_csv(TEXT/'tone_prepost.csv').query(\"tag == 'ALL'\"))"),
-        ('## Independent human validation — pending\nTwo humans label negative/neutral/positive independently, then agree on final labels. No synthetic human labels are generated.',"status=json.loads((TEXT/'tone_validation_status.json').read_text())\ndisplay(status)\ndisplay(pd.read_csv(TEXT/'tone_validation.csv'))\nif status['status']=='complete':\n    display(pd.read_csv(TEXT/'tone_confusion.csv'))\nelse:\n    print('Accuracy, macro-F1 and kappa cannot be reported until all 200 questions have independent labels.')"),
+        ('## Tone validation and annotation provenance\nVADER is scored against the existing M3 human labels. Additional AI annotations are disclosed separately; human–AI kappa is not two-human agreement. No adjudicated gold standard is claimed.',"status=json.loads((TEXT/'tone_validation_status.json').read_text())\ndisplay(status)\ndisplay(pd.read_csv(TEXT/'tone_validation.csv'))\nif status.get('accuracy') is not None:\n    display(pd.read_csv(TEXT/'tone_confusion.csv'))\nprint('Use frustration flags as an exploratory proxy; VADER is weak against the single-human reference.')\nif (TEXT/'topic_naming_comparison.csv').exists():\n    display(pd.read_csv(TEXT/'topic_naming_comparison.csv'))\n    display(json.loads((TEXT/'topic_naming_status.json').read_text()))"),
         ('## Complexity and weighted pre/post uncertainty\nFlesch is a prose-reading proxy and technical vocabulary can limit interpretation. Empty prose is not assigned a readability score.',"display(json.loads((TEXT/'complexity_method.json').read_text()))\ndisplay(pd.read_csv(TEXT/'complexity_prepost.csv').query(\"tag == 'ALL'\"))\ndisplay(Image(filename=str(TEXT/'tone_complexity.png')))"),
         ('## Exploratory association with resolution\nWeighted logistic regression controls for full study-tag indicators and year. The coefficients are associations, not causal effects.',"display(pd.read_csv(TEXT/'tone_resolution_association.csv'))"),
         ('## Findings and handoff',"print((ROOT/'reports/review2/m2_findings.md').read_text())\ndisplay(json.loads((TEXT/'dashboard_handoff.json').read_text()))"),
-        ('## Part B — Nishanth’s topic models and keywords\nInsert reviewed topic selection, stability, human topic naming and trends here. Rishiikesh can supply topic names only after the topic terms/examples exist.',None)])
+        ('## Part B — Nishanth’s topic models and keywords\nThe existing M4 section follows.',None)],preserve_after='## Part B')
     write_json(TEXT/'slide_data.json',{'stats':stats,'findings':findings,'tone':allt.reset_index().to_dict('records'),'complexity':allc.reset_index().to_dict('records'),
-        'validation':json.loads((TEXT/'tone_validation_status.json').read_text())})
+        'validation':validation,'topic_naming':naming})
     (R/'m2_viva.md').write_text('# Rishiikesh: Review 2 viva\n\n'+
         '- Why no code in tone/topics? Code words and identifiers can be mistaken for emotion; topics should describe prose. Code is measured separately for complexity.\n'+
         '- Why overrides? Technical words like fatal/kill/error should not count as negative human emotion by themselves.\n'+
         '- Why weights? Before 2025 sampled questions represent unequal amounts of the population, so weighted summaries preserve the sampling design.\n'+
         '- What is kappa? Agreement between two independent human raters beyond chance; it remains unavailable until both raters label the sample.\n'+
         '- Why bootstrap? Resampling questions with their existing weights estimates uncertainty in medians/share changes.\n'+
-        '- What remains? Human tone validation and independent topic naming after M4 supplies topics.\n')
-    (R/'contribution_member2.md').write_text('# Member 2 — Rishiikesh\n\nImplemented and ran corpus normalisation and spaCy lemmatisation, title unescaping, technology protection, explicit stopwords, technical-neutral VADER, frustration/politeness flags, weighted monthly summaries, per-question complexity, 1,000-resample pre/post bootstrap intervals, and weighted resolution association with tag/year controls. Source: `src/text_prep.py`, `src/sentiment.py`, `src/complexity.py`. Evidence: `reports/review2/text/`, `notebooks/08_text_mining.ipynb` Part A.\n\nPending: 200 independent M2/M3 human tone labels and M2 topic names after M4 supplies word/example lists. These are not claimed as completed or replaced by AI labels. Add actual commit/PR/reviewer links after the owners commit.\n')
+        '- Validation status: '+validation_note+'\n'+
+        '- Can AI count as a human rater? No. The assisted comparison is disclosed and the original two-human requirement is not claimed.\n'+
+        '- Topic naming: ten AI proposals include a mixed numerical-table topic; the comparison is qualitative, not blind human agreement.\n')
+    (R/'contribution_member2.md').write_text('# Member 2 — Rishiikesh\n\nImplemented corpus preparation, tone scoring, weighted complexity summaries, uncertainty intervals and resolution association. The follow-up adds 200 disclosed Codex AI annotations, ten AI topic-name proposals, single-human VADER evaluation, human–AI agreement, confusion matrices and provenance records. '+validation_note+'\n\nAI annotations are not human Rishiikesh labels. The original two-human tone and topic-naming requirements remain open in issue #126.\n\n## Published implementation\n\n- [PR #129](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/129): corpus and shared preparation.\n- [PR #130](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/130): tone and validation workflow.\n- [PR #131](https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era/pull/131): complexity, notebook, slides and handoffs.\n\n## Evidence\n\n`src/review2_validation.py`, `reports/review2/text/ai_annotation_manifest.json`, `tone_validation.csv`, `tone_rater_comparison.csv`, `topic_naming_comparison.csv`, and `notebooks/08_text_mining.ipynb`.\n')
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--member',choices=['m2','m5','all'],default='all');a=p.parse_args();R.mkdir(parents=True,exist_ok=True)

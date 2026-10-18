@@ -10,15 +10,15 @@
     "364 selected forecast rows; correct end date and nested intervals",
     "complexity: 1000 bootstrap resamples; tone sheet: 100 pre + 100 post",
     "07_timeseries: 12 genuinely executed code cells, zero errors",
-    "08_text_mining: 21 genuinely executed code cells, zero errors",
+    "08_text_mining: 14 genuinely executed code cells, zero errors",
     "M2: exactly two presentation slides",
     "M5: exactly two presentation slides"
   ],
   "unit_tests_passed": 7,
-  "human_validation": "awaiting_independent_human_labels",
+  "human_validation": "complete_ai_assisted",
   "pending": [
-    "M2 and M3 independent tone labels",
-    "M4 topic terms/examples before M2 names topics"
+    "M2 independent human tone labels and subsequent adjudication with M3",
+    "M2 independent human topic names and comparison with M4"
   ],
   "not_claimed": [
     "optional GRU",

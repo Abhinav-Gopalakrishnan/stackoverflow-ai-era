@@ -1,2 +1,2 @@
-status,labelled_rows,required_rows,accuracy,macro_f1,cohen_kappa
-awaiting_independent_human_labels,0,200,,,
+required_rows,label_m2,label_m3,agreed_tone,accuracy,macro_f1,cohen_kappa,human_human_kappa,original_two_human_requirement_complete,status,labelled_rows,label_ai,reference,ai_human_kappa,ai_human_agreement,ai_macro_f1_vs_human,annotation_file_sha256,limitation
+200,0,200,0,0.36,0.34415857927121324,,,False,complete_ai_assisted,200,200,Akshay/M3 single-human labels; no adjudicated gold standard,0.2139983157106765,0.58,0.41704845687077197,323267f6fd2e03208247db6a243bbd2268b059c68554fea100d6a545087868fc,AI annotation is not a second independent human rating. Original two-human kappa/adjudication remains unavailable.

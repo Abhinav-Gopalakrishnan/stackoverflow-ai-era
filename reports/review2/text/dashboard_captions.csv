@@ -1,4 +1,4 @@
 chart,file,takeaway,caveat
-Tone and complexity,tone_complexity.png,Weighted question prose and code medians increased between pre and post periods.,Tone labels are exploratory; human validation pending.
+Tone and complexity,tone_complexity.png,Weighted question prose and code medians increased between pre and post periods.,"VADER against M3's single-human reference: accuracy 36.0%, macro-F1 0.344. Human–AI kappa 0.214; this is not two-human validation."
 Complexity intervals,complexity_prepost.csv,"Weighted median prose length changed from 76 to 89 words; difference 13, with 95% question-bootstrap interval [12, 13].",Question bootstrap retains survey weights; transition excluded.
 Frustration phrases,tone_prepost.csv,"The written frustration-phrase flag changed from 5.1% to 4.9%; this is a lexicon measure, not independently verified emotion.","Lexicon flags are imperfect proxies, not diagnosed emotion."

@@ -54,7 +54,7 @@
 
 ![Tone and complexity](text/tone_complexity.png)
 
-Tone validation is **pending**: 0 of 200 questions are independently hand-labelled, so accuracy, macro-F1 and Cohen's kappa are not claimed. Topic human-naming agreement is likewise pending (M2 names are not yet compared). These are stated as not done rather than invented.
+**Disclosed AI-assisted validation:** VADER was scored against all 200 existing M3 human labels: accuracy 36.0%, macro-F1 0.344. Separately, Codex AI annotations agreed with M3 on 58.0% of posts (human–AI Cohen's kappa 0.214). This is one human plus an AI, not two independent human raters or an adjudicated gold standard. VADER is weak against this reference; frustration flags remain the primary exploratory tone proxy. Ten disclosed AI topic-name proposals and qualitative comparisons are in topic_naming_comparison.csv; topic 2 is mixed. The original human M2 labels, two-human kappa and human topic-naming agreement remain unavailable.
 
 ## 5. Combined insights and recommendations
 
