@@ -1,0 +1,2 @@
+status,labelled_rows,required_rows,accuracy,macro_f1,cohen_kappa
+awaiting_independent_human_labels,0,200,,,

@@ -127,3 +127,114 @@ python src/collect_questions.py --tags python --check-only
   - `data/processed/sampling_manifest.csv` (complete sampling manifest with stratum metadata and random seeds).
 - **Deterministic Re-run:** Because random day selection uses seed `f"{seed}_{tag}_{month}"`, repeating collection for any tag-month always selects identical calendar dates.
 
+
+## Review 2: Quasi-Experimental Time Series & Text Mining (Unit 3)
+
+### Overview
+
+In **Review 2**, our investigation shifts from question-level classification to platform-level structural dynamics surrounding the emergence of Generative AI (November 30, 2022). We address two primary research questions:
+- **RQ4:** Topics and complexity — what developers still bring to human communities (text mining): how latent technical topics, structural question complexity, asker tone, and distinctive vocabulary evolved between pre-AI and post-AI eras.
+- **RQ5:** Technology forecasting — which tags keep declining or stabilise (time series): how weekly question volumes evolved around the 2022 break, and what 26-week forecast trajectories project across technologies.
+
+---
+
+### Review 2 Folder Guide
+
+| Directory / File | Description |
+|---|---|
+| `notebooks/review2_main.ipynb` | Unified, top-to-bottom executed final notebook covering Sections 0–8 |
+| `reports/review2/ts/` | Time-series outputs: STL decomposition, stationarity decisions, PELT changepoints, ITS models, forecast backtests, Diebold-Mariano tests, and 26-week projections |
+| `reports/review2/text/` | Text-mining outputs: NMF topic selection ($k=10$), top semantic terms, pre/post share dynamics, VADER tone, complexity bootstrap CIs, Monroe log-odds keywords, and tone validation audit |
+| `reports/review2/insight_matrix.csv` | Cross-method synthesis table integrating time-series, topic, tone, and complexity metrics for all 13 tags |
+| `reports/review2/recommendations.csv` | 6 stakeholder-aligned policy recommendations with evidence, actions, KPIs, and caveats |
+| `reports/review2/board_audit_member1.md` | Read-only audit of Project Board #3 issues, milestones, and metadata |
+| `dashboard/` | Multi-page Streamlit analytical application |
+| `dashboard/app.py` | Dashboard root entry point (Overview page with 400-week weekly volume series) |
+| `dashboard/common.py` | Shared state management, sidebar filters, publication color palette, and cached data loaders |
+| `dashboard/pages/` | Interactive pages: `2_Patterns_and_2022_Break`, `3_Forecasts`, `4_Topics`, `5_Tone_and_Complexity`, `6_Recommendations` |
+| `dashboard/data/` | Exported data bundle: 27 schema-validated CSV files (1.62 MB total, 0 PII, 0 full bodies) |
+| `dashboard/requirements.txt` | Minimal pinned deployment dependencies (`numpy`, `pandas`, `plotly`, `streamlit`) |
+| `docs/dashboard_deploy.md` | Streamlit Community Cloud setup, mobile responsive testing, and 2-minute fallback video script |
+| `docs/review2_adhi_rishi_handoff.md` | Teammate interface handoff specification between time series and text mining |
+
+---
+
+### How to Rebuild Each Method
+
+All pipeline components are fully reproducible from the root environment (`pip install -r requirements.txt`).
+
+#### Method 1: Time Series (Patterns, Changepoints, ITS, and Forecasting)
+```bash
+# 1. Decompose trend/seasonality, test stationarity, detect changepoints, and fit ITS regressions
+python -m src.ts_patterns
+
+# 2. Benchmark forecasting models (naive, seasonal naive, drift, ETS, SARIMAX), run rolling backtests, and generate 26-week forecasts
+python -m src.ts_forecast
+```
+- **Outputs generated:** `reports/review2/ts/` (all CSV tables and PNG diagnostic charts).
+
+#### Method 2: Text Mining (NMF Topics, Tone, Complexity, and Keywords)
+```bash
+# 1. Prepare text features, vocabulary dictionaries, and stratified corpus samples
+python -m src.text_prep
+
+# 2. Fit NMF topic model grid (k=10, 15, 20, 25, 30, 40), extract top terms, compute pre/post shares and 7-day resolution rates
+python -m src.topics
+
+# 3. Score VADER sentiment polarity shares, frustration phrases, and politeness flags
+python -m src.sentiment
+
+# 4. Measure question structural complexity (prose words, code lines, blocks) with 1,000 bootstrap resamples
+python -m src.complexity
+
+# 5. Extract distinctive rising/falling vocabulary via Monroe weighted log-odds
+python -m src.keywords
+```
+- **Outputs generated:** `reports/review2/text/` (all topic, sentiment, complexity, and keyword tables).
+
+#### Cross-Method Synthesis & Dashboard Export
+```bash
+# 1. Compile cross-method insight matrix and strategic recommendations
+python -m src.review2_deliverables
+
+# 2. Validate schemas and export lightweight bundle to dashboard/data/
+python src/export_dashboard_data.py
+```
+
+---
+
+### Running the Dashboard Locally
+
+Launch the interactive multi-page dashboard:
+```bash
+streamlit run dashboard/app.py
+```
+- Automatically opens `http://localhost:8501`.
+- All 6 pages share persistent tag, observation window, and event marker filters via `st.session_state`.
+- Filtered data slices can be exported on-demand via the sidebar download button.
+
+---
+
+### Running Verification Tests
+
+Run the complete headless AppTest and export validation test suite:
+```bash
+pytest tests/test_export_dashboard_data.py tests/test_dashboard_pages.py -v
+```
+- **Coverage:** 54 automated tests verifying file existence, exact column schemas, payload size limits (<50 MB), zero forbidden/PII columns, and render completion under 5 seconds across 4 distinct filter combinations per page.
+
+---
+
+### Hosted Cloud Deployment
+
+- **Live Streamlit App:** `https://stackoverflow-ai-era.streamlit.app` (Placeholder pending manual activation)
+- Deployment configuration and mobile responsive audit instructions are located in `docs/dashboard_deploy.md`.
+
+---
+
+### Content Governance & CC BY-SA 4.0 Licence
+
+All Stack Overflow user-contributed content analyzed and displayed within this project is governed by the **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** licence:
+- Individual questions are referenced exclusively by their post title and linked to canonical URLs: `https://stackoverflow.com/q/<id>`.
+- No full question bodies, answers, code blocks, or identifiable user profile information are distributed or hosted.
+- All analytical metrics represent aggregated, statistical, and anonymized summaries.
