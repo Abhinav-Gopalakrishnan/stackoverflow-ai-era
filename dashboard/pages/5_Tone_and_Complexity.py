@@ -314,6 +314,10 @@ st.subheader("5. Distinctive Keyword Shifts (Pre → Post)")
 
 # Keywords are scoped to certain tags
 kw = keywords_prepost.copy()
+include_placeholders = st.checkbox('Include preprocessing placeholders in keyword view', value=False, key='page5_placeholders')
+if not include_placeholders:
+    kw = kw[~kw.term.astype(str).str.contains(r'(?:^|\s)(?:numbertoken|pathtoken|urltoken)(?:\s|$)',regex=True)]
+st.caption('The default keyword view excludes numeric/path/URL placeholders; original rankings are retained in the saved CSV.')
 available_scopes = sorted(kw["tag_scope"].unique())
 
 # Default to the selected tag's scope if available, else ALL

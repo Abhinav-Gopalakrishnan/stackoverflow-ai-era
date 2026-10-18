@@ -51,3 +51,12 @@ def test_dataset_classifier_page_has_locked_results():
     at=AppTest.from_file(str(ROOT/'dashboard/pages/7_Dataset_and_Classification.py')).run(timeout=15)
     assert not at.exception
     assert any('0.4315' in m.value for m in at.metric)
+
+
+def test_keyword_placeholder_toggle_changes_view():
+    at=AppTest.from_file(str(ROOT/'dashboard/pages/5_Tone_and_Complexity.py')).run(timeout=15)
+    assert not at.exception
+    before=charts(at)
+    at.checkbox(key='page5_placeholders').set_value(True).run(timeout=15)
+    assert not at.exception
+    assert charts(at)!=before

@@ -1,0 +1,8 @@
+PASS dashboard/app.py
+PASS dashboard/pages/2_Patterns_and_2022_Break.py
+PASS dashboard/pages/3_Forecasts.py
+PASS dashboard/pages/4_Topics.py
+PASS dashboard/pages/5_Tone_and_Complexity.py
+PASS dashboard/pages/6_Recommendations.py
+PASS dashboard/pages/7_Dataset_and_Classification.py
+Fresh minimal dashboard environment: seven pages passed; no API or full parquet inputs.

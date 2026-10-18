@@ -21,7 +21,7 @@ Train ends before January 2025, validation is January–June 2025 and the locked
 - **Volume series.** The 302,026-question cleaned sample is paired with a separately collected weekly series of 14 groups (ALL plus 13 study tags) x 400 complete Tuesday-start weeks, 2019-01-01 to 2026-08-25, with no missing weeks. These weekly volumes are separately collected API totals (ALL is site-wide), not counts aggregated from the 302,026 sampled question records. Weighted question-sample rates and API volumes are kept separate.
 - **Rate series.** `data/processed/monthly_tag_tables.csv` holds the weighted monthly resolved rate, answered rate and median hours per tag. Months flagged `low_sample` are excluded from conclusions.
 - **Text.** 302,026 questions; 165,887 distinct terms after cleaning; code removed from the prose field.
-- **Weighting.** Before 2025 every question carries a sampling weight; any share, rate or count built before 2025 is weighted. From 2025 the weight is 1.
+- **Weighting.** Question-sample shares and rates retain their sampling weights (up to 23 before 2025; later weights are 1). Separate API weekly totals are not survey-weighted.
 - **Periods.** Pre-AI 2019-01 to 2022-10, transition 2022-11 to 2022-12, post-AI 2023-01 to 2026-08. Event markers: GitHub Copilot GA (2022-06-21); ChatGPT Launch (2022-11-30); Stack Overflow ChatGPT Ban (2022-12-05); Stack Overflow Moderator Strike (2023-06-05).
 
 ## 3. Method 1: time series
@@ -78,7 +78,7 @@ Each recommendation below needs both methods at once and cites at least one time
 **2. Test documentation topics suggested by changing vocabulary.**
 
 - *Time series:* ALL validation-selected 26-week forecast is 134.2 questions/week versus 215 last observed.
-- *Text mining:* Top global rising keywords: numbertoken (z=162.9); numbertoken numbertoken (z=144.0); nextjs (z=126.7).
+- *Text mining:* Top global rising keywords: nextjs (z=126.7); encounter (z=122.2); vite (z=115.2).
 - *Action:* Inspect linked questions for these keywords and trial a documentation guide with an explicit success measure.
 - *Stakeholder:* DevRel teams  |  *KPI:* Guide use and repeat-question share before/after a controlled pilot
 - *Caveat:* Keyword shifts are proxies, may reflect technical-token artifacts and do not establish documentation need.
@@ -141,7 +141,7 @@ Questions show titles only, each linked to `https://stackoverflow.com/q/<id>`, w
 2. **Thirteen tags.** Only the 13 study tags plus ALL are covered, so the picture is not the whole site.
 3. **Acceptance is a proxy.** Resolution means an accepted answer within seven days, not a satisfied asker.
 4. **VADER is general purpose.** The tone model is a general lexicon with overrides; the frustration flag is exploratory and VADER achieves only 36% accuracy against one human reference; the separate frustration lexicon is not independently validated.
-5. **Topics are English prose.** Topic modelling uses cleaned English prose only; code and non-English text are excluded.
+5. **Language scope.** Topic modelling removes code and uses English-oriented lemmatisation/character cleaning; there is no validated language-identification stage. Reliability on multilingual prose is not established.
 6. **Forecasts during a steep decline are uncertain.** SARIMAX 95% intervals covered only 52.0% of endpoints, and 10 fits failed.
 7. **Association, not cause.** Every result is associated with or consistent with AI-adoption timing; causal attribution is not established. The pre/post boundary is a comparison date, and the placebo break is included for honesty.
 8. **Protocol deviations.** Two-human tone adjudication and independent human topic naming were not completed. AI assistance and automatic names are disclosed. Topic coherence uses document cooccurrence rather than the original sliding-window plan.

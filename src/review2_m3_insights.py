@@ -154,7 +154,8 @@ def build_recommendations(matrix):
     site=selected.loc['ALL']
     bt=pd.read_csv(TS/'backtest_summary_matched.csv').query("model=='sarimax' and horizon==26").iloc[0]
     comp=pd.read_csv(COMPLEXITY_CSV).query("tag=='ALL' and statistic=='median'").set_index('metric')
-    kw=pd.read_csv(KEYWORDS_CSV).query("tag_scope=='ALL' and direction=='rising'").nlargest(3,'z_score')
+    kw=pd.read_csv(KEYWORDS_CSV).query("tag_scope=='ALL' and direction=='rising'")
+    kw=kw[~kw.term.astype(str).str.contains(r'(?:^|\s)(?:numbertoken|pathtoken|urltoken)(?:\s|$)',regex=True)].nlargest(3,'z_score')
     keyword_text='; '.join(f'{r.term} (z={r.z_score:.1f})' for r in kw.itertuples())
     oai=matrix.set_index('tag').loc['openai-api']
     steep=int(matrix.forecast_class.eq('steep decline').sum())

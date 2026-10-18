@@ -1,28 +1,30 @@
 {
-  "local_implementation": "complete",
+  "checked_utc": "2026-10-18T16:38:42.851558+00:00",
+  "local_implementation": "complete under disclosed protocol deviations",
   "checks": [
-    "text_corpus_v1: 302026 unique question IDs",
-    "question_tone_v1: 302026 unique question IDs",
-    "question_complexity_v1: 302026 unique question IDs",
-    "question_metadata_for_topics: 302026 unique question IDs",
-    "weekly series: 14 x 400 complete Tuesday-start weeks",
-    "all backtest training cutoffs precede first forecast week",
-    "364 selected forecast rows; correct end date and nested intervals",
-    "complexity: 1000 bootstrap resamples; tone sheet: 100 pre + 100 post",
-    "07_timeseries: 12 genuinely executed code cells, zero errors",
-    "08_text_mining: 14 genuinely executed code cells, zero errors",
-    "M2: exactly two presentation slides",
-    "M5: exactly two presentation slides"
+    "37 shipped CSV exports equal their current sources; 2744763 bytes; no forbidden fields",
+    "Final dataset: 302026 unique rows, 39 columns, eight checks pass; 40 sanitized linked samples",
+    "Measured topic grid and current automatic naming provenance are consistent",
+    "AI annotations remain separate from human labels and adjudication",
+    "Genuinely executed notebooks without errors: {'review2_main': 17, '07_timeseries': 7, '08_text_mining': 7}",
+    "Report: 8 pages, 6 embedded images, no TODO markers; five member contributions present",
+    "14 x 400 weekly bins; 364 selected forecasts; all backtest cutoffs precede origin"
   ],
-  "unit_tests_passed": 7,
+  "test_evidence": "147 passed, 5 warnings in 31.76s",
+  "test_mode": "Saved full-suite evidence; rerun only with --run-tests",
   "human_validation": "complete_ai_assisted",
+  "protocol_deviations": [
+    "Original two-human tone adjudication/topic naming not completed; issue126 open",
+    "Document-cooccurrence NPMI replaces sliding-window c_npmi"
+  ],
   "pending": [
-    "M2 independent human tone labels and subsequent adjudication with M3",
-    "M2 independent human topic names and comparison with M4"
+    "New final team presentation, rehearsal and live delivery"
   ],
   "not_claimed": [
-    "optional GRU",
-    "optional classifier feature extension/what-if page",
-    "M1/M3 final team integration and deployment"
+    "Independent second-human labels/approval",
+    "Optional GRU and classifier what-if extension",
+    "Public hosting",
+    "Kaggle publication",
+    "Recorded video"
   ]
 }

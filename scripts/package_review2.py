@@ -23,6 +23,7 @@ def main():
     for name in tracked:
         if not name or not (name.startswith(PREFIXES) or name in ['README.md','requirements.txt','config.yaml','LICENSE']):continue
         if name.startswith(EXCLUDE) or name.endswith(('.pptx','.html')):continue
+        if name.startswith('data/processed/') and not (name.endswith('.csv') or name.endswith('/README.md')):continue
         if name.startswith('notebooks/') and name not in ['notebooks/review2_main.ipynb','notebooks/07_timeseries.ipynb','notebooks/08_text_mining.ipynb','notebooks/01_collection.ipynb','notebooks/02_cleaning.ipynb','notebooks/04_features.ipynb','notebooks/05_models.ipynb','notebooks/06_evaluation.ipynb']:continue
         files.append(name)
     # Official template is included as an untouched reference, not as the final presentation.

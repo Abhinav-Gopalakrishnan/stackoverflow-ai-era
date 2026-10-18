@@ -125,32 +125,21 @@ def run_keyword_shift():
     final_df.to_csv(out_path, index=False)
     print(f"\nSaved keywords_prepost.csv with {len(final_df)} rows to {out_path}", flush=True)
     
-    # Generate visualization for ALL and python
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-    
-    # ALL
-    all_r = final_df[(final_df.tag_scope == 'ALL') & (final_df.direction == 'rising')].head(15)
-    all_f = final_df[(final_df.tag_scope == 'ALL') & (final_df.direction == 'falling')].head(15)
-    
-    y_pos = np.arange(15)
-    axes[0].barh(y_pos, all_r.z_score.iloc[::-1], color='#2ca02c', alpha=0.85, label='Rising (Post-AI)')
-    axes[0].set_yticks(y_pos)
-    axes[0].set_yticklabels(all_r.term.iloc[::-1])
-    axes[0].set_title('Site Total (ALL): Top 15 Rising Terms')
-    axes[0].set_xlabel('Monroe Log-Odds z-score')
-    axes[0].grid(axis='x', linestyle='--', alpha=0.5)
-    
-    axes[1].barh(y_pos, np.abs(all_f.z_score.iloc[::-1]), color='#d62728', alpha=0.85, label='Falling (Pre-AI)')
-    axes[1].set_yticks(y_pos)
-    axes[1].set_yticklabels(all_f.term.iloc[::-1])
-    axes[1].set_title('Site Total (ALL): Top 15 Falling Terms')
-    axes[1].set_xlabel('|Monroe Log-Odds z-score|')
-    axes[1].grid(axis='x', linestyle='--', alpha=0.5)
-    
-    fig.tight_layout()
-    fig.savefig(TEXT / 'keywords_shift_all.png', dpi=160)
-    plt.close(fig)
-    print("Saved keywords_shift_all.png!", flush=True)
+    plot_keyword_shift(final_df)
+
+
+def plot_keyword_shift(final_df):
+    """Business-facing plot excludes preprocessing placeholders; raw rankings remain saved."""
+    placeholders=r'(?:^|\s)(?:numbertoken|pathtoken|urltoken)(?:\s|$)'
+    display=final_df[~final_df.term.astype(str).str.contains(placeholders,regex=True)]
+    fig,axes=plt.subplots(1,2,figsize=(14,6))
+    for ax,direction,color in zip(axes,['rising','falling'],['#2ca02c','#d62728']):
+        frame=display[(display.tag_scope=='ALL')&(display.direction==direction)].sort_values('rank').head(15).iloc[::-1]
+        ax.barh(frame.term,frame.z_score.abs(),color=color,alpha=.85)
+        ax.set(title=f'Collected question sample: {direction} terms',xlabel='|Monroe log-odds z-score|')
+        ax.grid(axis='x',linestyle='--',alpha=.3)
+    fig.suptitle('Preprocessing placeholders excluded from this view; raw rankings remain in CSV',fontsize=10)
+    fig.tight_layout();fig.savefig(TEXT/'keywords_shift_all.png',dpi=160);plt.close(fig)
 
 
 if __name__ == '__main__':
