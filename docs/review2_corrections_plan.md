@@ -18,3 +18,13 @@ All corrections use branch `corrections`, separate phase commits and one integra
 - AI annotations remain AI; the original two-human annotation requirement is an explicit protocol deviation, not a completed human check.
 - Public hosting and Kaggle publication were in the internal plan; the official rubric also accepts a locally runnable dashboard and source code. Provide a working local demo and honest availability status.
 - New final presentation creation follows this correction pass; existing member slides must not contain stale values.
+
+## Phase 1 measured outcome
+
+Completed 36 actual fits on 75,814 training IDs and 20,000 disjoint reference IDs.
+The fixed rule selects NMF k=15: document-NPMI -0.027001, diversity 0.735111,
+stability 0.788062. LDA's best mean coherence is higher, but all LDA candidates
+fail the stability threshold. Low/negative coherence is a semantic-quality limitation,
+not an accuracy result. All 302,026 questions and 14 tag groups are exported.
+Old topic names/AI annotations are archived; new names are automatic, with numerical
+and screenshot-boilerplate mixtures flagged. Artifact checks and all eight topic tests pass.

@@ -1,0 +1,41 @@
+{
+  "status": "complete",
+  "fingerprint": "cc9e6a857d7fbc3f4435b8f4dd1f21e3b32f614205729df0ae4cc1883b1c15bb",
+  "method_version": "measured-grid-v1",
+  "training_rows": 75814,
+  "reference_rows": 20000,
+  "vocabulary_size": 22908,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "k_values": [
+    10,
+    15,
+    20,
+    25,
+    30,
+    40
+  ],
+  "same_training_sample_for_both_models": true,
+  "coherence": "Exact document-cooccurrence NPMI on top 10 terms; not sliding-window NPMI",
+  "selection_rule": "Highest mean coherence with mean diversity >= 0.7 and stability >= 0.6; otherwise best coherence",
+  "iteration_budgets": {
+    "NMF": 400,
+    "LDA": 10
+  },
+  "python": "3.14.8",
+  "sklearn": "1.9.1",
+  "started_utc": "2026-10-18T15:57:54.210762+00:00",
+  "fits": 36,
+  "completed_utc": "2026-10-18T16:27:31.863720+00:00",
+  "runtime_packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "automatic_label_update": "Readable descriptions and mixed screenshot-boilerplate flag from current top terms; no model weights changed"
+}

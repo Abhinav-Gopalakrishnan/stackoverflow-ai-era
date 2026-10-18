@@ -3,10 +3,58 @@ import unittest
 import numpy as np
 import pandas as pd
 import scipy.sparse as sp
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
+from src import topics
 from src.topics import compute_npmi_coherence, compute_diversity, compute_stability
 from src.keywords import compute_monroe_log_odds
 
 class TestTopicModeling(unittest.TestCase):
+    def test_training_and_reference_questions_are_disjoint(self):
+        corpus = pd.DataFrame({
+            'question_id': range(12), 'n_tokens': [3] * 12,
+            'created_at': pd.to_datetime(['2020-01-01'] * 6 + ['2020-07-01'] * 6, utc=True),
+            'clean_text': ['sample prose'] * 12})
+        train, reference = topics.get_stratified_sample(corpus, n_per_half=2)
+        self.assertEqual(len(train), 4)
+        self.assertEqual(len(reference), 8)
+        self.assertFalse(set(train.question_id) & set(reference.question_id))
+
+    def test_npmi_handles_terms_in_every_document(self):
+        score = compute_npmi_coherence([[0, 1]], sp.csr_matrix(np.ones((5, 2))))
+        self.assertTrue(np.isfinite(score))
+        self.assertGreaterEqual(score, -1)
+        self.assertLessEqual(score, 1)
+
+    def test_joint_bootstrap_preserves_constant_topic_weights(self):
+        values = np.tile([.75, .25], (8, 1))
+        draws = topics._bootstrap_means(values, np.arange(1, 9), n_boot=50)
+        np.testing.assert_allclose(draws, np.tile([.75, .25], (50, 1)))
+
+    def test_grid_measures_both_families_and_all_three_seeds(self):
+        texts = pd.Series(['python package error install'] * 30 +
+                          ['docker image container compose'] * 30 +
+                          ['react component render state'] * 30 +
+                          ['pandas dataframe column row'] * 30)
+        reference = texts.sample(n=40, random_state=8).reset_index(drop=True)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with patch.object(topics, 'TEXT', root / 'results'), \
+                 patch.object(topics, 'CACHE_DIR', root / 'cache'), \
+                 patch.object(topics, 'NMF_ITERATIONS', 30), \
+                 patch.object(topics, 'LDA_ITERATIONS', 2):
+                grid = topics.run_model_grid(texts, reference, k_list=[2])
+            seeds = pd.read_csv(root / 'results/topic_model_seed_results.csv')
+            self.assertEqual(set(grid.model_family), {'NMF', 'LDA'})
+            self.assertEqual(len(seeds), 6)
+            self.assertTrue(grid.seeds.eq(3).all())
+            for row in grid.itertuples():
+                measured = seeds[seeds.model_family.eq(row.model_family)]
+                self.assertAlmostEqual(row.coherence_npmi, measured.coherence_npmi.mean())
+                self.assertEqual(row.training_rows, len(texts))
+                self.assertEqual(row.reference_rows, len(reference))
+
     def test_npmi_coherence_bounded(self):
         # Synthetic binary document-term matrix (100 docs, 5 terms)
         X = sp.csr_matrix([
