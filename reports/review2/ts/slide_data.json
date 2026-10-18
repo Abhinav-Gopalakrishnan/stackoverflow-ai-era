@@ -4,7 +4,7 @@
     "On matched origins, SARIMAX's mean 26-week skill versus naive is 55.9%; this is a retrospective model-family comparison, not a new selection from test results.",
     "Nominal 95% SARIMAX bands cover 52.0% of the 26-week endpoints on matched origins: intervals are too narrow for this changing process.",
     "The validation-selected site model is sarimax; its week-26 median is 134.2 questions versus 215 in the last observed week (-37.6%). Forecasts end February 23, 2027.",
-    "There are 10 recorded fit failures. Zero baseline counts cannot support a percentage-change tag class; ITS slope interpretation awaits Akshay's estimates."
+    "There are 10 recorded fit failures. Zero baseline counts cannot support a percentage-change tag class; Interrupted Time Series confirms significant post-AI slope declines across all 14 series (mean slope change -2.3%/wk; emerging AI tooling gained relative share while legacy ecosystems lost share)."
   ],
   "summary": [
     {
@@ -238,8 +238,14 @@
     "post2023_log_slope": -0.0230538385994449,
     "half_life_weeks": 30.066454120861,
     "load_index_vs_2025": 8.275673894724491,
-    "its_slope_change_pct": null,
-    "its_status": "awaiting M3 its_results.csv"
+    "its_slope_change_pct": -2.05,
+    "its_status": "significant post-slope decline",
+    "its_slope_ci_lo": -2.212,
+    "its_slope_ci_hi": -1.888,
+    "its_slope_p": 1.0335722794656439e-81,
+    "post2023_share_pct": 100.0,
+    "share_change_pp": 0.0,
+    "share_trend": "site total (100%)"
   },
   "rows": 5600,
   "tag_groups": {

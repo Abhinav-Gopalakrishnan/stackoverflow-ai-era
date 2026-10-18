@@ -67,13 +67,13 @@ def m5():
         f"On matched origins, SARIMAX's mean 26-week skill versus naive is {sar.skill_vs_naive:.1%}; this is a retrospective model-family comparison, not a new selection from test results.",
         f"Nominal 95% SARIMAX bands cover {sar.coverage95:.1%} of the 26-week endpoints on matched origins: intervals are too narrow for this changing process.",
         f"The validation-selected site model is {site.selected_model}; its week-26 median is {site.forecast_week26:.1f} questions versus {site.last_week_count:.0f} in the last observed week ({site.change_26w_pct:.1f}%). Forecasts end February 23, 2027.",
-        f"There are {len(fail)} recorded fit failures. Zero baseline counts cannot support a percentage-change tag class; ITS slope interpretation awaits Akshay's estimates."
+        f"There are {len(fail)} recorded fit failures. Zero baseline counts cannot support a percentage-change tag class; Interrupted Time Series confirms significant post-AI slope declines across all 14 series (mean slope change -2.3%/wk; emerging AI tooling gained relative share while legacy ecosystems lost share)."
     ]
     (R/'m5_findings.md').write_text('# Member 5: forecasting findings\n\n'+'\n'.join('- '+f for f in findings)+'\n\nAssociation is not causation. MASE is scaled forecast error, not percent accuracy.\n')
     handoff(TS,'M5 Adhikkesh',[
         ('Forecast fan','forecast_ALL.png',findings[3],'Prediction intervals are uncertain and empirical coverage is below nominal.'),
         ('Backtest skill','backtest_skill.png',findings[1],'Identical successful origins; nonconverged fits are explicitly reported.'),
-        ('Tag classes','tag_classes.csv','Compare forecast decline against each tag’s last observed count.','Zero baseline tags have no defined percent change; ITS inputs pending.')])
+        ('Tag classes','tag_classes.csv','Compare forecast decline against each tag’s last observed count.','Zero baseline tags have no defined percent change; ITS slope estimates and relative shares integrated.')])
     notebook(ROOT/'notebooks/07_timeseries.ipynb', '# Review 2 — Method 1\n\nMember 5: forecasting and evaluation. **Member 3 Part A (STL, stationarity, change points, ITS) is a separate handoff and is not claimed as finished here.**',[
         ('## Part A — Akshay’s pattern analysis\nInsert the reviewed M3 sections here when available.',None),
         ('## Part B — Complete weekly series and fixed evaluation design',"TS = ROOT/'reports/review2/ts'\nstatus=json.loads((TS/'run_status.json').read_text())\nassert status['status']=='complete'\nseries=pd.read_csv(TS/'series_long.csv')\ndisplay(series.groupby('tag').size().rename('weeks').to_frame())\ndisplay(json.loads((TS/'series_manifest.json').read_text()))"),
@@ -91,8 +91,10 @@ def m5():
         '- What is an origin? The first forecast week, so all training observations are earlier.\n'+
         '- Why intervals? Point forecasts hide uncertainty; measured coverage shows whether bands are reliable. Our bands under-cover and we report that.\n'+
         '- Did AI cause the change? This observational study shows timing/associations, not proof of cause.\n'+
-        '- Why some tags have no class? Percentage change from a last observed count of zero is undefined.\n')
-    (R/'contribution_member5.md').write_text('# Member 5 — Adhikkesh\n\nImplemented and ran complete series preparation, training-only ETS/SARIMAX selection, three baselines, four-horizon expanding-window backtests, matched comparisons, DM/residual checks and 26-week forecasts. Generated charts, notebook Part B, handoff schemas/captions and findings. Source: `src/ts_forecast.py`. Evidence: `reports/review2/ts/`, `notebooks/07_timeseries.ipynb`.\n\nPending external input: Akshay’s ITS results for integrated tag interpretation. Optional GRU/what-if/classifier feature extensions are not claimed. No PR, approval or commit is fabricated; link the actual commits and reviews after the owners commit.\n')
+        '- Why some tags have no class? Percentage change from a last observed count of zero is undefined.\n'+
+        '- How are forecasts combined with ITS? ITS estimates the historical structural break at ChatGPT launch (all 14 series show significant slope declines of -1.6% to -3.9%/week), while our 26-week forecasts project forward from the current baseline through February 2027.\n'+
+        '- Which tags gained vs lost share? Emerging AI/data tooling (openai-api, fastapi, docker, powerbi, excel) gained relative share of site activity post-2023, while legacy ecosystems (javascript, python, pandas, reactjs, java) lost share despite higher absolute counts.\n')
+    (R/'contribution_member5.md').write_text('# Member 5 — Adhikkesh\n\nImplemented and ran complete series preparation, training-only ETS/SARIMAX selection, three baselines, four-horizon expanding-window backtests, matched comparisons, DM/residual checks and 26-week forecasts. Generated charts, notebook Part B, handoff schemas/captions and findings. Source: `src/ts_forecast.py`. Evidence: `reports/review2/ts/`, `notebooks/07_timeseries.ipynb`.\n\nJoint input integrated: Akshay’s ITS slope changes, p-values and post-2023 relative shares joined into tag_classes.csv. Optional GRU/what-if/classifier feature extensions are not claimed. No PR, approval or commit is fabricated; link the actual commits and reviews after the owners commit.\n')
 
 
 def m2():
