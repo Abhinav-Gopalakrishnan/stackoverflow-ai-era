@@ -13,9 +13,9 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import TAG_COLORS, load_data, render_sidebar
+    from common import filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
 
 st.set_page_config(
     page_title="Stack Overflow in the AI Era: Overview",
@@ -45,47 +45,22 @@ selected_tags = filters["tags"]
 start_date = pd.to_datetime(filters["start_date"])
 end_date = pd.to_datetime(filters["end_date"])
 
-series_filtered = series_df[
-    (series_df["tag"].isin(selected_tags))
-    & (pd.to_datetime(series_df["week_start"]) >= start_date)
-    & (pd.to_datetime(series_df["week_start"]) <= end_date)
-].copy()
+series_filtered = filter_observations(series_df, 'week_start', filters)
+# KPIs use one focus series: study tags overlap and ALL already contains every question.
+kpi_tag = focus_tag(filters, 'overview_kpi_tag', 'KPI series (one tag; counts are not added across tags):')
+kpi_series = series_filtered[series_filtered.tag == kpi_tag]
 series_filtered["week_start_dt"] = pd.to_datetime(series_filtered["week_start"])
 
 # -------------------------------------------------------------
 # KPI Computations (computed dynamically, never hard-coded)
 # -------------------------------------------------------------
-# 1. Weekly volume baseline (2022 pre-ChatGPT: Jan - Oct 2022) vs recent (last 8 weeks of 2025/2026)
-pre_2022_mask = (
-    (series_filtered["week_start_dt"] >= "2022-01-01")
-    & (series_filtered["week_start_dt"] < "2022-11-01")
-)
-pre_weekly_avg = (
-    series_filtered[pre_2022_mask].groupby("week_start")["count"].sum().mean()
-    if not series_filtered[pre_2022_mask].empty
-    else np.nan
-)
-
-# Recent weekly average (last 8 recorded weeks)
-unique_weeks = sorted(series_filtered["week_start"].unique())
-recent_weeks = unique_weeks[-8:] if len(unique_weeks) >= 8 else unique_weeks
-recent_weekly_avg = (
-    series_filtered[series_filtered["week_start"].isin(recent_weeks)]
-    .groupby("week_start")["count"]
-    .sum()
-    .mean()
-    if recent_weeks
-    else np.nan
-)
-
-pct_volume_change = (
-    ((recent_weekly_avg - pre_weekly_avg) / pre_weekly_avg) * 100.0
-    if (pre_weekly_avg and not np.isnan(pre_weekly_avg) and pre_weekly_avg > 0)
-    else 0.0
-)
-
+# Window-sensitive volume KPI and an explicitly fixed 2022 comparison baseline.
+pre_2022 = series_df[(series_df.tag == kpi_tag) & series_df.week_start.between('2022-01-01','2022-10-31')]
+pre_weekly_avg = pre_2022['count'].mean()
+recent_weekly_avg = kpi_series.sort_values('week_start').tail(8)['count'].mean()
+pct_volume_change = (recent_weekly_avg / pre_weekly_avg - 1) * 100 if pre_weekly_avg > 0 else np.nan
 # 2. Resolution rate: pre (<2022-11) vs post (>=2023-01), excluding low_sample
-rates_tag = rates_df[rates_df["tag"].isin(selected_tags)].copy()
+rates_tag = rates_df[rates_df["tag"].eq(kpi_tag)].copy()
 # Strict validity rule: omit low_sample months from conclusions
 valid_rates = rates_tag[~rates_tag["low_sample"]].copy()
 
@@ -123,13 +98,13 @@ with kpi1:
     st.metric(
         label="Recent Weekly Questions",
         value=f"{int(recent_weekly_avg):,}" if not np.isnan(recent_weekly_avg) else "N/A",
-        help="Mean weekly questions across selected tag(s) over the most recent 8 weeks.",
+        help="Mean of up to the last 8 observed weeks of the selected window for the KPI tag.",
     )
 
 with kpi2:
     st.metric(
         label="Volume Shift vs 2022 Pre-AI",
-        value=f"{pct_volume_change:+.1f}%",
+        value=f"{pct_volume_change:+.1f}%" if pd.notna(pct_volume_change) else "Undefined",
         delta=f"{pct_volume_change:.1f}%",
         delta_color="normal",
         help="Percentage change in weekly question volume relative to 2022 pre-ChatGPT baseline.",
@@ -150,9 +125,9 @@ with kpi4:
     pre_h_str = f"{pre_hours:.1f}h" if not np.isnan(pre_hours) else "N/A"
     post_h_str = f"{post_hours:.1f}h" if not np.isnan(post_hours) else "N/A"
     st.metric(
-        label="Median Hours to Accept",
+        label="Typical Monthly Acceptance Time",
         value=f"{pre_h_str} -> {post_h_str}",
-        help="Median hours elapsed from question creation to answer acceptance.",
+        help="Fixed pre/post comparison of monthly medians, not a pooled question-level median.",
     )
 
 st.divider()
@@ -161,11 +136,8 @@ st.divider()
 # Plotly Weekly Volume Chart with Shading & Event Markers
 # -------------------------------------------------------------
 # Dynamic takeaway title strictly observing wording rules
-direction = "decline" if pct_volume_change < 0 else "increase"
-takeaway_title = (
-    f"Weekly Question Volume: {abs(pct_volume_change):.1f}% {direction} "
-    f"consistent with post-2022 AI adoption"
-)
+takeaway_title = "Weekly Question Volume — Selected Observation Window"
+st.caption(f"Volume KPIs use {kpi_tag}; ALL resolution rates refer to the collected project sample, not a site census; the resolution and acceptance summaries compare fixed pre/post periods. Tags overlap, so their counts must not be added.")
 
 fig = go.Figure()
 
@@ -220,7 +192,7 @@ fig.add_vrect(
 
 # Event markers from event_list.csv
 if filters["show_events"]:
-    for _, event in events_df.iterrows():
+    for event_no, (_, event) in enumerate(events_df.iterrows()):
         ev_date = event["date"]
         ev_name = event["event_name"]
         fig.add_vline(
@@ -229,8 +201,8 @@ if filters["show_events"]:
             line_dash="dash",
             line_color="#DC2626",
             annotation_text=ev_name,
-            annotation_position="top left",
-            annotation=dict(font_size=9, font_color="#DC2626"),
+            annotation_position="top left" if event_no % 2 else "bottom right",
+            annotation=dict(font_size=9, font_color="#DC2626", textangle=-90),
         )
 
 y_axis_title = "Log(Questions + 1)" if filters["log_scale"] else "Weekly Questions"
@@ -255,12 +227,12 @@ fig.update_layout(
     paper_bgcolor="#FFFFFF",
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 st.caption(
     "How to read this chart: Weekly question volume from 2019 through 2026. "
     "Vertical dashed lines indicate key generative AI release milestones. "
-    "The sustained deceleration post-November 2022 is consistent with developer substitution to LLMs; "
+    "These observational data do not measure developer substitution to LLMs; "
     "effects are not causally attributed to any single event."
 )
 
@@ -273,7 +245,7 @@ with st.expander("Monthly Resolution Rates & Sample Quality Inspection"):
         "Rows flagged with `low_sample = True` (fewer than 30 collected questions in that tag-month) "
         "are displayed with warning indicators and excluded from empirical takeaways."
     )
-    display_rates = rates_tag.sort_values(["tag", "month"], ascending=[True, False]).copy()
+    display_rates = filter_observations(rates_tag, "month", filters, monthly=True, tags=[kpi_tag]).sort_values(["tag", "month"], ascending=[True, False]).copy()
     display_rates["resolved_rate_7d"] = (display_rates["resolved_rate_7d"] * 100).round(1).astype(str) + "%"
     display_rates["answered_rate_7d"] = (display_rates["answered_rate_7d"] * 100).round(1).astype(str) + "%"
     st.dataframe(
@@ -287,5 +259,5 @@ with st.expander("Monthly Resolution Rates & Sample Quality Inspection"):
             "median_hours_to_accept",
             "low_sample",
         ]],
-        use_container_width=True,
+        width='stretch',
     )

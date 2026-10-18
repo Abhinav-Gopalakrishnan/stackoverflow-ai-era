@@ -15,9 +15,9 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 
 st.set_page_config(
     page_title="Page 5: Tone & Complexity",
@@ -26,7 +26,7 @@ st.set_page_config(
 )
 
 # Render global sidebar
-filters = render_sidebar()
+filters = render_sidebar(log=False)
 
 st.title("Page 5: Tone and Complexity")
 st.markdown(
@@ -56,20 +56,8 @@ def _caption(chart_name: str) -> str:
     return f"{row.iloc[0]['takeaway']}  \n*Caveat: {row.iloc[0]['caveat']}*"
 
 # Tag selector (synced to session_state)
-default_tag = (
-    st.session_state["selected_tags"][0]
-    if st.session_state.get("selected_tags") and st.session_state["selected_tags"][0] in ALL_TAGS
-    else "ALL"
-)
-selected_tag = st.selectbox(
-    "Focus Technology Tag:",
-    options=ALL_TAGS,
-    index=ALL_TAGS.index(default_tag),
-    key="page5_tag_selector",
-)
-if selected_tag not in st.session_state["selected_tags"]:
-    st.session_state["selected_tags"] = [selected_tag]
-
+selected_tag = focus_tag(filters, 'page5_tag_selector')
+st.caption("Monthly charts follow the observation window. Pre/post summaries and keyword comparisons use the fixed research periods, excluding the transition.")
 tag_color = TAG_COLORS.get(selected_tag, "#1D4E89")
 
 # Metric picker
@@ -92,7 +80,7 @@ selected_metric = st.selectbox(
 # =============================================================
 st.subheader("1. Monthly Tone Shares")
 
-tm = tone_monthly[tone_monthly["tag"] == selected_tag].sort_values("month_dt").copy()
+tm = filter_observations(tone_monthly, "month", filters, monthly=True, tags=[selected_tag]).sort_values("month_dt")
 
 # Grey out low_sample months
 tm["opacity"] = tm["low_sample"].apply(lambda x: 0.25 if x else 1.0)
@@ -119,7 +107,7 @@ if not tp_metric_row.empty:
     tone_title = (
         f"{TONE_METRICS[selected_metric]} for {selected_tag}: "
         f"{abs(change_val):.1f} pp {change_dir} (95% CI [{lo95:+.1f}, {hi95:+.1f}] pp) "
-        f"consistent with AI-era shift"
+        f"(fixed pre/post comparison)"
     )
 else:
     tone_title = f"{TONE_METRICS[selected_metric]} for {selected_tag}"
@@ -151,19 +139,20 @@ if not low.empty:
         )
     )
 
-# ChatGPT break
-fig_tone.add_vline(
-    x="2022-11-30",
-    line_width=1.5,
-    line_dash="dash",
-    line_color="#DC2626",
-    annotation_text="ChatGPT Launch",
-    annotation_position="top left",
-    annotation=dict(font_size=9, font_color="#DC2626"),
-)
+if filters["show_events"]:
+    # ChatGPT break
+    fig_tone.add_vline(
+        x="2022-11-30",
+        line_width=1.5,
+        line_dash="dash",
+        line_color="#DC2626",
+        annotation_text="ChatGPT Launch",
+        annotation_position="top left",
+        annotation=dict(font_size=9, font_color="#DC2626"),
+    )
 
 fig_tone.update_layout(
-    title=dict(text=f"<b>{tone_title}</b>", font=dict(size=14, color="#1F2937")),
+    title=dict(text=f"<b>{selected_tag}: {TONE_METRICS[selected_metric]}</b>", font=dict(size=14, color="#1F2937")),
     xaxis=dict(title="Month", showgrid=True, gridcolor="#E5E7EB"),
     yaxis=dict(title="Share", showgrid=True, gridcolor="#E5E7EB",
                tickformat=".0%"),
@@ -172,8 +161,9 @@ fig_tone.update_layout(
     paper_bgcolor="#FFFFFF",
     margin=dict(l=40, r=40, t=60, b=40),
 )
-st.plotly_chart(fig_tone, use_container_width=True)
+st.plotly_chart(fig_tone, width='stretch')
 
+st.caption(tone_title)
 st.caption(_caption("Tone and complexity"))
 
 st.divider()
@@ -221,35 +211,16 @@ st.divider()
 # =============================================================
 # 3. Tone Validation Audit
 # =============================================================
-st.subheader("3. Independent Tone Validation Audit")
-
+st.subheader("3. Tone Validation Against One Human Reference")
 val_row = validation.iloc[0]
-val_status = val_row["status"]
-labelled = val_row["labelled_rows"]
-required = val_row["required_rows"]
-
-st.warning(
-    f"**Validation Status:** `{val_status}`  \n"
-    f"**Labelled rows:** {labelled} of {required} required."
-)
-
-acc = val_row["accuracy"]
-f1 = val_row["macro_f1"]
-kappa = val_row["cohen_kappa"]
-
-val_cols = st.columns(3)
-with val_cols[0]:
-    st.metric("Accuracy", f"{acc}" if pd.notna(acc) else "N/A — awaiting labels")
-with val_cols[1]:
-    st.metric("Macro F1", f"{f1}" if pd.notna(f1) else "N/A — awaiting labels")
-with val_cols[2]:
-    st.metric("Cohen's κ", f"{kappa}" if pd.notna(kappa) else "N/A — awaiting labels")
-
-st.info(
-    "No confusion matrix is available; awaiting independent human labels. "
-    "All tone metrics above are VADER lexicon-based and should be treated as "
-    "exploratory until validated by human annotators."
-)
+st.warning(str(val_row['reference']) + ". " + str(val_row['limitation']))
+cols = st.columns(4)
+cols[0].metric("VADER accuracy", f"{val_row['accuracy']:.1%}")
+cols[1].metric("VADER macro F1", f"{val_row['macro_f1']:.3f}")
+cols[2].metric("AI–human agreement", f"{val_row['ai_human_agreement']:.1%}")
+cols[3].metric("AI–human Cohen's κ", f"{val_row['ai_human_kappa']:.3f}")
+st.caption("200 posts. Two-human kappa and adjudicated gold labels are unavailable. AI annotations are disclosed; VADER and frustration flags remain exploratory.")
+st.dataframe(load_data('tone_confusion.csv'), hide_index=True)
 
 st.divider()
 
@@ -307,7 +278,7 @@ if not cx_median.empty:
         )
 
     fig_cx.update_layout(
-        title=dict(text=f"<b>{cx_title}</b>", font=dict(size=14, color="#1F2937")),
+        title=dict(text=f"<b>{selected_tag}: changes in weighted medians</b>", font=dict(size=14, color="#1F2937")),
         xaxis=dict(title="", showgrid=False),
         yaxis=dict(title="Change (Median, Pre→Post)", showgrid=True, gridcolor="#E5E7EB"),
         height=400,
@@ -316,8 +287,9 @@ if not cx_median.empty:
         margin=dict(l=40, r=40, t=60, b=40),
     )
     fig_cx.add_hline(y=0, line_width=1, line_color="#9CA3AF")
-    st.plotly_chart(fig_cx, use_container_width=True)
+    st.plotly_chart(fig_cx, width='stretch')
 
+    st.caption("Metrics have different native units (words, lines, blocks, reading-ease points and tag counts); bar heights are not comparable across metrics.")
     st.caption(_caption("Complexity intervals"))
 
     # Show full data table
@@ -399,7 +371,7 @@ with col_r:
             paper_bgcolor="#FFFFFF",
             margin=dict(l=120, r=60, t=40, b=30),
         )
-        st.plotly_chart(fig_r, use_container_width=True)
+        st.plotly_chart(fig_r, width='stretch')
     else:
         st.info("No rising keywords found.")
 
@@ -426,7 +398,7 @@ with col_f:
             paper_bgcolor="#FFFFFF",
             margin=dict(l=120, r=60, t=40, b=30),
         )
-        st.plotly_chart(fig_f, use_container_width=True)
+        st.plotly_chart(fig_f, width='stretch')
     else:
         st.info("No falling keywords found.")
 

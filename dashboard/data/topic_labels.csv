@@ -1,11 +1,16 @@
-topic,top_terms,name_m4,name_m2,final_name,agreement
-0,"error, run, code, python, message, request",Python Execution & Runtime Errors,,Python Execution & Runtime Errors,pending_m2
-1,"column, dataframe, row, value, panda, like",Pandas Dataframe & Data Manipulation,,Pandas Dataframe & Data Manipulation,pending_m2
-2,"numbertoken, numbertoken numbertoken, date, year, month, day","Time Series, Dates & Numeric Formatting",,"Time Series, Dates & Numeric Formatting",pending_m2
-3,"button, click, page, user, html, text","Web Frontend, DOM & User Events",,"Web Frontend, DOM & User Events",pending_m2
-4,"table, power, date, bi, power bi, query",Power BI DAX & Data Modeling,,Power BI DAX & Data Modeling,pending_m2
-5,"component, react, render, js, state, prop",React UI & State Management,,React UI & State Management,pending_m2
-6,"file, csv, folder, read, excel, csv file","File I/O, CSV & Excel Data Export",,"File I/O, CSV & Excel Data Export",pending_m2
-7,"docker, image, container, run, compose, docker compose",Docker Containers & Cloud Deployment,,Docker Containers & Cloud Deployment,pending_m2
-8,"array, function, list, value, object, string","Core Syntax, Arrays & Data Structures",,"Core Syntax, Arrays & Data Structures",pending_m2
-9,"android, app, java, build, device, studio",Android Mobile App & Gradle Build,,Android Mobile App & Gradle Build,pending_m2
+topic,top_terms,name_m4,name_m2,final_name,agreement,label_source,mixed
+0,"error, python, code, run, function, follow, message, package, script, version, module, line, import, error message, instal",,,Python errors and package execution,not independently human validated,automatic top-term rules,False
+1,"column, dataframe, value, row, panda, datum, like, value column, panda dataframe, frame, group, cell, output, new, new column",,,Dataframe rows and columns,not independently human validated,automatic top-term rules,False
+2,"numbertoken, numbertoken numbertoken, date, year, month, day, time, number, date numbertoken, format, calculate, result, value numbertoken, sum, value",,,Mixed numerical tables and calculations,mixed: automatic suggestion,automatic top-term rules,True
+3,"button, click, page, html, text, code, change, user, element, javascript, input, event, add, select, click button",,,User-interface events and elements,not independently human validated,automatic top-term rules,False
+4,"table, query, sql, row, database, join, record, datum, filter, result, date, table table, select, create, insert",,,SQL queries and tables,not independently human validated,automatic top-term rules,False
+5,"component, react, render, js, state, child, prop, react native, native, hook, parent, update, react component, app, pass",,,React components and state,not independently human validated,automatic top-term rules,False
+6,"file, csv, folder, read, excel, csv file, directory, json, save, import, path, download, upload, excel file, js",,,Files and data import/export,not independently human validated,automatic top-term rules,False
+7,"image, plot, display, image description, enter image, description, enter, size, upload, color, code, axis, background, like, load",,,"Mixed plotting, images and screenshot boilerplate",mixed: automatic suggestion,automatic top-term rules,True
+8,"array, object, value, function, return, array object, element, numpy, key, javascript, json, loop, string, variable, array array",,,Arrays and object manipulation,not independently human validated,automatic top-term rules,False
+9,"android, app, build, studio, device, android studio, gradle, project, version, flutter, google, native, java, android app, screen",,,Android development and builds,not independently human validated,automatic top-term rules,False
+10,"power, bi, power bi, date, report, measure, month, filter, dax, datum, chart, visual, slicer, day, bi report",,,Power BI measures and tables,not independently human validated,automatic top-term rules,False
+11,"request, api, datum, send, server, response, fastapi, user, post, client, token, json, model, endpoint, url",,,API requests and responses,not independently human validated,automatic top-term rules,False
+12,"docker, container, run, compose, docker compose, docker container, dockerfile, command, build, server, host, connect, port, application, service",,,Docker containers and images,not independently human validated,automatic top-term rules,False
+13,"list, string, item, element, number, dictionary, list list, loop, output, like, python, word, print, return, contain",,,Collections and programming operations,not independently human validated,automatic top-term rules,False
+14,"class, method, java, type, test, object, spring, like, create, instance, way, boot, spring boot, parameter, add",,,Java classes and methods,not independently human validated,automatic top-term rules,False

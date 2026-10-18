@@ -1,0 +1,26 @@
+{
+  "file": "data/processed/questions_clean_v1.parquet",
+  "rows": 302026,
+  "columns": 39,
+  "bytes": 316393537,
+  "sha256": "dd4a5d96df1cc93e1ccbad625bc51f01c65a96a32bce452469f1e62662dfaeaf",
+  "date_min": "2019-01-01 20:44:34+00:00",
+  "date_max": "2026-08-31 16:08:21+00:00",
+  "weight_min": 1.0,
+  "weight_max": 23.0,
+  "missing_account_age_flagged": 6319,
+  "body_truncated_flagged": 302,
+  "checks": {
+    "unique_question_ids": true,
+    "required_fields_complete": true,
+    "weights_finite_positive": true,
+    "resolved_target_binary": true,
+    "answered_target_binary": true,
+    "resolved_implies_answered": true,
+    "date_range_in_study": true,
+    "account_age_nonnegative": true
+  },
+  "all_passed": true,
+  "availability": "Full parquet exists locally and is gitignored; supply it separately with the submission or use the original collection/cleaning pipeline. Git clone alone supports the precomputed dashboard and result notebooks.",
+  "license": "Stack Overflow title examples: CC BY-SA 4.0 with canonical links; no body/user hash in public preview."
+}

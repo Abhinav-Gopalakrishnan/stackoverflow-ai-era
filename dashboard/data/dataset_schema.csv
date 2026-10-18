@@ -1,0 +1,40 @@
+column,dtype,missing,description_source
+question_id,int64,0,docs/data_dictionary.md
+accepted_answer_id,float64,171929,docs/data_dictionary.md
+answer_count,int64,0,docs/data_dictionary.md
+creation_date,int64,0,docs/data_dictionary.md
+tags,object,0,docs/data_dictionary.md
+title,str,0,docs/data_dictionary.md
+sampling_weight,float64,0,docs/data_dictionary.md
+score,int64,0,docs/data_dictionary.md
+view_count,int64,0,docs/data_dictionary.md
+is_answered,bool,0,docs/data_dictionary.md
+last_activity_date,int64,0,docs/data_dictionary.md
+closed_date,float64,284373,docs/data_dictionary.md
+collected_tag,str,0,docs/data_dictionary.md
+month,str,0,docs/data_dictionary.md
+day_type,str,0,docs/data_dictionary.md
+collected_tags,object,0,docs/data_dictionary.md
+user_hash,str,6319,docs/data_dictionary.md
+accepted_answer_creation_date,float64,171929,docs/data_dictionary.md
+first_answer_creation_date,float64,56436,docs/data_dictionary.md
+account_creation_date,float64,6319,docs/data_dictionary.md
+created_at,"datetime64[ms, UTC]",0,docs/data_dictionary.md
+closed_at,"datetime64[ms, UTC]",284373,docs/data_dictionary.md
+last_activity_at,"datetime64[ms, UTC]",0,docs/data_dictionary.md
+accepted_at,"datetime64[ms, UTC]",171929,docs/data_dictionary.md
+first_answer_at,"datetime64[ms, UTC]",56436,docs/data_dictionary.md
+account_created_at,"datetime64[ms, UTC]",6319,docs/data_dictionary.md
+plain_body,str,0,docs/data_dictionary.md
+code_text,str,0,docs/data_dictionary.md
+n_code_blocks,int64,0,docs/data_dictionary.md
+code_ratio,float64,0,docs/data_dictionary.md
+has_error_text,bool,0,docs/data_dictionary.md
+missing_account_age,bool,0,docs/data_dictionary.md
+account_age_days,float64,0,docs/data_dictionary.md
+hours_to_accept,float64,171929,docs/data_dictionary.md
+hours_to_first_answer,float64,56436,docs/data_dictionary.md
+target_resolved_7d,int64,0,docs/data_dictionary.md
+target_answered_7d,int64,0,docs/data_dictionary.md
+accepted_given_answered,float64,75403,docs/data_dictionary.md
+body_truncated,bool,0,docs/data_dictionary.md

@@ -1,0 +1,41 @@
+question_id,title,created_at,sampling_weight,n_code_blocks,code_ratio,has_error_text,target_resolved_7d,target_answered_7d,link
+54160622,How to decrypt Android JSON payload?,2019-01-12 14:41:32+00:00,8.0,3,0.7521171892881666,True,1,1,https://stackoverflow.com/q/54160622
+54873725,loading a data.table object saved locally as an R object on Linux,2019-02-25 19:55:54+00:00,20.0,1,0.3532684283727399,False,0,0,https://stackoverflow.com/q/54873725
+57098741,Delete selected Items with modal confirmation in jsp,2019-07-18 16:10:54+00:00,23.0,4,0.7743808049535603,False,1,1,https://stackoverflow.com/q/57098741
+57590610,im4java Convert Crashes on Piped Input/Output,2019-08-21 11:28:02+00:00,22.0,1,0.7228033472803347,True,0,1,https://stackoverflow.com/q/57590610
+58675228,Bind with addEventListener,2019-11-02 20:56:12+00:00,9.0,1,0.6530612244897959,False,1,1,https://stackoverflow.com/q/58675228
+60579001,Changing the value of a JSF SessionScoped Bean to log out user,2020-03-07 15:12:23+00:00,9.0,5,0.7498309668695065,True,1,1,https://stackoverflow.com/q/60579001
+60809483,How to create table postgresql Heroku?,2020-03-23 07:35:04+00:00,22.0,0,0.0,False,0,1,https://stackoverflow.com/q/60809483
+64450344,Track usage of third-party application on Teams,2020-10-20 17:22:41+00:00,1.0,0,0.0,False,0,1,https://stackoverflow.com/q/64450344
+65165279,How to use K-fold cross validation in TensorFlow,2020-12-06 06:17:29+00:00,8.0,0,0.0,False,1,1,https://stackoverflow.com/q/65165279
+65504998,react state updated undefined and render nothing,2020-12-30 09:51:30+00:00,23.0,3,0.8584507042253521,True,0,1,https://stackoverflow.com/q/65504998
+65614507,No styles.xml file when I created a new project,2021-01-07 14:45:04+00:00,21.0,0,0.0806045340050377,False,0,1,https://stackoverflow.com/q/65614507
+68103247,TypeError: __init__() got an unexpected keyword argument &#39;backend&#39; when running script on Win7 machine,2021-06-23 15:51:48+00:00,22.0,2,0.8596102745792737,True,0,0,https://stackoverflow.com/q/68103247
+68186402,python: How do I compare doc A and doc B and if it finds a string that matches in doc B how do I print the entire line?,2021-06-29 22:32:26+00:00,22.0,5,0.7196969696969697,True,1,1,https://stackoverflow.com/q/68186402
+69091061,Can you use .format() and .form() with dayjs,2021-09-07 15:38:50+00:00,22.0,2,0.3405438813349815,False,1,1,https://stackoverflow.com/q/69091061
+70401815,Using XPath to get an element in SVG,2021-12-18 07:58:08+00:00,8.0,2,0.6326905417814509,False,1,1,https://stackoverflow.com/q/70401815
+72021302,R Shiny - numericInput label disappears once publishing,2022-04-26 22:41:01+00:00,21.0,1,0.7522522522522522,False,0,1,https://stackoverflow.com/q/72021302
+72152014,Bypass login page in keycloak using access token,2022-05-07 11:23:48+00:00,9.0,0,0.0,False,0,1,https://stackoverflow.com/q/72152014
+72197721,pheatmap r- annotation legend not showing all values,2022-05-11 08:22:36+00:00,22.0,1,0.6085164835164835,False,0,0,https://stackoverflow.com/q/72197721
+72388682,How to make functions auto run every 5 minutes?,2022-05-26 08:05:30+00:00,22.0,2,0.6840317100792752,False,0,1,https://stackoverflow.com/q/72388682
+72817589,Not able to activate a product id for in-app billing in my google play console,2022-06-30 14:29:38+00:00,22.0,1,0.2095808383233532,False,0,1,https://stackoverflow.com/q/72817589
+75066008,Heroku process crashing as soon as the process starts,2023-01-10 05:57:48+00:00,22.0,5,0.5986893840104849,False,1,1,https://stackoverflow.com/q/75066008
+75558492,"React Native group of routes, DRY?",2023-02-24 15:38:43+00:00,20.0,1,0.9269955876454072,False,0,1,https://stackoverflow.com/q/75558492
+75765885,Calculate working time difference between dates,2023-03-17 09:33:31+00:00,23.0,2,0.5181236673773987,False,1,1,https://stackoverflow.com/q/75765885
+76625627,"Is there a way to turn on my Apple TV via my Raspberry Pi (Wifi, Bluetooth)?",2023-07-06 04:59:09+00:00,21.0,0,0.0,False,0,0,https://stackoverflow.com/q/76625627
+76983832,Hilt with Android - Can I inject a dependency inside of a non-main thread Coroutine?,2023-08-26 16:17:04+00:00,8.0,5,0.6657934131736527,True,0,0,https://stackoverflow.com/q/76983832
+78029626,Using 2 navigation approaches simultaneously. Remove last backstack fragment,2024-02-20 18:33:44+00:00,21.0,0,0.0,False,0,1,https://stackoverflow.com/q/78029626
+78097183,My code is throwing error when I use &quot;GrayScaleObservation&quot; from Open AI Gym and &quot;DummyVecEnv&quot; from stable_baselines3.common.vec_env,2024-03-03 16:49:58+00:00,10.0,1,0.888725424635549,False,0,0,https://stackoverflow.com/q/78097183
+78271087,Using get_tree to create a timer but it&#39;s not activating,2024-04-04 00:27:09+00:00,22.0,1,0.6246006389776357,False,1,1,https://stackoverflow.com/q/78271087
+78773609,FastAPI Insert Performance: 1-2 ms Per Insert - Is This Normal?,2024-07-20 18:39:03+00:00,1.0,4,0.6548347613219094,False,0,1,https://stackoverflow.com/q/78773609
+79153624,Huge gap at the bottom of the webiste,2024-11-03 20:53:55+00:00,9.0,2,0.8932384341637011,False,1,1,https://stackoverflow.com/q/79153624
+79365327,Problem with linear Q-function approximation for a maze runner game,2025-01-17 15:47:35+00:00,1.0,3,0.9354243542435424,False,0,1,https://stackoverflow.com/q/79365327
+79517081,Discriminated union allows some properties depending on their type,2025-03-18 10:30:15+00:00,1.0,4,0.628862231915667,False,0,1,https://stackoverflow.com/q/79517081
+79518521,ODI Metadata Repository - Getting Reusable Mappings used by Mappings,2025-03-18 19:43:00+00:00,1.0,1,0.2313883299798792,False,0,0,https://stackoverflow.com/q/79518521
+79562865,Make shiny data table row update automatically after submitting form to update columns,2025-04-08 19:02:08+00:00,1.0,1,0.8043478260869565,False,0,1,https://stackoverflow.com/q/79562865
+79776869,TMDb API Error: signal timed out when fetching popular movies,2025-09-27 16:00:29+00:00,1.0,2,0.7741324921135647,True,0,1,https://stackoverflow.com/q/79776869
+79947751,Why does Python asyncio performance decrease when creating too many small tasks?,2026-05-28 07:30:37+00:00,1.0,1,0.6552567237163814,False,0,0,https://stackoverflow.com/q/79947751
+79952926,Error in options(scipen = opsci) when trying to convert raster layers to individual ASCII files?,2026-06-08 09:45:43+00:00,1.0,2,0.6260257913247362,False,1,1,https://stackoverflow.com/q/79952926
+79956384,MH attention (MHA) with pytorch to process a sequence,2026-06-11 08:45:44+00:00,1.0,1,0.8832866479925303,False,0,1,https://stackoverflow.com/q/79956384
+79975154,Checking whether external pointer of a data.table is valid,2026-07-06 16:51:30+00:00,1.0,1,0.6206434316353887,False,0,1,https://stackoverflow.com/q/79975154
+79976443,Previous page&#39;s custom HTML persists during page transition,2026-07-07 11:28:44+00:00,1.0,4,0.7325689494886892,False,0,0,https://stackoverflow.com/q/79976443

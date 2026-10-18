@@ -28,3 +28,11 @@ fail the stability threshold. Low/negative coherence is a semantic-quality limit
 not an accuracy result. All 302,026 questions and 14 tag groups are exported.
 Old topic names/AI annotations are archived; new names are automatic, with numerical
 and screenshot-boilerplate mixtures flagged. Artifact checks and all eight topic tests pass.
+
+## Phase 2 integration outcome
+
+37 current dashboard exports (2.618 MiB); seven application pages including dataset
+and locked classifier evidence. Period/date/tag interactions alter observation charts;
+fixed-model pages disable irrelevant controls. ITS units are weekly, topic intervals
+use percentage points, and AI/human provenance remains separate. Semantic tests,
+the full 146-test suite and all seven pages in a clean minimal dependency environment pass.
