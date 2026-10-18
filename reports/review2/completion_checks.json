@@ -17,9 +17,8 @@
   "unit_tests_passed": 7,
   "human_validation": "complete_ai_assisted",
   "pending": [
-    "M2 and M3 independent tone labels",
-    "M4 topic terms/examples before M2 names topics",
-    "M3 ITS estimates for integrated forecast interpretation"
+    "M2 independent human tone labels and subsequent adjudication with M3",
+    "M2 independent human topic names and comparison with M4"
   ],
   "not_claimed": [
     "optional GRU",

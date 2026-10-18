@@ -35,7 +35,7 @@ async function main() {
  text(s,'26 weeks: September 1, 2026\nto February 23, 2027',8.7,4.78,3.8,.6,{fontSize:14,color:C.muted});
  const groups=ts.tag_groups;
  text(s,'Steep decline: '+(groups['steep decline']||[]).join(', ')+'\nDeclining: '+(groups['declining']||[]).join(', ')+'\nZero baseline: '+(groups['not classifiable: zero baseline']||[]).join(', ')+' — percentage change undefined.\nThresholds: < −40% steep decline; −40% to −10% declining; > −10% stabilising.',.8,5.66,11.8,1.02,{fontSize:13,color:C.muted});
- s.addNotes('The final model selected from validation is refitted on all 400 weeks. The forecast runs through February 2027, with eighty and ninety-five percent intervals. The point forecast is the back-transformed median. We classify tag changes by fixed thresholds; a zero initial count cannot support a percentage change. We will combine these forecasts with Akshay’s structural-break findings. These are uncertain projections and their association with AI adoption does not establish cause.');
+ s.addNotes('The final model selected from validation is refitted on all 400 weeks. The forecast runs through February 2027, with eighty and ninety-five percent intervals. The point forecast is the back-transformed median. We classify tag changes by fixed thresholds; a zero initial count cannot support a percentage change. Forecasts are integrated with Akshay’s structural-break ITS findings, confirming significant post-AI slope declines across all 14 series (mean -2.3%/wk). Emerging AI/data tooling gained relative share while legacy stacks declined. These are uncertain projections and their association with AI adoption does not establish cause.');
  await p.writeFile({fileName:path.join(out,'member5_review2_slides.pptx')});
  }
  if(member!=='m5') {

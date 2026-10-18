@@ -6,3 +6,5 @@
 - Why intervals? Point forecasts hide uncertainty; measured coverage shows whether bands are reliable. Our bands under-cover and we report that.
 - Did AI cause the change? This observational study shows timing/associations, not proof of cause.
 - Why some tags have no class? Percentage change from a last observed count of zero is undefined.
+- How are forecasts combined with ITS? ITS estimates the historical structural break at ChatGPT launch (all 14 series show significant slope declines of -1.6% to -3.9%/week), while our 26-week forecasts project forward from the current baseline through February 2027.
+- Which tags gained vs lost share? Emerging AI/data tooling (openai-api, fastapi, docker, powerbi, excel) gained relative share of site activity post-2023, while legacy ecosystems (javascript, python, pandas, reactjs, java) lost share despite higher absolute counts.

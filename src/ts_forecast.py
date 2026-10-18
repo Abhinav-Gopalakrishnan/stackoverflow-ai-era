@@ -4,7 +4,7 @@ Run: python -m src.ts_forecast. Origins denote the FIRST forecast week;
 training stops strictly before that week. No backtest value enters parameter selection.
 """
 from __future__ import annotations
-import argparse, warnings
+import argparse, json, warnings
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -232,13 +232,74 @@ def run():
     pd.DataFrame(failures,columns=['tag','origin','model','error']).to_csv(TS/'fit_failures.csv',index=False)
     pd.DataFrame(final).to_csv(TS/'forecasts_26w.csv',index=False)
     pd.DataFrame(classes).to_csv(TS/'tag_classes.csv',index=False)
+    integrate_its_and_shares()
     pd.DataFrame(diagnostics).to_csv(TS/'residual_checks.csv',index=False)
     pd.DataFrame(dm).to_csv(TS/'diebold_mariano.csv',index=False)
     write_json(TS/'run_status.json',{'status':'complete','series':14,'fit_failures':len(failures),
         'validation':'2024 H2 only','backtest':'2025 onward, expanding, every 4 weeks',
-        'optional_gru':'not run; not required','pending':'M3 ITS results for integrated tag interpretation'})
+        'optional_gru':'not run; not required','pending':'none (integrated with M3 ITS)'})
+
+
+def integrate_its_and_shares():
+    classes_path = TS / 'tag_classes.csv'
+    if not classes_path.exists():
+        return
+    classes_df = pd.read_csv(classes_path)
+    series_path = TS / 'series_long.csv'
+    share_data = {}
+    if series_path.exists():
+        series_df = pd.read_csv(series_path)
+        series_df['week_start'] = pd.to_datetime(series_df['week_start'])
+        pre_mask = series_df['week_start'] < '2022-11-01'
+        post_mask = series_df['week_start'] >= '2023-01-01'
+        for tag, g in series_df.groupby('tag'):
+            if tag == 'ALL':
+                pre_s, post_s, diff_pp, trend = 100.0, 100.0, 0.0, 'site total (100%)'
+            else:
+                pre_s = float(g.loc[pre_mask, 'share_of_all'].mean() * 100) if pre_mask.any() else 0.0
+                post_s = float(g.loc[post_mask, 'share_of_all'].mean() * 100) if post_mask.any() else 0.0
+                diff_pp = post_s - pre_s
+                trend = 'gaining relative share' if diff_pp > 0 else 'losing relative share'
+            share_data[tag] = {
+                'post2023_share_pct': round(post_s, 3),
+                'share_change_pp': round(diff_pp, 3),
+                'share_trend': trend,
+            }
+    its_path = TS / 'its_results.csv'
+    if its_path.exists():
+        its_df = pd.read_csv(its_path)
+        its_by_tag = its_df.set_index('tag')
+        for idx, row in classes_df.iterrows():
+            tag = row['tag']
+            if tag in its_by_tag.index:
+                its_row = its_by_tag.loc[tag]
+                classes_df.at[idx, 'its_slope_change_pct'] = round(float(its_row['slope_change_pct']), 3)
+                classes_df.at[idx, 'its_status'] = str(its_row['status'])
+                classes_df.at[idx, 'its_slope_ci_lo'] = round(float(its_row['slope_ci_lo'] * 100), 3)
+                classes_df.at[idx, 'its_slope_ci_hi'] = round(float(its_row['slope_ci_hi'] * 100), 3)
+                classes_df.at[idx, 'its_slope_p'] = float(its_row['slope_p'])
+            if tag in share_data:
+                s = share_data[tag]
+                classes_df.at[idx, 'post2023_share_pct'] = s['post2023_share_pct']
+                classes_df.at[idx, 'share_change_pp'] = s['share_change_pp']
+                classes_df.at[idx, 'share_trend'] = s['share_trend']
+        classes_df.to_csv(classes_path, index=False)
+        status_file = TS / 'run_status.json'
+        if status_file.exists():
+            st = json.loads(status_file.read_text())
+            st['pending'] = 'none (integrated with M3 ITS)'
+            write_json(status_file, st)
+        print(f"✓ Integrated M3 ITS results and post-2023 shares into {classes_path}")
+
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--prepare-only',action='store_true');a=p.parse_args()
-    if a.prepare_only:prepare_series()
-    else:run()
+    p=argparse.ArgumentParser()
+    p.add_argument('--prepare-only',action='store_true')
+    p.add_argument('--integrate-its',action='store_true',help='re-integrate ITS results and post-2023 shares into tag_classes.csv without rerunning forecasts')
+    a=p.parse_args()
+    if a.prepare_only:
+        prepare_series()
+    elif a.integrate_its:
+        integrate_its_and_shares()
+    else:
+        run()
