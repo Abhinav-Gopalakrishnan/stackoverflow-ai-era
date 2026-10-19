@@ -3,9 +3,9 @@
 ## Start here
 
 1. Open `notebooks/review2_main.ipynb` for the complete Units 1–3 results. It reads the included saved evidence and needs no API key or full-data mount.
-2. Read `reports/review2/final_report.pdf` and `reports/review2/readiness_checklist.md`.
-3. Run the seven-page local application with the commands below. Public deployment and Kaggle publication are not claimed. The official Review 2 requirements allow a locally runnable application.
-4. Prepare the new final presentation separately using the supplied official template. Existing member decks are reference material; archived topic slides contain superseded results.
+2. Submit the expanded academic report in `submission/academic_report/output/Team_7_Review_2_Academic_Report.pdf` (editable Word copy alongside it). The compact `reports/review2/final_report.pdf` remains an earlier evidence summary.
+3. Open the public app at https://stackoverflow-ai-era.streamlit.app/ (all seven pages inspected on 19 October 2026). Deploy the current dashboard changes before the presentation; that inspection does not claim the new local changes are already online. Keep the local launch below as a fallback. Kaggle publication is not claimed.
+4. Keep the team's coauthored presentation. Insert the two new slides from `submission/final_handoff/output/Team_7_Review_2_Additional_Slides.pptx`: comparison immediately after the title, public demo immediately after the existing dashboard slide. Archived topic slides contain superseded results.
 
 ## Local dashboard (no full dataset or API credentials needed)
 
@@ -23,8 +23,18 @@ Open the local address printed by Streamlit (normally `http://localhost:8501`). 
 - Forecasts: selected tag, model, horizon and intervals. Historical observation filters are disabled because they do not refit saved forecasts. Trajectory classes always use the validation-selected model.
 - Topics: actual per-tag prevalence/pre/post outcomes, terms, source examples and measured model comparison. Names are automatic descriptions.
 - Tone: filtered monthly charts; fixed pre/post comparisons and transparent one-human-reference validation.
-- Recommendations: stakeholder selector and tag-specific insight matrix; fixed comparison periods.
+- Recommendations: choose a technology and stakeholder to see proposed actions with tag-specific numerical evidence, owners and prospective KPIs. Download the selected action plan. Global recommendations retain their explicitly labelled scope. Comparison periods are fixed.
 - Dataset/classification: 40 title-only examples, full schema/validation and locked model comparisons.
+
+Resolution is a proxy: the answer accepted in the collected record was **posted** within 168 hours of its question. The API data used here do not record when the asker clicked Accept. The delay KPI uses accepted-answer creation time and compares medians of monthly medians.
+
+## Deployment and presentation handoff
+
+Streamlit entrypoint: `dashboard/app.py`. Requirements: `dashboard/requirements.txt`. The app reads only the tracked `dashboard/data/` CSVs, without secrets or the full parquet. Publish all dashboard code changes, including `dashboard/decision_support.py`, before redeploying. `submission/` is ignored by Git: upload the finished report and new slides separately.
+
+After deployment, select Docker in Recommendations and confirm the suggested actions mention Docker and its -56.9% saved forecast. In Forecasts, select Docker with drift, then change the horizon and confirm the scenario text changes. A 26-week Docker median of 0.43 should remain visible. In Overview, confirm the accepted-answer posting-delay label. Keep the disclosed validation and interval limits visible.
+
+Record a 90–120 second backup after deployment: change an Overview tag/period, explore a forecast, inspect a topic/source post, then show a suggested action with its evidence and KPI. The rubric requires meaningful live interaction; the recording is a fallback. Rehearse the whole team within 15 minutes, including these additions.
 
 ## Dataset handoff
 

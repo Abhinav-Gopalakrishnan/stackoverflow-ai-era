@@ -15,9 +15,10 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+
 
 st.set_page_config(
     page_title="Page 2: Patterns & 2022 Break",
@@ -123,7 +124,7 @@ fig_stl.update_layout(
 fig_stl.update_xaxes(showgrid=True, gridcolor="#E5E7EB")
 fig_stl.update_yaxes(showgrid=True, gridcolor="#E5E7EB")
 
-st.plotly_chart(fig_stl, width='stretch')
+render_chart(fig_stl, width='stretch')
 
 st.caption(
     "Full-series STL separates log1p counts into smooth trend, "
@@ -195,7 +196,7 @@ fig_cp.update_layout(
     paper_bgcolor="#FFFFFF",
     margin=dict(l=40, r=40, t=60, b=40),
 )
-st.plotly_chart(fig_cp, width='stretch')
+render_chart(fig_cp, width='stretch')
 
 st.caption(
     "How to read changepoints: Ruptures Pelt algorithm detects penalised shifts in mean log volume (not significance tests). "

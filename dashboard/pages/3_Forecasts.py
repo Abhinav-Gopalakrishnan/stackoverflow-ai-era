@@ -13,10 +13,13 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
+from decision_support import format_count
+
 try:
-    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+
 
 st.set_page_config(
     page_title="Page 3: Forecasts to Feb 2027",
@@ -55,7 +58,7 @@ with col_badge:
         st.markdown(f"**Trajectory Classification for `{selected_tag}`:**")
         b1, b2, b3 = st.columns(3)
         b1.info(f"Class: **{r['forecast_class'].title()}**")
-        b2.metric("26w Forecast Drift", f"{r['change_26w_pct']:+.1f}%" if pd.notna(r["change_26w_pct"]) else "Undefined: zero baseline")
+        b2.metric("26-Week Projected Change", f"{r['change_26w_pct']:+.1f}%" if pd.notna(r["change_26w_pct"]) else "Undefined: zero baseline")
         half_life = f"{r['half_life_weeks']:.1f} wks" if not np.isnan(r["half_life_weeks"]) else "Indeterminate"
         b3.metric("Half-Life", half_life)
 
@@ -100,11 +103,11 @@ if not selected_fc.empty:
     end_val = selected_fc["pred"].iloc[-1]
     start_val = hist_series["count"].iloc[-1]
     chg_pct = ((end_val - start_val) / start_val) * 100.0 if start_val > 0 else np.nan
-    direction = "decline" if chg_pct < 0 else "increase"
+    direction = "decline" if chg_pct < 0 else "increase" if chg_pct > 0 else "change"
     takeaway_title = (
         f"{model_choice.upper()} {horizon_max}-Week Forecast for {selected_tag}: " +
         (f"{abs(chg_pct):.1f}% {direction} " if pd.notna(chg_pct) else "Percentage change undefined (zero baseline) ") +
-        f"({int(round(end_val))} questions vs {int(round(start_val))} observed)"
+        f"({format_count(end_val)} questions/week vs {format_count(start_val)} last observed)"
     )
 else:
     takeaway_title = f"Demand Forecast for {selected_tag}"
@@ -179,16 +182,20 @@ fig_fc.update_layout(
     margin=dict(l=40, r=40, t=60, b=40),
 )
 
-st.plotly_chart(fig_fc, width='stretch')
+render_chart(fig_fc, width='stretch')
 st.caption(takeaway_title)
 
-# Owner caption from ts_captions.csv
-fan_caption = captions_df[captions_df["chart"] == "Forecast fan"]
-if not fan_caption.empty:
-    row = fan_caption.iloc[0]
-    st.caption(f"**Takeaway:** {row['takeaway']} *Caveat:* {row['caveat']}")
+if not selected_fc.empty:
+    end_date = pd.Timestamp(selected_fc["week_start"].iloc[-1]).strftime("%d %B %Y")
+    st.caption(
+        f"**Selected scenario:** {selected_tag}, {model_choice}, week {horizon_max} "
+        f"ending {end_date}. Values are back-transformed forecast medians. "
+        "Fractional counts describe model output, not a fraction of an actual post. "
+        "**Caveat:** saved prediction bands under-cover in backtests and need calibration. "
+        "Changing the selection does not refit models."
+    )
 else:
-    st.caption("Forecast horizons extend through February 23, 2027. Prediction intervals are uncertain.")
+    st.info("No saved forecast is available for this selection.")
 
 st.divider()
 
@@ -218,4 +225,4 @@ else:
 skill_caption = captions_df[captions_df["chart"] == "Backtest skill"]
 if not skill_caption.empty:
     row = skill_caption.iloc[0]
-    st.caption(f"**Backtest Note:** {row['takeaway']} *Note:* {row['caveat']}")
+    st.caption(f"**Global backtest context (mean across all 14 series, not just {selected_tag}):** {row['takeaway']} *Note:* {row['caveat']}")

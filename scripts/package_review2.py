@@ -18,7 +18,7 @@ def checksum(path):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--include-dataset',action='store_true');args=parser.parse_args()
-    tracked=subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0')
+    tracked=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z'],cwd=ROOT).decode().split('\0')
     files=[]
     for name in tracked:
         if not name or not (name.startswith(PREFIXES) or name in ['README.md','requirements.txt','config.yaml','LICENSE']):continue
@@ -33,7 +33,7 @@ def main():
     out=ROOT/'submission';out.mkdir(exist_ok=True)
     manifest={'git_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'branch':subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip(),
-        'presentation':'New final presentation is prepared in a subsequent task; member decks are excluded.',
+        'presentation':'The team coauthors the final deck online. Insert the two additional slides from submission/final_handoff/output; upload the final exported deck separately.',
         'files':[{'path':f,'bytes':(ROOT/f).stat().st_size,'sha256':checksum(ROOT/f)} for f in files]}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     archive=out/'review2_code_results.zip'

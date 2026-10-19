@@ -10,16 +10,16 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 TAG_COLORS = {
     "ALL": "#1D4E89",          # Deep Academic Navy
     "python": "#3572A5",       # Python Blue
-    "javascript": "#F7DF1E",   # JavaScript Gold
+    "javascript": "#9B7100",   # Gold with contrast on white chart canvases
     "java": "#B07219",         # Java Warm Coffee
     "sql": "#E38C00",          # SQL Burnt Orange
     "pandas": "#150458",       # Pandas Dark Indigo
-    "reactjs": "#61DAFB",      # React Cyan
-    "android": "#3DDC84",      # Android Green
+    "reactjs": "#087F9C",      # React Teal
+    "android": "#20814B",      # Android Green
     "excel": "#107C41",        # Excel Forest Green
     "r": "#198CE7",            # R Blue
     "docker": "#2496ED",       # Docker Blue
-    "powerbi": "#F2C811",      # PowerBI Yellow
+    "powerbi": "#A87900",      # PowerBI Gold
     "fastapi": "#059669",      # FastAPI Emerald / Teal
     "openai-api": "#DC2626",   # OpenAI Crimson
 }
@@ -40,6 +40,22 @@ ALL_TAGS = [
     "fastapi",
     "openai-api",
 ]
+
+
+def render_chart(figure, **kwargs):
+    """Keep axes, legends and hover labels legible in light or dark app themes."""
+    figure.update_layout(
+        template="plotly_white",
+        font=dict(color="#18334A", size=13),
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        legend=dict(font=dict(color="#18334A")),
+        hoverlabel=dict(bgcolor="#FFFFFF", font=dict(color="#18334A")),
+    )
+    figure.update_xaxes(color="#18334A", gridcolor="#E5E7EB", automargin=True)
+    figure.update_yaxes(color="#18334A", gridcolor="#E5E7EB", automargin=True)
+    # Disable Streamlit's theme injection so explicit white figures stay readable.
+    return st.plotly_chart(figure, theme=None, **kwargs)
 
 
 def load_data(filename: str) -> pd.DataFrame:
@@ -74,12 +90,19 @@ def filter_observations(df, date_column, filters, *, monthly=False, tags=None):
 
 
 def focus_tag(filters, key, label='Focus Technology Tag:'):
-    """Reset stale local selectors when the shared tag selection changes."""
+    """Carry the focused technology across pages; reset on sidebar changes."""
     signature = tuple(filters['tags'])
-    if st.session_state.get(key + '_global') != signature:
-        st.session_state[key] = filters['tags'][0]
-        st.session_state[key + '_global'] = signature
-    return st.selectbox(label, ALL_TAGS, key=key)
+    if st.session_state.get('_focus_global_signature') != signature:
+        st.session_state['_focus_tag'] = filters['tags'][0]
+        st.session_state['_focus_global_signature'] = signature
+    focused = st.session_state.get('_focus_tag', filters['tags'][0])
+    if st.session_state.get(key) != focused:
+        st.session_state[key] = focused
+
+    def remember_focus():
+        st.session_state['_focus_tag'] = st.session_state[key]
+
+    return st.selectbox(label, ALL_TAGS, key=key, on_change=remember_focus)
 
 
 def render_sidebar(*, observations=True, log=True, events=True):

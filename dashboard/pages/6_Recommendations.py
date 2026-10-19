@@ -12,6 +12,8 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
+from decision_support import tag_pilots
+
 try:
     from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
@@ -32,7 +34,7 @@ st.markdown(
     """
     Evidence-based policy recommendations synthesised from time-series patterns,
     text-mining results, and the cross-method insight matrix.
-    Each recommendation links to the relevant dashboard page and tag.
+    Suggested pilots include evidence, an owner and a measurable outcome.
     """
 )
 
@@ -60,10 +62,44 @@ recs_filtered = recs[recs["stakeholder"].isin(sel_stakeholders)].copy()
 selected_tag = focus_tag(filters, 'page6_tag_selector')
 st.divider()
 
+# Suggestions use the selected tag's saved numerical evidence. Global cards below
+# remain explicitly global because their evidence mixes several technologies.
+st.subheader(f"Suggested actions for {selected_tag}")
+st.caption(
+    "Rule-based decision support from saved results. These are proposed pilots; "
+    "their benefits have not been measured. Fixed pre/post comparisons exclude November–December 2022."
+)
+tag_evidence = insight[insight["tag"] == selected_tag]
+if tag_evidence.empty:
+    st.info("Select one of the 13 technologies to generate its suggested actions. ALL shows the global recommendations below.")
+else:
+    pilots = [p for p in tag_pilots(tag_evidence.iloc[0]) if p["stakeholder"] in sel_stakeholders]
+    if not pilots:
+        st.info("No tag-specific pilot matches the selected stakeholders. Change the stakeholder filter to see other owners.")
+    for pilot in pilots:
+        st.markdown(f"### {pilot['title']}")
+        st.markdown(f"**Evidence:** {pilot['evidence']}")
+        st.markdown(f"**Suggested action:** {pilot['action']}")
+        st.markdown(f"**Owner:** {pilot['stakeholder']}  \n**KPI and comparison:** {pilot['kpi']}")
+        st.caption(f"Evidence scope: {pilot['scope']}")
+        st.warning(pilot["caveat"])
+    if pilots:
+        st.download_button(
+            "Download selected action plan (CSV)",
+            pd.DataFrame(pilots).to_csv(index=False).encode("utf-8"),
+            file_name=f"{selected_tag}_suggested_pilots.csv", mime="text/csv",
+        )
+    links = st.columns(3)
+    links[0].page_link("pages/3_Forecasts.py", label="Inspect forecast evidence")
+    links[1].page_link("pages/4_Topics.py", label="Inspect topic examples")
+    links[2].page_link("pages/7_Dataset_and_Classification.py", label="Resolution proxy definition")
+st.divider()
+
 # =============================================================
 # 2. Recommendation cards
 # =============================================================
-st.subheader(f"Recommendations ({len(recs_filtered)} of {len(recs)})")
+st.subheader(f"Global recommendations ({len(recs_filtered)} of {len(recs)})")
+st.caption("These saved cross-project proposals retain their original evidence and scope. The technology selector changes the suggested actions and matrix, not these global cards.")
 
 # Page link mapping for relevant evidence
 PAGE_LINKS = {
@@ -141,7 +177,7 @@ tab_full, tab_ts, tab_its, tab_topic, tab_tone = st.tabs(
 def _highlight_tag(row):
     """Highlight the selected tag row."""
     if row["tag"] == selected_tag:
-        return ["background-color: #DBEAFE"] * len(row)
+        return ["background-color: #DBEAFE; color: #18334A"] * len(row)
     return [""] * len(row)
 
 with tab_full:

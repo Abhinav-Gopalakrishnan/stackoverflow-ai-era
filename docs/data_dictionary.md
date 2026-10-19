@@ -63,9 +63,9 @@ These fields are computed during the cleaning pipeline and appear in the cleaned
 
 | # | Field | Type | Source | Description |
 |:--|:------|:-----|:-------|:------------|
-| 1 | `hours_to_accept` | `float64` | `(accepted_answer_creation_date - creation_date) / 3600` | Hours between question posting and acceptance of the accepted answer. `NaN` if no accepted answer. |
+| 1 | `hours_to_accept` | `float64` | `(accepted_answer_creation_date - creation_date) / 3600` | Hours from question posting to creation of the answer accepted in the collected record. This is answer-posting delay, not the time the asker clicked Accept. `NaN` if no accepted answer. |
 | 2 | `hours_to_first_answer` | `float64` | `(first_answer_creation_date - creation_date) / 3600` | Hours between question posting and the first answer. `NaN` if unanswered. |
-| 3 | `target_resolved_7d` | `bool` / `int` | `hours_to_accept <= 168` | **Target variable 1.** Whether the question received an accepted answer within 7 days (168 hours). |
+| 3 | `target_resolved_7d` | `bool` / `int` | `hours_to_accept <= 168` | **Target variable 1.** Resolution proxy: the answer accepted in the collected record was posted within 168 hours of the question. Acceptance-event time and satisfaction are not observed. |
 | 4 | `target_answered_7d` | `bool` / `int` | `hours_to_first_answer <= 168` | **Target variable 2.** Whether the question received any answer within 7 days (168 hours). |
 | 5 | `plain_body` | `str` | HTML-stripped `body` | Plain-text question body with HTML tags removed. |
 | 6 | `code_text` | `str` | Extracted `<code>` blocks | Concatenated text from all `<code>` / `<pre>` blocks in the body. |
@@ -146,10 +146,10 @@ The following fields contain information about events *after* question posting a
 | 2 | `month` | `str` (`YYYY-MM`) | Calendar month. |
 | 3 | `n_sampled` | `int` | Number of sampled questions in this tag-month. |
 | 4 | `est_questions` | `float64` | Estimated population questions (weighted). |
-| 5 | `resolved_rate_7d` | `float64` | Weighted proportion of questions resolved (accepted answer) within 7 days. |
+| 5 | `resolved_rate_7d` | `float64` | Weighted proportion meeting the seven-day accepted-answer posting-time proxy defined above. |
 | 6 | `answered_rate_7d` | `float64` | Weighted proportion of questions answered within 7 days. |
-| 7 | `accepted_given_answered` | `float64` | Conditional probability of acceptance given answered within 7 days. |
-| 8 | `median_hours_to_accept` | `float64` | Weighted median hours to accepted answer. |
+| 7 | `accepted_given_answered` | `float64` | Weighted resolution-proxy proportion conditional on receiving a first answer within 168 hours. |
+| 8 | `median_hours_to_accept` | `float64` | Weighted median delay from question posting to posting of its accepted answer, among records with that delay available. |
 | 9 | `median_hours_to_first_answer` | `float64` | Weighted median hours to first answer. |
 | 10 | `low_sample` | `bool` | Flag indicating the tag-month has fewer than 30 sampled questions. |
 

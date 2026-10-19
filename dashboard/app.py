@@ -13,9 +13,10 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
+    from common import render_chart, filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import render_chart, filter_observations, focus_tag, TAG_COLORS, load_data, render_sidebar
+
 
 st.set_page_config(
     page_title="Stack Overflow in the AI Era: Overview",
@@ -48,7 +49,7 @@ end_date = pd.to_datetime(filters["end_date"])
 series_filtered = filter_observations(series_df, 'week_start', filters)
 # KPIs use one focus series: study tags overlap and ALL already contains every question.
 kpi_tag = focus_tag(filters, 'overview_kpi_tag', 'KPI series (one tag; counts are not added across tags):')
-kpi_series = series_filtered[series_filtered.tag == kpi_tag]
+kpi_series = filter_observations(series_df, 'week_start', filters, tags=[kpi_tag])
 series_filtered["week_start_dt"] = pd.to_datetime(series_filtered["week_start"])
 
 # -------------------------------------------------------------
@@ -105,7 +106,7 @@ with kpi2:
     st.metric(
         label="Volume Shift vs 2022 Pre-AI",
         value=f"{pct_volume_change:+.1f}%" if pd.notna(pct_volume_change) else "Undefined",
-        delta=f"{pct_volume_change:.1f}%",
+        delta=f"{pct_volume_change:.1f}%" if pd.notna(pct_volume_change) else None,
         delta_color="normal",
         help="Percentage change in weekly question volume relative to 2022 pre-ChatGPT baseline.",
     )
@@ -118,16 +119,16 @@ with kpi3:
         value=f"{pre_str} -> {post_str}",
         delta=f"{resolved_delta:+.1f} pp" if not np.isnan(resolved_delta) else "N/A",
         delta_color="normal",
-        help="Weighted 7-day question resolution rate before vs after November 2022 (low-sample months excluded).",
+        help="Weighted proxy: the answer accepted in the collected record was posted within 168 hours of the question. Acceptance-event time is unavailable. Fixed pre/post periods exclude transition months.",
     )
 
 with kpi4:
     pre_h_str = f"{pre_hours:.1f}h" if not np.isnan(pre_hours) else "N/A"
     post_h_str = f"{post_hours:.1f}h" if not np.isnan(post_hours) else "N/A"
     st.metric(
-        label="Typical Monthly Acceptance Time",
+        label="Accepted-Answer Posting Delay",
         value=f"{pre_h_str} -> {post_h_str}",
-        help="Fixed pre/post comparison of monthly medians, not a pooled question-level median.",
+        help="Fixed pre/post medians of monthly accepted-answer posting delays. Uses answer creation time, not when the asker clicked Accept. Not a pooled question-level median.",
     )
 
 st.divider()
@@ -137,7 +138,7 @@ st.divider()
 # -------------------------------------------------------------
 # Dynamic takeaway title strictly observing wording rules
 takeaway_title = "Weekly Question Volume — Selected Observation Window"
-st.caption(f"Volume KPIs use {kpi_tag}; ALL resolution rates refer to the collected project sample, not a site census; the resolution and acceptance summaries compare fixed pre/post periods. Tags overlap, so their counts must not be added.")
+st.caption(f"Volume KPIs use {kpi_tag}; ALL resolution rates refer to the collected project sample, not a site census; the resolution-proxy and answer-posting-delay summaries compare fixed pre/post periods. Tags overlap, so their counts must not be added.")
 
 fig = go.Figure()
 
@@ -227,7 +228,7 @@ fig.update_layout(
     paper_bgcolor="#FFFFFF",
 )
 
-st.plotly_chart(fig, width='stretch')
+render_chart(fig, width='stretch')
 
 st.caption(
     "How to read this chart: Weekly question volume from 2019 through 2026. "

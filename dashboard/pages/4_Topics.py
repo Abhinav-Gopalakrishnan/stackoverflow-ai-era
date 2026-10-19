@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from common import load_data, render_sidebar, filter_observations, focus_tag
+from common import render_chart, load_data, render_sidebar, filter_observations, focus_tag
 
 st.set_page_config(page_title='Topics', page_icon='🏷️', layout='wide')
 filters = render_sidebar(log=False, events=False)
@@ -41,19 +41,19 @@ with col1:
     t = terms.query('topic == @selected_topic').sort_values('rank').head(15)
     fig=go.Figure(go.Bar(x=t.weight,y=t.term,orientation='h',marker_color='#1D4E89'))
     fig.update_layout(title='Top 15 characteristic terms',yaxis_autorange='reversed',xaxis_title='Model component weight',height=450)
-    st.plotly_chart(fig,width='stretch')
+    render_chart(fig,width='stretch')
 with col2:
     m=filter_observations(monthly, 'month', filters, monthly=True, tags=[selected_tag]).query('topic == @selected_topic').sort_values('month')
     fig=go.Figure(go.Scatter(x=m.month,y=m.weighted_share*100,mode='lines+markers',name=selected_tag))
     fig.update_layout(title=f'{selected_tag}: monthly weighted topic share',yaxis_title='Within-tag share (%)',xaxis_title='Month',height=450)
-    st.plotly_chart(fig,width='stretch')
+    render_chart(fig,width='stretch')
     st.caption('Zero-vocabulary questions have zero topic weights; no topic is assigned to them. Low-sample months are flagged in the downloadable table.')
     st.dataframe(m,hide_index=True)
 st.subheader('All Topics: Absolute Pre/Post Share Change with 95% Intervals')
 f = meta.sort_values('change')
 fig=go.Figure(go.Bar(x=f.change*100,y=[f'T{r.topic}: {r.final_name}' for r in f.itertuples()],orientation='h',error_x=dict(type='data',symmetric=False,array=((f.upper95-f.change)*100).clip(lower=0),arrayminus=((f.change-f.lower95)*100).clip(lower=0)),marker_color=['#059669' if x>0 else '#DC2626' for x in f.change]))
 fig.update_layout(xaxis_title='Absolute change (percentage points)',height=max(440,30*len(f)))
-st.plotly_chart(fig,width='stretch')
+render_chart(fig,width='stretch')
 st.caption('1,000 question-level bootstrap resamples, retaining sampling weights. These intervals describe absolute share differences, not relative percentage changes. Pre/post associations do not identify AI substitution.')
 st.subheader('Representative Title-Only Examples — Full Corpus')
 st.caption('Examples describe the global model, not the selected tag. CC BY-SA 4.0; canonical source links below.')

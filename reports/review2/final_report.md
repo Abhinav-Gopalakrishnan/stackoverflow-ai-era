@@ -118,7 +118,7 @@ Each recommendation below needs both methods at once and cites at least one time
 
 ## 6. Dashboard guide
 
-The Streamlit/Plotly dashboard originated with M1 and now has seven pages. Supported tag/date/period controls filter observation charts; unsupported controls are disabled. Model statistics retain their fixed fitting periods. The corrections add Unit 1/2 dataset and classifier evidence on page 7.
+The Streamlit/Plotly dashboard originated with M1 and now has seven pages. Observation controls filter charts; model statistics retain fixed fitting periods. Forecast wording follows the selected scenario. Recommendations uses the selected tag and stakeholder to suggest untested pilots with evidence, owners and KPIs. Page 7 adds dataset and locked classifier evidence.
 
 | Page | Owner | Reads |
 |---|---|---|
@@ -127,10 +127,10 @@ The Streamlit/Plotly dashboard originated with M1 and now has seven pages. Suppo
 | 3. Forecasts | M5 | `ts/forecasts_26w.csv`, `ts/backtest_*.csv`, `ts/tag_classes.csv` |
 | 4. Topics | M4 | `text/topics_top_terms.csv`, `text/topic_monthly_share.csv`, `text/topic_prepost.csv`, `text/topic_outcomes.csv` |
 | 5. Tone and complexity | M2 | `text/tone_*.csv`, `text/complexity_*.csv`, `text/keywords_prepost.csv` |
-| 6. Recommendations | M3 | `recommendations.csv` |
+| 6. Recommendations | M3 and final corrections | `recommendations.csv`, `insight_matrix.csv`, deterministic pilot rules |
 | 7. Dataset and classification | Corrections integration | sanitized dataset preview, validation, locked classifier metrics |
 
-- **Public link:** Locally runnable: streamlit run dashboard/app.py (no verified public deployment)
+- **Public link:** https://stackoverflow-ai-era.streamlit.app/ (public pages inspected 19 October 2026; redeploy final local corrections before presenting). Local fallback: streamlit run dashboard/app.py
 - **Screenshots:** reports/review2/dashboard_screenshots/ (captured from the local application)
 
 Questions show titles only, each linked to `https://stackoverflow.com/q/<id>`, with a CC BY-SA 4.0 licence notice. No bodies and no user hashes are shown.
@@ -139,7 +139,7 @@ Questions show titles only, each linked to `https://stackoverflow.com/q/<id>`, w
 
 1. **Weights before 2025.** Sampling weights apply only before 2025; later counts are unweighted.
 2. **Thirteen tags.** Only the 13 study tags plus ALL are covered, so the picture is not the whole site.
-3. **Acceptance is a proxy.** Resolution means an accepted answer within seven days, not a satisfied asker.
+3. **Resolution is a proxy.** The answer accepted in the collected record was posted within 168 hours. Acceptance-event time is unavailable, so this does not establish acceptance within seven days or asker satisfaction.
 4. **VADER is general purpose.** The tone model is a general lexicon with overrides; the frustration flag is exploratory and VADER achieves only 36% accuracy against one human reference; the separate frustration lexicon is not independently validated.
 5. **Language scope.** Topic modelling removes code and uses English-oriented lemmatisation/character cleaning; there is no validated language-identification stage. Reliability on multilingual prose is not established.
 6. **Forecasts during a steep decline are uncertain.** SARIMAX 95% intervals covered only 52.0% of endpoints, and 10 fits failed.

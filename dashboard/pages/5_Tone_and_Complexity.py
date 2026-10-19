@@ -15,9 +15,10 @@ for _p in (str(_dashboard_dir), str(_repo_root)):
         sys.path.insert(0, _p)
 
 try:
-    from common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
 except ImportError:
-    from dashboard.common import filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+    from dashboard.common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+
 
 st.set_page_config(
     page_title="Page 5: Tone & Complexity",
@@ -161,7 +162,7 @@ fig_tone.update_layout(
     paper_bgcolor="#FFFFFF",
     margin=dict(l=40, r=40, t=60, b=40),
 )
-st.plotly_chart(fig_tone, width='stretch')
+render_chart(fig_tone, width='stretch')
 
 st.caption(tone_title)
 st.caption(_caption("Tone and complexity"))
@@ -287,7 +288,7 @@ if not cx_median.empty:
         margin=dict(l=40, r=40, t=60, b=40),
     )
     fig_cx.add_hline(y=0, line_width=1, line_color="#9CA3AF")
-    st.plotly_chart(fig_cx, width='stretch')
+    render_chart(fig_cx, width='stretch')
 
     st.caption("Metrics have different native units (words, lines, blocks, reading-ease points and tag counts); bar heights are not comparable across metrics.")
     st.caption(_caption("Complexity intervals"))
@@ -375,7 +376,7 @@ with col_r:
             paper_bgcolor="#FFFFFF",
             margin=dict(l=120, r=60, t=40, b=30),
         )
-        st.plotly_chart(fig_r, width='stretch')
+        render_chart(fig_r, width='stretch')
     else:
         st.info("No rising keywords found.")
 
@@ -402,7 +403,7 @@ with col_f:
             paper_bgcolor="#FFFFFF",
             margin=dict(l=120, r=60, t=40, b=30),
         )
-        st.plotly_chart(fig_f, width='stretch')
+        render_chart(fig_f, width='stretch')
     else:
         st.info("No falling keywords found.")
 
