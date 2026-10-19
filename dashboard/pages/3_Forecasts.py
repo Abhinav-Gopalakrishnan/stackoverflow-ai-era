@@ -7,19 +7,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-_dashboard_dir = Path(__file__).resolve().parent.parent
-_repo_root = _dashboard_dir.parent
-for _p in (str(_dashboard_dir), str(_repo_root)):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
 
-from decision_support import format_count
-
-try:
-    from common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
-except ImportError:
-    from dashboard.common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
-
+from dashboard.common import render_chart, filter_observations, focus_tag, ALL_TAGS, TAG_COLORS, load_data, render_sidebar
+from dashboard.decision_support import format_count
 
 st.set_page_config(
     page_title="Page 3: Forecasts to Feb 2027",

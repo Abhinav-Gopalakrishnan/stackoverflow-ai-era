@@ -4,8 +4,10 @@ from pathlib import Path
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from common import render_chart, load_data
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+from dashboard.common import render_chart, load_data
 st.set_page_config(page_title='Dataset & Classification',page_icon='📚',layout='wide')
 st.title('Dataset & Predictive Modelling — Units 1 and 2')
 st.caption('This page displays the final-data preview and saved evaluation results. No model is retrained or retuned on the locked test set.')

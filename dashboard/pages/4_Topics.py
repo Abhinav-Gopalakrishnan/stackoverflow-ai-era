@@ -5,8 +5,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from common import render_chart, load_data, render_sidebar, filter_observations, focus_tag
+_repo_root = Path(__file__).resolve().parents[2]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+from dashboard.common import render_chart, load_data, render_sidebar, filter_observations, focus_tag
 
 st.set_page_config(page_title='Topics', page_icon='🏷️', layout='wide')
 filters = render_sidebar(log=False, events=False)
