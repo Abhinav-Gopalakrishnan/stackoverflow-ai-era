@@ -24,6 +24,7 @@ st.set_page_config(
 filters = render_sidebar(log=False)
 
 st.title("Page 5: Tone and Complexity")
+st.warning('Tone and frustration flags are exploratory. Structural measures count text/code characteristics; they do not establish difficulty or emotion.')
 st.markdown(
     """
     Sentiment distribution, frustration-flag trends, question structural complexity,
@@ -76,6 +77,7 @@ selected_metric = st.selectbox(
 st.subheader("1. Monthly Tone Shares")
 
 tm = filter_observations(tone_monthly, "month", filters, monthly=True, tags=[selected_tag]).sort_values("month_dt")
+if tm.empty: st.info('No monthly observations match this period and date window.')
 
 # Grey out low_sample months
 tm["opacity"] = tm["low_sample"].apply(lambda x: 0.25 if x else 1.0)
@@ -230,7 +232,8 @@ cx_median = cx[cx["statistic"] == "median"].copy()
 if not cx_median.empty:
     # Focus on key metrics
     key_metrics = ["prose_words", "code_lines", "n_code_blocks", "flesch_reading_ease", "tag_count"]
-    cx_show = cx_median[cx_median["metric"].isin(key_metrics)].copy()
+    chosen_metric = st.selectbox('Structural measure (one unit at a time)', key_metrics)
+    cx_show = cx_median[cx_median["metric"].eq(chosen_metric)].copy()
 
     metric_labels = {
         "prose_words": "Prose Words",
@@ -284,7 +287,7 @@ if not cx_median.empty:
     fig_cx.add_hline(y=0, line_width=1, line_color="#9CA3AF")
     render_chart(fig_cx, width='stretch')
 
-    st.caption("Metrics have different native units (words, lines, blocks, reading-ease points and tag counts); bar heights are not comparable across metrics.")
+    st.caption('One measure is displayed at a time in its native unit. Longer prose or more code does not establish greater difficulty. Intervals use question-level resampling and do not fully represent sampled-day clustering.')
     st.caption(_caption("Complexity intervals"))
 
     # Show full data table
@@ -332,7 +335,7 @@ kw_tag = kw[kw["tag_scope"] == kw_scope].copy()
 n_show = st.slider("Top N keywords per direction:", min_value=5, max_value=30, value=15, key="page5_kw_n")
 
 rising = kw_tag[kw_tag["direction"] == "rising"].nlargest(n_show, "z_score")
-falling = kw_tag[kw_tag["direction"] == "falling"].nlargest(n_show, "z_score")
+falling = kw_tag[kw_tag["direction"] == "falling"].nsmallest(n_show, "z_score")
 
 # Takeaway: top rising keyword
 if not rising.empty:

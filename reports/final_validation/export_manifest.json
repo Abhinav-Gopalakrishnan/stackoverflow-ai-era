@@ -1,0 +1,54 @@
+{
+  "v2_classifier_metrics.csv": {
+    "source": "reports/final_validation/classifier_metrics.csv",
+    "sha256": "75124adbeceb24de4a3dcf3a414dccb7473dd0440a6a08bc76701874f1bf1d73"
+  },
+  "v2_confusion.csv": {
+    "source": "reports/final_validation/confusion.csv",
+    "sha256": "a937661cdb051b77987ef93b8ecc2ceaa61ca37d4cefbad1946d57b2cdea7543"
+  },
+  "v2_subgroups.csv": {
+    "source": "reports/final_validation/subgroups.csv",
+    "sha256": "2ba713657c14e22adf4265173bab4f1f084e0e2b6d27493e6622b0ee4bcbca26"
+  },
+  "v2_calibration.csv": {
+    "source": "reports/final_validation/calibration.csv",
+    "sha256": "ebe18c9e7f93f586e68d119005c596100b0cae016c58973ef64ab8eccb12539c"
+  },
+  "v2_capture.csv": {
+    "source": "reports/final_validation/capture.csv",
+    "sha256": "a5e9ba04f98a4c181a979eefd7e1a2b48d8c1e6124c739783b22b00478895619"
+  },
+  "v2_feature_gain.csv": {
+    "source": "reports/final_validation/feature_gain.csv",
+    "sha256": "ba4e27df897a53f2588050d1264e0a8ee07115c38161b7a788077c62d9a63f9f"
+  },
+  "interval_calibration.csv": {
+    "source": "reports/final_validation/interval_calibration.csv",
+    "sha256": "d0ffd1f1496f4abb9e3ba104673e629cb1cb7f3f31b6db4b79257df0821666c2"
+  },
+  "interval_coverage_by_tag.csv": {
+    "source": "reports/final_validation/interval_coverage_by_tag.csv",
+    "sha256": "d7b0b0e5df069069be6faf09721245e9e50a0afcaa691acd18c1a18eeb8ef464"
+  },
+  "topic_human_review.csv": {
+    "source": "reports/final_validation/topic_human_review.csv",
+    "sha256": "79a645be1eae210a692dd15e9a6f34a63b43fa16f3bc96922a1705f11fc26c9b"
+  },
+  "topic_examples_by_tag.csv": {
+    "source": "reports/final_validation/topic_examples_by_tag.csv",
+    "sha256": "83abfa65192ab844170ea70e11099702ff2529d1a465ad7fb81dd24636b78229"
+  },
+  "backtest_predictions.csv": {
+    "source": "reports/review2/ts/backtest_predictions.csv",
+    "sha256": "f5f35aa13382f2cfcc5a2ee51da1d8b0043fa2158151a0deda000dc3a9c3ebf2"
+  },
+  "stationarity_decision.csv": {
+    "source": "reports/review2/ts/stationarity_decision.csv",
+    "sha256": "f54fbc90cd823dcb4bed8f085ccfc81a318ee260afa9a28dd67775ad680440c8"
+  },
+  "residual_checks.csv": {
+    "source": "reports/review2/ts/residual_checks.csv",
+    "sha256": "ed7774cd2b63c05ffbfa22433759b8fc24d2b2da04cddd7186e53fdb52255eff"
+  }
+}

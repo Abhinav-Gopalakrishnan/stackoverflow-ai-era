@@ -46,8 +46,9 @@ def log(msg):
 def split_by_date(df):
     """Chronological split from docs/split_strategy.md: train 2019-2024, val 2025 H1, test Jul 2025 - Jul 2026."""
     t = df["created_at"]
-    return (df[t < TRAIN_END].reset_index(drop=True),
-            df[(t >= TRAIN_END) & (t < VAL_END)].reset_index(drop=True),
+    gap = pd.Timedelta(days=GAP_DAYS)
+    return (df[t < TRAIN_END - gap].reset_index(drop=True),
+            df[(t >= TRAIN_END) & (t < VAL_END - gap)].reset_index(drop=True),
             df[(t >= VAL_END) & (t < TEST_END)].reset_index(drop=True))
 
 

@@ -24,6 +24,8 @@ filters = render_sidebar(observations=False, log=False, events=False)
 st.caption("These are saved full-period fits and comparisons. Observation-window controls are disabled; use the page controls below.")
 
 st.title("Page 6: Strategic Recommendations")
+from dashboard.scenarios import render_scenario
+render_scenario()
 st.markdown(
     """
     Evidence-based policy recommendations synthesised from time-series patterns,

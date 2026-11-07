@@ -40,6 +40,10 @@ events_df = load_data("event_list.csv")
 # Tag selector for deep-dive
 selected_tag = focus_tag(filters, 'page2_tag_selector')
 st.caption("Charts show the selected window of full-series STL and PELT fits. ITS statistics always use all 400 weeks; changing the window does not refit the model.")
+with st.expander('Stationarity decisions and differencing'):
+    decisions=load_data('stationarity_decision.csv')
+    st.dataframe(decisions[decisions.tag.eq(selected_tag)],hide_index=True)
+    st.caption('ADF and KPSS test different null hypotheses. Conflicting results remain disclosed; the recorded decision is not proof that all residual assumptions hold.')
 tag_color = TAG_COLORS.get(selected_tag, "#1D4E89")
 
 # -------------------------------------------------------------
@@ -49,6 +53,8 @@ st.subheader("1. STL Loess Decomposition (Log Scale)")
 
 stl_tag = filter_observations(stl_df, "week_start", filters, tags=[selected_tag]).sort_values("week_start")
 stl_tag["week_start_dt"] = pd.to_datetime(stl_tag["week_start"])
+if stl_tag.empty:
+    st.info('No observations match this period and date window.')
 
 stl_title = f"{selected_tag}: full-series STL components in the selected window"
 
@@ -139,7 +145,7 @@ cps_near_event = tag_cps[tag_cps["within_4_weeks_of_event"] == True]
 
 cp_title = (
     f"Pelt Changepoints for {selected_tag}: {len(cps_near_event)} of {n_cps} break points "
-    f"detected within 4 weeks of major generative AI releases"
+    f"detected within 4 weeks of documented platform and AI events"
 )
 
 fig_cp = go.Figure()
@@ -224,7 +230,7 @@ if not tag_its.empty:
         st.metric(
             "Immediate Level Shift (Beta 2)",
             f"{lvl_chg:+.1f}%",
-            help=f"95% CI: [{its_row['level_ci_lo']:.2f}, {its_row['level_ci_hi']:.2f}], p={lvl_p:.4f}",
+            help=f"95% CI: [{100*its_row['level_ci_lo']:.2f}%, {100*its_row['level_ci_hi']:.2f}%], p={lvl_p:.2g}",
         )
     with col_m2:
         st.metric(
@@ -232,7 +238,7 @@ if not tag_its.empty:
             f"{slp_chg:+.1f}%",
             delta=f"{slp_chg:+.1f}%",
             delta_color="inverse",
-            help=f"95% CI: [{its_row['slope_ci_lo']:.2f}, {its_row['slope_ci_hi']:.2f}], p={slp_p:.4f}",
+            help=f"95% CI: [{100*its_row['slope_ci_lo']:.2f}%, {100*its_row['slope_ci_hi']:.2f}%] per week, p={slp_p:.2g}",
         )
     with col_m3:
         st.metric(
@@ -247,8 +253,8 @@ if not tag_its.empty:
     if show_placebo:
         st.info(
             f"**Placebo Test Results (Break Date: {its_row['placebo_break_date']}):**\n\n"
-            f"- Placebo Level Change: {its_row['placebo_level_change']:.3f} (p={its_row['placebo_level_p']:.3f})\n"
-            f"- Placebo Slope Change: {its_row['placebo_slope_change']:.3f} (p={its_row['placebo_slope_p']:.3f})\n"
+            f"- Placebo Level Change: {100*its_row['placebo_level_change']:.2f}% (p={its_row['placebo_level_p']:.2g})\n"
+            f"- Placebo Slope Change: {100*its_row['placebo_slope_change']:.2f}% per week (p={its_row['placebo_slope_p']:.2g})\n"
             f"- **Actual Intervention Exceeds Placebo:** `{'YES (larger absolute slope effect)' if exceeds_placebo else 'NO (Indeterminate)'}`\n\n"
             f"*A single placebo is a sensitivity check; it does not establish causal identification.*"
         )

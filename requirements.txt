@@ -19,6 +19,9 @@ streamlit==1.65.0
 textstat==0.7.13
 vaderSentiment==3.3.2
 xgboost==3.4.1
+joblib==1.6.0
+scipy==1.18.1
+python-pptx==1.0.2
 
 # Report rendering and notebook execution
 Markdown==3.11

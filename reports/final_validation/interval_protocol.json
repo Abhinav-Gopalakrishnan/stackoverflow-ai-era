@@ -1,0 +1,6 @@
+{
+  "calibration": "Backtest outcomes with target_week before 2026-01-01; pool study tags within model/horizon",
+  "evaluation": "Origins from 2026-01-01; no evaluation outcomes used to fit inflation",
+  "method": "95th percentile of absolute log error divided by original log interval half-width; minimum factor 1",
+  "limitations": "Retrospective diagnostic with overlapping horizons and non-exchangeable time-series errors. Does not guarantee future 95% coverage. No model selection repeated."
+}

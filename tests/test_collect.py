@@ -24,6 +24,10 @@ from src import collect
 
 class TestCollectApiGet(unittest.TestCase):
     def setUp(self):
+        # Mocked API tests must run without a developer's private .env file.
+        credentials = patch.dict(os.environ, {"STACK_API_KEY": "unit-test-not-a-real-key"})
+        credentials.start()
+        self.addCleanup(credentials.stop)
         self.temp_dir = tempfile.mkdtemp()
         self.raw_dir = Path(self.temp_dir) / "raw"
         self.log_file = Path(self.temp_dir) / "collection_log.csv"

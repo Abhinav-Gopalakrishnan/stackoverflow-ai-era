@@ -7,7 +7,6 @@ post period only, and log scale. Asserts 0 exceptions and render < 5 s.
 import time
 from pathlib import Path
 import pytest
-from streamlit.testing.v1 import AppTest
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -37,19 +36,13 @@ FILTER_COMBOS = [
     ids=[c[0] for c in FILTER_COMBOS],
 )
 def test_dashboard_page_render_with_filters(
-    page_name, page_path, combo_name, state_overrides
+    page_name, page_path, combo_name, state_overrides, app_page
 ):
     """Assert each page renders without exception under 5 s for each filter combo."""
     assert page_path.exists(), f"Page file missing: {page_path}"
 
     start_time = time.perf_counter()
-    at = AppTest.from_file(str(page_path))
-
-    # Inject session_state overrides before running
-    for key, value in state_overrides.items():
-        at.session_state[key] = value
-
-    at.run(timeout=10)
+    at = app_page(str(page_path.relative_to(ROOT / "dashboard")), state_overrides)
     elapsed = time.perf_counter() - start_time
 
     assert not at.exception, (

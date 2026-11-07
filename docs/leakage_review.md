@@ -1,5 +1,7 @@
 # Feature Spec and Leakage Review (M5-05)
 
+> Historical Review 1 design/evidence. The implemented v2 model protocol and remaining snapshot limitations are documented in [the current technical handoff](final_implementation.md). Original locked results have not been regenerated.
+
 Reviewer: Member 5. Reviewed: `docs/feature_spec.md` against `src/cleaning.py` (the columns that will be in `questions_clean_v1`), `src/features.py`, and `m4/split-module`.
 
 **Verdict: changes requested.** Sign-off once A, C and D1-D2 are fixed. The final column-by-column check of the real feature matrix is M4-08.

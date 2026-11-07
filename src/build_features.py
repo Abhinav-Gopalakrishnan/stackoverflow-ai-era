@@ -19,9 +19,8 @@ from src import features as m4
 
 DEFAULT_TAGS = ["python", "javascript", "java", "sql", "pandas", "reactjs", "android", "excel",
                 "r", "docker", "powerbi", "fastapi", "openai-api"]
-REQUIRED = ["question_id", "title", "tags", "plain_body", "n_code_blocks", "code_ratio",
-            "has_error_text", "account_age_days", "missing_account_age", "created_at",
-            "sampling_weight", "target_resolved_7d", "target_answered_7d"]
+REQUIRED = ["title", "tags", "plain_body", "n_code_blocks", "code_ratio",
+            "has_error_text", "account_age_days", "missing_account_age", "created_at"]
 META = ["question_id", "created_at", "title", "tags", "sampling_weight",
         "target_resolved_7d", "target_answered_7d"]
 NEW_ACCOUNT_DAYS = 7
@@ -94,7 +93,7 @@ def build_features(q, weekly_counts=None, tags=None):
     if missing:
         raise KeyError(f"cleaned table is missing columns: {missing}")
     tags = tags or selected_tags()
-    out = q[META].copy()
+    out = q[[c for c in META if c in q]].copy()
     created = pd.to_datetime(q["created_at"], utc=True)
     out["created_at"] = created
     tag_lists = q["tags"].map(lambda t: list(t) if t is not None else [])
@@ -109,7 +108,9 @@ def build_features(q, weekly_counts=None, tags=None):
     out["hour_posted"] = created.dt.hour
     out["weekday_posted"] = created.dt.weekday
     out["month_posted"] = created.dt.month
-    out["account_age_days"] = q["account_age_days"]
+    # Undo the cleaning-stage global imputation. Each fitted model/fold learns
+    # its own median inside its preprocessing pipeline.
+    out["account_age_days"] = q["account_age_days"].where(~q["missing_account_age"].astype(bool))
     out["missing_account_age"] = q["missing_account_age"].astype(int)
     out["new_account"] = ((q["account_age_days"] <= NEW_ACCOUNT_DAYS)
                           & ~q["missing_account_age"].astype(bool)).astype(int)

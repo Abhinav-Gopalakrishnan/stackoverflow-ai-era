@@ -1,0 +1,58 @@
+{
+  "question_ids_unique": true,
+  "periods": {
+    "training": [
+      "2019-02-26",
+      "2024-12-25"
+    ],
+    "calibration": [
+      "2025-01-01",
+      "2025-04-01"
+    ],
+    "threshold": [
+      "2025-04-08",
+      "2025-06-24"
+    ],
+    "august_evaluation": [
+      "2026-08-01",
+      "2026-09-01"
+    ]
+  },
+  "groups": [
+    {
+      "split": "training",
+      "rows": 248137,
+      "unique_questions": 248137,
+      "known_users": 186038,
+      "users_also_in_training": null
+    },
+    {
+      "split": "calibration",
+      "rows": 17643,
+      "unique_questions": 17643,
+      "known_users": 14896,
+      "users_also_in_training": 2855
+    },
+    {
+      "split": "threshold",
+      "rows": 8804,
+      "unique_questions": 8804,
+      "known_users": 7497,
+      "users_also_in_training": 1387
+    },
+    {
+      "split": "august_evaluation",
+      "rows": 389,
+      "unique_questions": 389,
+      "known_users": 343,
+      "users_also_in_training": 54
+    }
+  ],
+  "no_question_overlap": true,
+  "entity_overlap_interpretation": "Returning askers can occur in later chronological splits. User hashes are excluded from predictors. This evaluates future questions in the same platform, not exclusively unseen users; it is not an entity-disjoint validation.",
+  "unresolved_limitations": [
+    "Original posting-time text and tags were not reconstructed from revisions.",
+    "Acceptance-event timestamps are unavailable.",
+    "Training-window cleaning limits from the prior dataset remain part of its provenance."
+  ]
+}

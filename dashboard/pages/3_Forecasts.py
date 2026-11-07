@@ -182,7 +182,7 @@ if not selected_fc.empty:
     end_date = pd.Timestamp(selected_fc["week_start"].iloc[-1]).strftime("%d %B %Y")
     st.caption(
         f"**Selected scenario:** {selected_tag}, {model_choice}, week {horizon_max} "
-        f"ending {end_date}. Values are back-transformed forecast medians. "
+        f"starting {end_date}. Values are back-transformed forecast medians. "
         "Fractional counts describe model output, not a fraction of an actual post. "
         "**Caveat:** saved prediction bands under-cover in backtests and need calibration. "
         "Changing the selection does not refit models."
@@ -196,6 +196,7 @@ st.divider()
 # Backtest Evaluation Table (Matched Origins)
 # -------------------------------------------------------------
 st.subheader("Backtest Performance on Matched Origins (26-Week Horizon)")
+st.caption('sMAPE is a percentage error, not accuracy. Interval coverage is the observed fraction of outcomes inside a nominal band.')
 
 tag_bm = backtest_metrics[
     (backtest_metrics["tag"] == selected_tag)
@@ -205,7 +206,7 @@ tag_bm = backtest_metrics[
 if not tag_bm.empty:
     display_bm = tag_bm[["model", "mase", "smape", "skill_vs_naive", "coverage80", "coverage95"]].copy()
     display_bm["mase"] = display_bm["mase"].round(3)
-    display_bm["smape"] = (display_bm["smape"] * 100).round(1).astype(str) + "%"
+    display_bm["smape"] = display_bm["smape"].round(1).astype(str) + "%"
     display_bm["skill_vs_naive"] = (display_bm["skill_vs_naive"] * 100).round(1).astype(str) + "%"
     display_bm["coverage80"] = (display_bm["coverage80"] * 100).round(1).astype(str) + "%"
     display_bm["coverage95"] = (display_bm["coverage95"] * 100).round(1).astype(str) + "%"
@@ -219,3 +220,29 @@ skill_caption = captions_df[captions_df["chart"] == "Backtest skill"]
 if not skill_caption.empty:
     row = skill_caption.iloc[0]
     st.caption(f"**Global backtest context (mean across all 14 series, not just {selected_tag}):** {row['takeaway']} *Note:* {row['caveat']}")
+
+st.subheader('Historical forecast versus actual')
+backtest=load_data('backtest_predictions.csv')
+bt=backtest[(backtest.tag==selected_tag)&(backtest.model==model_choice)]
+if bt.empty:
+    st.info('No successful historical fits for this selection.')
+else:
+    origin=st.selectbox('First forecast week',sorted(bt.origin.unique()),index=len(bt.origin.unique())-1)
+    selected=bt[bt.origin.eq(origin)].sort_values('horizon')
+    fig=go.Figure()
+    for column,label in [('actual','Observed'),('pred','Forecast')]:
+        fig.add_trace(go.Scatter(x=selected.target_week,y=selected[column],mode='lines+markers',name=label))
+    fig.update_layout(title='Recorded backtest endpoints',xaxis_title='Target week starting',yaxis_title='Questions')
+    render_chart(fig,width='stretch')
+    st.caption('Stored endpoints at horizons 1, 4, 13 and 26; lines join those endpoints. Each fit uses observations strictly before its origin.')
+
+with st.expander('Residual autocorrelation diagnostics'):
+    residuals=load_data('residual_checks.csv')
+    st.dataframe(residuals[residuals.tag.eq(selected_tag)],hide_index=True)
+    st.caption('Ljung–Box tests at lags 10 and 20 for the final selected fit. Small p-values indicate remaining autocorrelation. These diagnostics concern that recorded fit, not every model in the selector.')
+
+with st.expander('Interval calibration diagnostic — held-forward evaluation'):
+    st.write('Interval inflation was estimated from outcomes before January 2026. Coverage below uses forecast origins from January 2026 onward. This diagnostic does not change the original forecast bands.')
+    cov=load_data('interval_coverage_by_tag.csv')
+    st.dataframe(cov[(cov.tag==selected_tag)&(cov.model==model_choice)],hide_index=True)
+    st.caption('The inflation factor pools tags within model/horizon. Time dependence, overlapping forecasts and small evaluation counts mean 95% coverage is not guaranteed. Original model selection is unchanged.')

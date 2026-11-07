@@ -5,7 +5,7 @@
 Developer Q&A platforms and companies running technical support communities have experienced sharp declines in activity consistent with the adoption of
 AI coding assistants. Platform managers cannot determine which technical questions still require human expertise, which questions are at high risk of remaining unanswered, or how community demand is shifting across different technology ecosystems.
 
-This project collects and analyzes Stack Overflow question data from January 2019 to August 2026 via the official Stack Exchange API v2.3. It evaluates question resolution dynamics, identifies the technical topics developers continue to bring to human communities post-AI adoption, and predicts whether a newly posted question will be resolved within 7 days. The ultimate objective is to provide platform product teams and forum community managers with actionable, data-driven mechanisms to optimize resource allocation, expert routing, and moderation strategies.
+This project collects and analyzes Stack Overflow question data from January 2019 to August 2026 via the official Stack Exchange API v2.3. It evaluates question resolution dynamics, identifies the technical topics developers continue to bring to human communities post-AI adoption, and estimates whether the answer accepted in the collected record was posted within 168 hours of the question. The ultimate objective is to provide platform product teams and forum community managers with actionable, data-driven mechanisms to optimize resource allocation, expert routing, and moderation strategies.
 
 ---
 
@@ -39,10 +39,10 @@ Provide community and platform managers with a predictive, data-driven framework
 
 ### **Review 1 Research Questions**
 
-1. **Primary Target (`target_resolved_7d`):** Which structural question characteristics (e.g., presence of code blocks, error text, title phrasing, tag popularity, timing, or asker account age) predict whether a question receives an accepted answer within 7 days of posting?
+1. **Primary Target (`target_resolved_7d`):** Which structural question characteristics (e.g., presence of code blocks, error text, title phrasing, tag popularity, timing, or asker account age) predict whether the currently accepted answer was posted within 168 hours of the question; the acceptance-event time is not observed?
 
 
-2. **Robustness & Secondary Target (`target_answered_7d`):** How does question resolution performance shift when evaluating any answer within 7 days versus an accepted answer, and how have overall community acceptance behaviors changed over time?
+2. **Robustness & Secondary Target (`target_answered_7d`):** How does question resolution performance shift when evaluating any answer posted within 7 days versus the currently accepted answer posted within that interval, and how have overall community acceptance behaviors changed over time?
 
 
 3. **Temporal Shifts:** How did overall question volume, 7-day resolution rates, and median hours to answer shift across different technology tags before and after November 2022 (ChatGPT release)?

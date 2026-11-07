@@ -1,0 +1,66 @@
+{
+  "branch": "codex/final-model-dashboard",
+  "full_suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "161",
+    "time": "41.370",
+    "timestamp": "2026-11-07T21:38:11.875102+05:30",
+    "hostname": "fedora"
+  },
+  "full_suite_environment": "Isolated project copy, no .env and no private question parquet; same local Python runtime.",
+  "browser_checks": {
+    "tested_utc": "2026-11-07T16:05:28.837Z",
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "mobile_page_overflow": false,
+    "page_errors": [],
+    "states": [
+      {
+        "page": "Dataset & Classification",
+        "rendered": true
+      },
+      {
+        "page": "Predict a Question",
+        "first_probability": "46.8%",
+        "changed_probability": "48.0%"
+      },
+      {
+        "page": "Patterns & 2022 Break",
+        "rendered": true
+      },
+      {
+        "page": "Forecasts",
+        "rendered": true
+      },
+      {
+        "page": "Topics",
+        "rendered": true
+      },
+      {
+        "page": "Tone & Structure",
+        "rendered": true
+      },
+      {
+        "page": "Actions & Scenarios",
+        "rendered": true
+      }
+    ]
+  },
+  "topic_check": "PASS: 12 candidates, 36 fits, 302026 transformed IDs, 15 topics, 14 tag groups, all published top terms match.",
+  "pip_check": "No broken requirements found.",
+  "human_review": "pending; not fabricated",
+  "public_deployment": "not performed",
+  "final_report": "not authored",
+  "final_ui_note": "Final scenario summary and individual model explanation were additionally captured in a browser.",
+  "original_evidence_checksums": "67 preserved files match baseline",
+  "additional_exports": "13 CSV exports match source files and their SHA-256 manifest"
+}

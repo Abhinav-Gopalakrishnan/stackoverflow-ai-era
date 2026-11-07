@@ -1,0 +1,44 @@
+{
+  "tested_utc": "2026-11-07T16:05:28.837Z",
+  "desktop": [
+    1440,
+    1000
+  ],
+  "mobile": [
+    390,
+    844
+  ],
+  "mobile_page_overflow": false,
+  "page_errors": [],
+  "states": [
+    {
+      "page": "Dataset & Classification",
+      "rendered": true
+    },
+    {
+      "page": "Predict a Question",
+      "first_probability": "46.8%",
+      "changed_probability": "48.0%"
+    },
+    {
+      "page": "Patterns & 2022 Break",
+      "rendered": true
+    },
+    {
+      "page": "Forecasts",
+      "rendered": true
+    },
+    {
+      "page": "Topics",
+      "rendered": true
+    },
+    {
+      "page": "Tone & Structure",
+      "rendered": true
+    },
+    {
+      "page": "Actions & Scenarios",
+      "rendered": true
+    }
+  ]
+}
