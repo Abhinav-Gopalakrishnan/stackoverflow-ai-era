@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 import pandas as pd
 import pytest
-from streamlit.testing.v1 import AppTest
 from dashboard.common import filter_observations
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -20,8 +19,8 @@ def charts(at): return [x.proto.spec for x in at.get('plotly_chart')]
 
 
 @pytest.mark.parametrize('page', ['app.py','pages/2_Patterns_and_2022_Break.py','pages/5_Tone_and_Complexity.py','pages/4_Topics.py'])
-def test_period_changes_observation_chart(page):
-    at=AppTest.from_file(str(ROOT/'dashboard'/page)).run(timeout=15)
+def test_period_changes_observation_chart(page, app_page):
+    at=app_page(page)
     assert not at.exception
     before=charts(at)
     at.radio(key='period_radio').set_value('post').run(timeout=15)
@@ -29,8 +28,8 @@ def test_period_changes_observation_chart(page):
     assert charts(at)!=before
 
 
-def test_topic_tag_changes_prevalence():
-    at=AppTest.from_file(str(ROOT/'dashboard/pages/4_Topics.py')).run(timeout=15)
+def test_topic_tag_changes_prevalence(app_page):
+    at=app_page('pages/4_Topics.py')
     assert not at.exception
     before=charts(at)
     at.multiselect(key='tag_selector').set_value(['python']).run(timeout=15)
@@ -40,21 +39,21 @@ def test_topic_tag_changes_prevalence():
 
 
 @pytest.mark.parametrize('page',['pages/3_Forecasts.py','pages/6_Recommendations.py'])
-def test_fixed_models_disable_observation_controls(page):
-    at=AppTest.from_file(str(ROOT/'dashboard'/page)).run(timeout=15)
+def test_fixed_models_disable_observation_controls(page, app_page):
+    at=app_page(page)
     assert not at.exception
     assert at.radio(key='period_radio').disabled
     assert at.date_input(key='date_range_picker').disabled
 
 
-def test_dataset_classifier_page_has_locked_results():
-    at=AppTest.from_file(str(ROOT/'dashboard/pages/7_Dataset_and_Classification.py')).run(timeout=15)
+def test_dataset_classifier_page_has_locked_results(app_page):
+    at=app_page('pages/7_Dataset_and_Classification.py')
     assert not at.exception
     assert any('0.4315' in m.value for m in at.metric)
 
 
-def test_keyword_placeholder_toggle_changes_view():
-    at=AppTest.from_file(str(ROOT/'dashboard/pages/5_Tone_and_Complexity.py')).run(timeout=15)
+def test_keyword_placeholder_toggle_changes_view(app_page):
+    at=app_page('pages/5_Tone_and_Complexity.py')
     assert not at.exception
     before=charts(at)
     at.checkbox(key='page5_placeholders').set_value(True).run(timeout=15)

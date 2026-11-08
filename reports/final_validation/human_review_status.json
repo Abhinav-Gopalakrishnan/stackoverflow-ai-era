@@ -1,0 +1,6 @@
+{
+  "status": "pending_human_review",
+  "completed_rows": 0,
+  "required_rows": 75,
+  "instruction": "Read linked questions and enter your own judgements. AI annotations are not independent human review."
+}

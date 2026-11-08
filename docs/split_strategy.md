@@ -1,5 +1,7 @@
 # Split and Validation Strategy
 
+> Historical Review 1 design/evidence. The implemented v2 model protocol and remaining snapshot limitations are documented in [the current technical handoff](final_implementation.md). Original locked results have not been regenerated.
+
 ## 1. Chronological Split
 We will use a chronological split rather than a random split. The data will be partitioned as follows:
 - **Training Set:** January 2019 to December 2024

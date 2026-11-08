@@ -135,7 +135,7 @@ Two binary classification targets are defined:
 
 | Target | Definition | Threshold |
 |:-------|:-----------|:----------|
-| `target_resolved_7d` | Question received an **accepted answer** within 7 days (168 hours) of posting. | `hours_to_accept ≤ 168` |
+| `target_resolved_7d` | The answer accepted in the collected record was **posted** within 168 hours of the question; acceptance-event time is unknown. | `hours_to_accept ≤ 168` |
 | `target_answered_7d` | Question received **any answer** within 7 days (168 hours) of posting. | `hours_to_first_answer ≤ 168` |
 
 These targets are computed during cleaning (`notebooks/02_cleaning.ipynb`, Member 2). Questions without an accepted answer are coded as not resolved (target = 0), which conflates "no good answer" with "asker never returned to accept."

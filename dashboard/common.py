@@ -109,6 +109,12 @@ def render_sidebar(*, observations=True, log=True, events=True):
     """Render the global persistent sidebar across all dashboard pages."""
     with st.sidebar:
         st.header("Global Controls")
+        def reset_filters():
+            keys=['selected_tags','period','show_events','log_scale','tag_selector','period_radio',
+                  'date_range_picker','events_checkbox','log_scale_checkbox','_focus_tag','_focus_global_signature']
+            for key in keys:
+                st.session_state.pop(key,None)
+        st.button('Reset filters',on_click=reset_filters)
 
         # Session state defaults
         if "selected_tags" not in st.session_state:
@@ -122,7 +128,7 @@ def render_sidebar(*, observations=True, log=True, events=True):
 
         # Tag multi-select
         selected_tags = st.multiselect(
-            "Select Technology Tag(s):",
+            "Comparison technologies (Overview):",
             options=ALL_TAGS,
             default=st.session_state["selected_tags"],
             key="tag_selector",

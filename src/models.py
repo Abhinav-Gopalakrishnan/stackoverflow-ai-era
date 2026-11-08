@@ -23,6 +23,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.timecv import GAP_DAYS, time_series_folds
@@ -118,7 +119,8 @@ def build_preprocessor(numeric=NUMERIC_FEATURES, binary=BINARY_FEATURES,
     up to ``max_features`` terms) and reduced with TruncatedSVD to ``svd_components``.
     Because it is a pipeline step, it is refitted on the training rows of every fold.
     """
-    parts = [("num", StandardScaler(), list(numeric)),
+    parts = [("num", Pipeline([("impute", SimpleImputer(strategy="median", keep_empty_features=True)),
+                              ("scale", StandardScaler())]), list(numeric)),
              ("bin", "passthrough", list(binary)),
              ("cat", OneHotEncoder(handle_unknown="ignore"), list(categorical))]
     if text:

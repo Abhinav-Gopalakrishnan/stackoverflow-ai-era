@@ -1,0 +1,15 @@
+tag,adf_level_p,kpss_level_p,adf_diff_p,kpss_diff_p,level_verdict,diff_verdict,differencing_decision,rationale
+ALL,1.0,0.01,2.334794122070372e-29,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+android,1.0,0.01,0.007197399080539252,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+docker,1.0,0.01,3.1502748219125e-28,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+excel,1.0,0.01,1.6397395062161158e-29,0.04989507084496695,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+fastapi,0.6171637493304817,0.01,0.004602234754088896,0.04928058350002552,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+java,1.0,0.01,2.130812699463175e-08,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+javascript,1.0,0.01,0.00031359778544766,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+openai-api,0.611627083596935,0.01,0.0032378364380383482,0.1,non-stationary,stationary,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+pandas,1.0,0.01,4.671154642346065e-13,0.014518963749182046,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+powerbi,1.0,0.01,9.465777729520668e-20,0.01405428202094467,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+python,1.0,0.01,2.025123255428593e-30,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+r,1.0,0.01,6.98066284480616e-05,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+reactjs,1.0,0.01,0.0189851313746128,0.0892505067501112,non-stationary,stationary,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity
+sql,1.0,0.01,8.111567833190169e-05,0.01,non-stationary,conflicting evidence,d=1,ADF cannot reject a unit root and KPSS rejects level stationarity

@@ -1,12 +1,14 @@
 # Evaluation Plan (Review 1)
 
+> Historical Review 1 design/evidence. The implemented v2 model protocol and remaining snapshot limitations are documented in [the current technical handoff](final_implementation.md). Original locked results have not been regenerated.
+
 Owner: Member 5. Reviewer: Member 3. Rolling-origin design agreed jointly with Member 4 (see [M4-01], `docs/split_strategy.md`).
 
 ## 1. What is being predicted
 
 | Target | Definition | Role |
 |---|---|---|
-| `target_resolved_7d` | Question has an accepted answer within 168 hours of posting | Main target |
+| `target_resolved_7d` | The answer accepted in the collected snapshot was posted within 168 hours; acceptance-event time is unknown | Main target |
 | `target_answered_7d` | Question has any answer within 168 hours of posting | Secondary target (robustness check) |
 
 The positive class for all headline metrics is **1 = resolved** (the target as defined). The model outputs a predicted probability of resolution, `p_resolved`.
@@ -40,7 +42,7 @@ Scenario: a support-forum manager can give extra attention (route to an expert, 
 
 The flagged set is defined by rank, not by the tuned threshold, so the metric does not depend on threshold choice. Ties are broken by row order (stable sort) so results are reproducible.
 
-Limits to state with the number: acceptance within 7 days is only a proxy for "resolved" (it depends on the asker returning), and the recent period has less data than the sampled early years.
+Limits to state with the number: the currently accepted answer being posted within 7 days is only a proxy for "resolved" (it depends on the asker returning), and the recent period has less data than the sampled early years.
 
 ## 4. Data discipline
 

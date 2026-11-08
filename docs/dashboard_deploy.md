@@ -2,7 +2,7 @@
 
 The supported submission mode is a locally runnable Streamlit application; the official Review 2 requirements accept this. No public deployment is verified. The previously suggested `stackoverflow-ai-era.streamlit.app` address returned 404 during the audit and is not a live deliverable.
 
-Run `pip install -r dashboard/requirements.txt` and `streamlit run dashboard/app.py`. A fresh clone needs neither the full parquet nor API credentials. See `docs/review2_submission_guide.md` for page controls, data access, limitations and package instructions.
+Run `pip install -r dashboard/requirements.txt` and `streamlit run dashboard/app.py`. A fresh clone needs neither the full parquet nor API credentials. See `docs/final_implementation.md` for the current eight-page app, fitted-model protocol and demonstration sequence. See `docs/review2_submission_guide.md` for page controls, data access, limitations and package instructions.
 
 ## Two-minute demonstration
 
@@ -13,7 +13,7 @@ Run `pip install -r dashboard/requirements.txt` and `streamlit run dashboard/app
 - 1:20–1:40: Tone and recommendations. Show 36% VADER accuracy, one human reference, separate AI–human agreement and a recommendation's caveat.
 - 1:40–2:00: Dataset and classification. Show the validated data sample, model comparison and locked test PR-AUC. Close with the source/report/board links.
 
-Captured screenshots are in `reports/review2/dashboard_screenshots/`. They are visual fallback evidence, not a video or proof of public hosting.
+Current screenshots are in `reports/final_validation/screenshots/`; older screenshots are in `reports/review2/dashboard_screenshots/`. They are visual fallback evidence, not a video or proof of public hosting.
 
 ## Optional later hosting
 

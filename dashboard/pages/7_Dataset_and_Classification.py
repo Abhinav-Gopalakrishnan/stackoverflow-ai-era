@@ -1,4 +1,4 @@
-"""Units 1 and 2 evidence from saved, locked results; no inference UI."""
+"""Original locked results and a separate evaluation of the fitted v2 model."""
 import sys
 from pathlib import Path
 import pandas as pd
@@ -29,7 +29,7 @@ comparison=load_data('classifier_validation.csv')
 metric=st.selectbox('Comparison metric',['pr_auc','roc_auc','f1','precision','recall'])
 render_chart(px.bar(comparison,x='model',y=metric,color='model',title=f'Validation {metric} (28,132 questions)'),width='stretch')
 st.dataframe(comparison,hide_index=True)
-st.markdown('Logistic regression, random forest and XGBoost are compared with a majority baseline. Train is before 2025, validation is January–June 2025 and locked test is July 2025–July 2026. August 2026 is only in the later Unit 3 analyses. Training-only preprocessing prevents future information entering earlier predictions. XGBoost was selected by validation PR-AUC; the F1 threshold was also fixed using validation only.')
+st.markdown('The original logistic regression, random forest and XGBoost models are compared with a majority baseline. Training was before 2025, validation January–June 2025 and locked test July 2025–July 2026. XGBoost and its F1 threshold were selected using validation only. Version 2 below corrects missing-age imputation and separates calibration from threshold selection. Neither version can reconstruct original posting-time text from later snapshots.')
 st.subheader('Locked Test Results — XGBoost')
 t=load_data('classifier_test.csv').iloc[0]
 c=st.columns(4)
@@ -39,3 +39,32 @@ c[2].metric('Test F1',f'{t.f1:.4f}')
 c[3].metric('Test questions',f'{int(t.n):,}')
 st.dataframe(load_data('classifier_test.csv'),hide_index=True)
 st.warning('Primary-target performance is modest. PR-AUC, F1 and ROC-AUC are different measures; none is “accuracy”. The secondary any-answer target is easier and must not replace the primary accepted-answer result. Drift and narrow feature information limit generalisation.')
+
+st.divider()
+st.subheader('Version 2 — fitted model used by Predict a Question')
+st.page_link('pages/8_Predict_a_Question.py',label='Run the fitted model on a question')
+st.caption('The original results above are historical evidence. Version 2 uses a seven-day training purge, fold-fitted missing-value imputation, Jan–Mar 2025 calibration and April–June threshold selection. August 2026 is an additional retrospective evaluation; these questions were already explored by Unit 3.')
+v2=load_data('v2_classifier_metrics.csv')
+st.dataframe(v2,hide_index=True)
+st.warning('Only 389 questions support the August evaluation. Collected text may contain later edits; original posting-time revisions and acceptance-event timestamps were not reconstructed. The seven-day gap cannot resolve those measurement limits.')
+tabs=st.tabs(['Confusion matrix','Feature importance','Subgroups','Calibration','Review capacity'])
+with tabs[0]:
+    cm=load_data('v2_confusion.csv').set_index('Unnamed: 0')
+    render_chart(px.imshow(cm,text_auto=True,color_continuous_scale='Blues',title='August 2026 confusion matrix'),width='stretch')
+with tabs[1]:
+    gain=load_data('v2_feature_gain.csv').head(15).sort_values('gain')
+    render_chart(px.bar(gain,x='gain',y='feature',orientation='h',title='Version 2 XGBoost feature gain'),width='stretch')
+    st.caption('Gain is a model importance measure, not a causal effect. Individual tree SHAP explanations appear on the prediction page.')
+with tabs[2]:
+    st.dataframe(load_data('v2_subgroups.csv'),hide_index=True)
+    st.caption('Tags overlap. Small groups and different class balances can produce unstable error rates. These comparisons do not establish discriminatory treatment; sparse groups need additional observations before intervention.')
+with tabs[3]:
+    cal=load_data('v2_calibration.csv')
+    fig=px.scatter(cal,x='predicted',y='observed',size='n',hover_data=['n'],range_x=[0,1],range_y=[0,1],title='Predicted probability versus observed proxy rate')
+    fig.add_shape(type='line',x0=0,y0=0,x1=1,y1=1,line=dict(dash='dash'))
+    render_chart(fig,width='stretch')
+    st.caption('Calibration was fitted before evaluation. Sparse bins and temporal drift limit reliability. See Brier scores above; lower is better.')
+with tabs[4]:
+    capture=load_data('v2_capture.csv')
+    st.dataframe(capture,hide_index=True)
+    st.caption('Lowest model scores are reviewed first. Capture measures identification of proxy-negative cases; it does not measure successful interventions.')

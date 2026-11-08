@@ -2,7 +2,37 @@
 
 ## Summary
 
-This project investigates how Stack Overflow's question-resolution dynamics have evolved in the age of AI-powered coding assistants. Using data from the Stack Exchange API (v2.3, site `stackoverflow`), the team builds a predictive model for the binary target **`target_resolved_7d`** — whether a question receives an accepted answer within 7 days of being posted. The analysis spans data collection, cleaning, exploratory data analysis, feature engineering, modelling, and evaluation, culminating in a comprehensive review of the factors that drive timely resolution on the platform.
+This project investigates how Stack Overflow's question-resolution dynamics have evolved in the age of AI-powered coding assistants. Using data from the Stack Exchange API (v2.3, site `stackoverflow`), the team builds a predictive model for the binary target **`target_resolved_7d`** — whether the answer accepted in the collected record was **posted** within 168 hours of the question. The acceptance-event time is unavailable; this is a resolution proxy. The analysis spans data collection, cleaning, exploratory data analysis, feature engineering, modelling, and evaluation, culminating in a comprehensive review of the factors that drive timely resolution on the platform.
+
+
+## Current application and fitted model
+
+Use Python **3.13.13** (the verified build runtime). From the repository root:
+
+```bash
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r dashboard/requirements.txt
+.venv/bin/python -m streamlit run dashboard/app.py
+```
+
+The eight-page app includes **Predict a Question**, which loads the committed
+`models/resolution_v2/pipeline.joblib`, computes features from the submitted question
+and prior weekly counts, runs XGBoost, calibrates the score and computes a local
+explanation. It does not look up a saved prediction. The analytical pages use verified
+precomputed outputs; changing their filters does not retrain models.
+
+The prediction page supports historical dates **26 February 2019–31 August 2026**.
+Current-date operational predictions require refreshed histories and a new validation
+release. No API key or full private parquet is needed to demonstrate the app.
+
+The original Review 1/2 results are preserved. The revised classifier has a separate
+August 2026 retrospective evaluation (389 questions): **PR-AUC 0.4892, F1 0.5067**.
+This is not a blind prospective test or proof of an improvement over the old model,
+because the evaluation periods differ. Text collected after posting may contain edits.
+
+For exact changes, reproduction commands, runtime evidence, scope boundaries and
+remaining human review, see [the technical handoff](docs/final_implementation.md).
+This update does **not** create the faculty's final report.
 
 ## Folder Guide
 
@@ -144,7 +174,7 @@ In **Review 2**, our investigation shifts from question-level classification to 
 |---|---|
 | `notebooks/review2_main.ipynb` | Unified, top-to-bottom executed final notebook covering Sections 0–8 |
 | `reports/review2/ts/` | Time-series outputs: STL decomposition, stationarity decisions, PELT changepoints, ITS models, forecast backtests, Diebold-Mariano tests, and 26-week projections |
-| `reports/review2/text/` | Text-mining outputs: NMF topic selection ($k=10$), top semantic terms, pre/post share dynamics, VADER tone, complexity bootstrap CIs, Monroe log-odds keywords, and tone validation audit |
+| `reports/review2/text/` | Text-mining outputs: NMF/LDA comparison and selected NMF ($k=15$), top semantic terms, pre/post share dynamics, VADER tone, complexity bootstrap CIs, Monroe log-odds keywords, and tone validation audit |
 | `reports/review2/insight_matrix.csv` | Cross-method synthesis table integrating time-series, topic, tone, and complexity metrics for all 13 tags |
 | `reports/review2/recommendations.csv` | 6 stakeholder-aligned policy recommendations with evidence, actions, KPIs, and caveats |
 | `reports/review2/board_audit_member1.md` | Read-only audit of Project Board #3 issues, milestones, and metadata |
@@ -153,7 +183,7 @@ In **Review 2**, our investigation shifts from question-level classification to 
 | `dashboard/common.py` | Shared state management, sidebar filters, publication color palette, and cached data loaders |
 | `dashboard/pages/` | Interactive pages: `2_Patterns_and_2022_Break`, `3_Forecasts`, `4_Topics`, `5_Tone_and_Complexity`, `6_Recommendations`, `7_Dataset_and_Classification` |
 | `dashboard/data/` | Current schema-validated CSV bundle; aggregated results and title-only source examples, no user identifiers or bodies |
-| `dashboard/requirements.txt` | Minimal pinned deployment dependencies (`numpy`, `pandas`, `plotly`, `streamlit`) |
+| `dashboard/requirements.txt` | Minimal pinned deployment dependencies including the fitted-model runtime |
 | `docs/dashboard_deploy.md` | Streamlit Community Cloud setup, mobile responsive testing, and 2-minute fallback video script |
 | `docs/review2_adhi_rishi_handoff.md` | Teammate interface handoff specification between time series and text mining |
 
@@ -210,7 +240,7 @@ Launch the interactive multi-page dashboard:
 streamlit run dashboard/app.py
 ```
 - Automatically opens `http://localhost:8501`.
-- All 6 pages share persistent tag, observation window, and event marker filters via `st.session_state`.
+- Eight pages provide analysis, live classifier inference and hypothetical business scenarios. Observation filters affect relevant charts; fixed model results explicitly retain their original evaluation periods.
 - Filtered data slices can be exported on-demand via the sidebar download button.
 
 ---
@@ -221,7 +251,7 @@ Run the complete headless AppTest and export validation test suite:
 ```bash
 pytest tests/test_export_dashboard_data.py tests/test_dashboard_pages.py -v
 ```
-- **Coverage:** 54 automated tests verifying file existence, exact column schemas, payload size limits (<50 MB), zero forbidden/PII columns, and render completion under 5 seconds across 4 distinct filter combinations per page.
+- **Coverage:** automated tests verify file existence, exact column schemas, payload size limits (<50 MB), zero forbidden/PII columns, and page rendering and meaningful filter changes; see the latest verification record for the exact result.
 
 ---
 
