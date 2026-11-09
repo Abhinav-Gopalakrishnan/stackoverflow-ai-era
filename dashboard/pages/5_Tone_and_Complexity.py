@@ -309,6 +309,7 @@ st.divider()
 # 5. Rising and Falling Keywords
 # =============================================================
 st.subheader("5. Distinctive Keyword Shifts (Pre → Post)")
+st.caption("Keyword shifts were computed only for the ALL tag and a few handpicked technology tags (Python, JavaScript, Power BI); the other study tags are not included in this section.")
 
 # Keywords are scoped to certain tags
 kw = keywords_prepost.copy()
