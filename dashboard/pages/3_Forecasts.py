@@ -215,12 +215,6 @@ else:
     st.info("Global matched summary across 14 series:")
     st.dataframe(backtest_summary, width='stretch')
 
-# Owner caption for backtest skill
-skill_caption = captions_df[captions_df["chart"] == "Backtest skill"]
-if not skill_caption.empty:
-    row = skill_caption.iloc[0]
-    st.caption(f"**Global backtest context (mean across all 14 series, not just {selected_tag}):** {row['takeaway']} *Note:* {row['caveat']}")
-
 st.subheader('Historical forecast versus actual')
 backtest=load_data('backtest_predictions.csv')
 bt=backtest[(backtest.tag==selected_tag)&(backtest.model==model_choice)]
