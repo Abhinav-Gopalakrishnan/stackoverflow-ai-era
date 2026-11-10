@@ -1,0 +1,114 @@
+[
+  {
+    "file": "project_workflow.png",
+    "caption": "Units 1\u20133 workflow",
+    "copied_from": "reports/final_submission/figures/workflow.png",
+    "evidence": "reports/final_submission/figures/workflow.png",
+    "sha256": "de020728173dbeb85ce5d2016524a57ec4de05e7949cb3a31aff3281514f83b8"
+  },
+  {
+    "file": "unit1_weekly_volume.png",
+    "caption": "Sitewide weekly activity",
+    "copied_from": "reports/final_submission/figures/volume.png",
+    "evidence": "data/processed/weekly_counts.csv",
+    "sha256": "ed10c6b65803a63b4ca218b70662bcb7009209438a9dad9030c1aa1a61bd4f42"
+  },
+  {
+    "file": "unit1_resolution_monthly.png",
+    "caption": "Weighted monthly resolution proxy",
+    "copied_from": "reports/final_submission/figures/resolution_monthly.png",
+    "evidence": "dashboard/data/monthly_rates_masked.csv",
+    "sha256": "3d638945d6c4fe7bf6ea499f942a9314b92323bfe632473f44c8a1d0e370d997"
+  },
+  {
+    "file": "unit2_model_comparison.png",
+    "caption": "Original classifier validation comparison",
+    "copied_from": "reports/final_submission/figures/models.png",
+    "evidence": "dashboard/data/classifier_validation.csv",
+    "sha256": "ff937b0d57ec72027dd05e89027a2a5b77a0d15bc0c251689161f949b8d0d688"
+  },
+  {
+    "file": "unit2_locked_test_pr_roc.png",
+    "caption": "Original locked-test PR and ROC curves",
+    "copied_from": "reports/review1/m5/test_pr_roc.png",
+    "evidence": "reports/review1/m5/test_metrics.csv",
+    "sha256": "0a7751e893fbb47a7f62a7a7c20569950dfb4d0b79bea911db28bf30c007628f"
+  },
+  {
+    "file": "unit2_august_confusion.png",
+    "caption": "Separate retrospective August classifier evaluation",
+    "copied_from": "reports/final_submission/figures/confusion_report.png",
+    "evidence": "reports/final_validation/confusion.csv",
+    "sha256": "bd6ea7c871821015588c0d7f5a71a1d7733e946a359f8a6ca9e3a6e1ba2395c0"
+  },
+  {
+    "file": "unit3_time_series_decomposition.png",
+    "caption": "STL decomposition",
+    "copied_from": "reports/review2/ts/stl_small_multiples.png",
+    "evidence": "reports/review2/ts/stl_components.csv",
+    "sha256": "86e45f288bfe33b2b4c1aa5de8fa7dbd84c316585ef69064631b5d65044ca78c"
+  },
+  {
+    "file": "unit3_time_series_its.png",
+    "caption": "Interrupted time-series estimates",
+    "copied_from": "reports/review2/ts/its_forest.png",
+    "evidence": "reports/review2/ts/its_results.csv",
+    "sha256": "10759a0139903d23b9891e9a95d32834919ca7f39ad27666ac54789def5e9e4f"
+  },
+  {
+    "file": "unit3_forecast_backtest_skill.png",
+    "caption": "Forecast skill comparison",
+    "copied_from": "reports/review2/ts/backtest_skill.png",
+    "evidence": "reports/review2/ts/backtest_metrics_matched.csv",
+    "sha256": "feeb335267b23a8d0c71fcd538f9e48a0ca0c778cd5cd9e335da6e2c40a59e0b"
+  },
+  {
+    "file": "unit3_sitewide_forecast.png",
+    "caption": "Sitewide forecast and uncertainty",
+    "copied_from": "reports/review2/ts/forecast_ALL.png",
+    "evidence": "reports/review2/ts/forecasts_26w.csv",
+    "sha256": "38ea9ecbed932575011258c32c990e19cac55d9d7781129482b2b96f9e8ebb53"
+  },
+  {
+    "file": "unit3_topic_model_selection.png",
+    "caption": "NMF versus LDA evaluation",
+    "copied_from": "reports/review2/text/topic_model_selection.png",
+    "evidence": "reports/review2/text/topic_model_selection.csv",
+    "sha256": "473ffcf00c6eea288c89a0a9aa2ea5602f401879531263b0790f819cddc1b419"
+  },
+  {
+    "file": "unit3_topic_share_changes.png",
+    "caption": "Weighted topic-share changes",
+    "copied_from": "reports/final_submission/figures/topics.png",
+    "evidence": "reports/review2/text/topic_prepost.csv",
+    "sha256": "94851060b1283b58743006ad7ec99ea3ca894ab8c402d140d8437090f24b4624"
+  },
+  {
+    "file": "unit3_tone_and_complexity.png",
+    "caption": "Tone and writing structure",
+    "copied_from": "reports/review2/text/tone_complexity.png",
+    "evidence": "reports/review2/text/complexity_prepost.csv",
+    "sha256": "c231f15176fff818af41ac6b7ac4fb5a259effbf771981b1b09cafb2a0fe76e6"
+  },
+  {
+    "file": "dashboard_overview.png",
+    "caption": "Dashboard overview evidence",
+    "copied_from": "reports/final_validation/screenshots/01_overview.png",
+    "evidence": "reports/final_validation/screenshots/01_overview.png",
+    "sha256": "232f2f664b5c765db4329f5cf127d5d53048588b1b77c9ca5943c56c630ccf6b"
+  },
+  {
+    "file": "dashboard_public_prediction.png",
+    "caption": "Public fitted-classifier result evidence",
+    "copied_from": "reports/final_validation/screenshots/12_public_model_result.png",
+    "evidence": "reports/final_validation/public_deployment.json",
+    "sha256": "53d611d85f0a6d72e8714c81a0d58ffe84603745a4eb0655d4837cc505ac89f8"
+  },
+  {
+    "file": "dashboard_business_scenarios.png",
+    "caption": "Business scenario interface",
+    "copied_from": "reports/final_validation/screenshots/09_scenarios.png",
+    "evidence": "reports/final_validation/screenshots/09_scenarios.png",
+    "sha256": "aabe3510e16ef8bdeea65c5d6e177dfca1be2ee9ce4c4d3f0883495812e6bc1f"
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-11-10T20:32:54.976373+05:30",
+  "branch": "main",
+  "base_commit": "63bd0e30d19bc3ea39d49274e377736ffc2c6d67",
+  "repository": {
+    "url": "https://github.com/Abhinav-Gopalakrishnan/stackoverflow-ai-era",
+    "visibility": "public",
+    "default_branch": "main",
+    "verification": "GitHub API"
+  },
+  "project_board": {
+    "url": "https://github.com/users/Abhinav-Gopalakrishnan/projects/3",
+    "public": false,
+    "items": 89,
+    "verification": "gh project view 3",
+    "remaining_action": "Owner must make public or grant evaluator access before submission. No remote settings changed."
+  },
+  "final_artifacts": [
+    {
+      "path": "Final_Project_Report.pdf",
+      "bytes": 2587370,
+      "sha256": "66e068958b3254dd5ab208614c9b58c9f13ddb8e6cae68028be7740b1d9aebcb",
+      "pages": 25
+    },
+    {
+      "path": "Final_Project_Presentation.pptx",
+      "bytes": 2043200,
+      "sha256": "553e330a23daa783a8465ead36b211c7182281d157f76a0a6ffdb7993dc59be7",
+      "slides": 28
+    }
+  ],
+  "data": {
+    "original_rows": 309179,
+    "original_shards": 27,
+    "cleaned_rows": 302026,
+    "cleaned_columns": 39,
+    "cleaned_parts": 19,
+    "cleaned_restoration_exact_sha256": "dd4a5d96df1cc93e1ccbad625bc51f01c65a96a32bce452469f1e62662dfaeaf",
+    "restore_to_separate_path_verified": true,
+    "all_files_under_50_MiB": true,
+    "validation_checks": {
+      "unique_question_ids": true,
+      "required_fields_complete": true,
+      "weights_finite_positive": true,
+      "resolved_target_binary": true,
+      "answered_target_binary": true,
+      "resolved_implies_answered": true,
+      "date_range_in_study": true,
+      "account_age_nonnegative": true
+    }
+  },
+  "visualizations": {
+    "count": 16,
+    "manifest": "visualizations/manifest.json"
+  },
+  "dashboard": {
+    "url": "https://stackoverflow-ai-era.streamlit.app/",
+    "public_overview_loaded": true,
+    "navigation_pages": 8,
+    "live_prediction_percent": 46.8,
+    "changed_title_prediction_percent": 36.6,
+    "local_shap_rendered": true,
+    "scope": "Live browser checked Overview and Predict a Question; headless tests exercised pages and filters. No hosting configuration changed."
+  },
+  "checks": {
+    "pytest_command": "python -m pytest tests/test_final_application.py tests/test_dashboard_pages.py tests/test_dashboard_filters.py tests/test_export_dashboard_data.py -q",
+    "pytest_passed": 92,
+    "pytest_failed": 0,
+    "isolated_copy_used": true,
+    "notebooks_validated": 13,
+    "saved_notebook_error_outputs": 0,
+    "broken_relative_links_in_submission_docs": 0,
+    "git_diff_check": "passed"
+  },
+  "disclosures": [
+    "Project board is private; evaluator access remains an owner action.",
+    "75-row independent human topic review remains pending; automatic topic names and weak one-human-reference tone validation are disclosed.",
+    "Presentation contains references to the previous seven-page application and original evaluation; current app has eight pages.",
+    "PDF separate-dataset appendix note predates the public bundle. The bundle restores the identical file and checksum.",
+    "No commit, push, faculty issue or board visibility change was performed."
+  ]
+}

@@ -1,6 +1,10 @@
 # Dashboard availability and demonstration
 
-The supported submission mode is a locally runnable Streamlit application; the official Review 2 requirements accept this. No public deployment is verified. The previously suggested `stackoverflow-ai-era.streamlit.app` address returned 404 during the audit and is not a live deliverable.
+Public application: https://stackoverflow-ai-era.streamlit.app/
+
+Verified on 8 November 2026: the public application serves the current eight-page dashboard and its fitted XGBoost prediction pipeline. The example prediction returned 46.8%; changing the title returned 48.0%, with updated tree SHAP contributions. All eight public pages were smoke-tested. GitHub main includes the implementation through PR #176 (merge commit d447635). The URL was already serving the updated application when checked; no new app or hosting configuration was created during this verification. Earlier availability failures are historical.
+
+The local application remains a supported fallback. Public verification details and screenshots are in reports/final_validation/public_deployment.json and reports/final_validation/screenshots/.
 
 Run `pip install -r dashboard/requirements.txt` and `streamlit run dashboard/app.py`. A fresh clone needs neither the full parquet nor API credentials. See `docs/final_implementation.md` for the current eight-page app, fitted-model protocol and demonstration sequence. See `docs/review2_submission_guide.md` for page controls, data access, limitations and package instructions.
 
@@ -15,6 +19,6 @@ Run `pip install -r dashboard/requirements.txt` and `streamlit run dashboard/app
 
 Current screenshots are in `reports/final_validation/screenshots/`; older screenshots are in `reports/review2/dashboard_screenshots/`. They are visual fallback evidence, not a video or proof of public hosting.
 
-## Optional later hosting
+## Hosting configuration and updates
 
-Use repository `Abhinav-Gopalakrishnan/stackoverflow-ai-era`, branch `main`, entry point `dashboard/app.py` and requirements `dashboard/requirements.txt` with a hosting provider that supports Streamlit. Verify the actual resulting URL before advertising it. No provider deployment was created in this corrections task.
+The source repository is `Abhinav-Gopalakrishnan/stackoverflow-ai-era`; use branch `main`, entry point `dashboard/app.py` and dependencies in `dashboard/requirements.txt`. The saved pipeline and metadata under `models/resolution_v2/` must remain in the deployed revision. The recorded model runtime is Python 3.13.13. Model inference is a historical demonstration covering 26 February 2019 through 31 August 2026. Refresh data and validate a new release before accepting current posting dates.

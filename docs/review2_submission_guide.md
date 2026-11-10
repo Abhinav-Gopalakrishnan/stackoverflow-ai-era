@@ -1,5 +1,12 @@
 # Review 2 submission and demonstration
 
+> Historical Review 2 guide. For the final 2026 submission, use
+> [the final submission guide](final_submission_guide.md), the root
+> `Final_Project_Report.pdf` and `Final_Project_Presentation.pptx`.
+> Full public data now ship in `data/original/` and `data/cleaned/`;
+> restore the released parquet using `python scripts/submission_data.py --restore`.
+> The current public dashboard has eight pages; see [deployment evidence](dashboard_deploy.md).
+
 ## Start here
 
 1. Open `notebooks/review2_main.ipynb` for the complete Units 1–3 results. It reads the included saved evidence and needs no API key or full-data mount.

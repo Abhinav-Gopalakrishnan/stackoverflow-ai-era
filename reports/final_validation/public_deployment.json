@@ -1,0 +1,31 @@
+{
+  "verified_utc": "2026-11-08T12:56:59.173614+00:00",
+  "url": "https://stackoverflow-ai-era.streamlit.app/",
+  "status": "live_verified",
+  "action": "Existing app was already serving the merged update; verified rather than creating a new deployment.",
+  "github_main_commit": "d447635ff1a2e3db19c2bf0109619ba3a80c5f32",
+  "model_version": "resolution-v2",
+  "model_file": "models/resolution_v2/pipeline.joblib",
+  "live_prediction_percent": 46.8,
+  "changed_title_prediction_percent": 48.0,
+  "local_shap_rendered": true,
+  "pages_smoke_tested": [
+    "Overview",
+    "Dataset & Classification",
+    "Predict a Question",
+    "Patterns & 2022 Break",
+    "Forecasts",
+    "Topics",
+    "Tone & Structure",
+    "Actions & Scenarios"
+  ],
+  "focused_local_tests": {
+    "passed": 14,
+    "failed": 0
+  },
+  "screenshots": [
+    "screenshots/11_public_prediction.png",
+    "screenshots/12_public_model_result.png"
+  ],
+  "limitations": "Public page smoke checks are not a complete user walkthrough. Historical dates only; no model retraining or change to hosting access was performed."
+}

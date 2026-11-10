@@ -1,5 +1,9 @@
 # Processed Data Artifacts
 
+The full 302,026-row cleaned table can now be restored from the public bundle
+included in this repository: run `python scripts/submission_data.py --restore`
+from the repository root. See [all original/cleaned data and checksums](../README.md).
+
 This directory contains processed tabular summaries and manifests used across analysis, modeling, and evaluation phases.
 
 ## Datasets

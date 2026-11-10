@@ -1,0 +1,337 @@
+{
+  "format_version": 1,
+  "source": "Original team collection from Stack Exchange API v2.3, site=stackoverflow",
+  "study_start": "2019-01-01",
+  "study_end": "2026-08-31",
+  "collection_date": "2026-10-03",
+  "original": {
+    "rows": 309179,
+    "files": [
+      {
+        "path": "data/original/android/part-000.parquet",
+        "bytes": 9291658,
+        "sha256": "de0bb347200ffbd4c04833d37da098d3a3c964ffcd61a417acf3fceb1b5f2e6d",
+        "rows": 15000,
+        "tag": "android"
+      },
+      {
+        "path": "data/original/android/part-001.parquet",
+        "bytes": 5674697,
+        "sha256": "864862593c60ece27d62e67141c11442aedb2119fd1bd737aec05ed798150622",
+        "rows": 7616,
+        "tag": "android"
+      },
+      {
+        "path": "data/original/docker/part-000.parquet",
+        "bytes": 4661346,
+        "sha256": "d0c348db9746dea77ed703f8ade84b6159a02396f5281b282e834f0d228ac63f",
+        "rows": 6743,
+        "tag": "docker"
+      },
+      {
+        "path": "data/original/excel/part-000.parquet",
+        "bytes": 3993218,
+        "sha256": "c6874f8a4d2feeb715649cb6c0ce964fbf21269efb5bfc2de60feee54bb01e54",
+        "rows": 8052,
+        "tag": "excel"
+      },
+      {
+        "path": "data/original/fastapi/part-000.parquet",
+        "bytes": 4491405,
+        "sha256": "4d5c51d5b0a0d2a15a8ce0428514ed9ae313f93facb5a978569c4acff40239bb",
+        "rows": 7290,
+        "tag": "fastapi"
+      },
+      {
+        "path": "data/original/java/part-000.parquet",
+        "bytes": 9322982,
+        "sha256": "878333ab6fc205cb6a5d37b1d6dfbc581ae8fee797aeb35c5e91e2fe769b5c62",
+        "rows": 15000,
+        "tag": "java"
+      },
+      {
+        "path": "data/original/java/part-001.parquet",
+        "bytes": 10441286,
+        "sha256": "6f979f5011672747cd39d49e2ace2e743f69076eb47936017f51059e6b8e8b0f",
+        "rows": 15000,
+        "tag": "java"
+      },
+      {
+        "path": "data/original/java/part-002.parquet",
+        "bytes": 3211615,
+        "sha256": "5642ac8fd6471d53aa825437ddcac3b2e829ba545c47532a993d7005d4f0bcc6",
+        "rows": 3716,
+        "tag": "java"
+      },
+      {
+        "path": "data/original/javascript/part-000.parquet",
+        "bytes": 8412228,
+        "sha256": "66d6adb6967a3f7923d8f4304799589a8fcb25640ffc112d142663c23a4b3e15",
+        "rows": 15000,
+        "tag": "javascript"
+      },
+      {
+        "path": "data/original/javascript/part-001.parquet",
+        "bytes": 8492090,
+        "sha256": "6e2d88c97518bc26cef85a2106269f9b2d71981ac1945eecde0c0fc1d05d135e",
+        "rows": 15000,
+        "tag": "javascript"
+      },
+      {
+        "path": "data/original/javascript/part-002.parquet",
+        "bytes": 8598860,
+        "sha256": "22b991d48d72e500e03ef3b179f2bb255a6bdc6a6dd961aea239a32dde2dd5cd",
+        "rows": 15000,
+        "tag": "javascript"
+      },
+      {
+        "path": "data/original/javascript/part-003.parquet",
+        "bytes": 8939501,
+        "sha256": "0e8ab4d971906eb9def7629249cecea8f372d82c7ead535a5f104ca6a34b7fea",
+        "rows": 11600,
+        "tag": "javascript"
+      },
+      {
+        "path": "data/original/openai-api/part-000.parquet",
+        "bytes": 1674151,
+        "sha256": "109f5bfecc3ac1bb3d3583e9bf6e4e203d9e1d85b004b048c83d089b112e5265",
+        "rows": 2534,
+        "tag": "openai-api"
+      },
+      {
+        "path": "data/original/pandas/part-000.parquet",
+        "bytes": 6668013,
+        "sha256": "dfc95bfaf59c15cc1b82c5df9726294522a077e18c33afc7589219b851294600",
+        "rows": 13447,
+        "tag": "pandas"
+      },
+      {
+        "path": "data/original/powerbi/part-000.parquet",
+        "bytes": 5689135,
+        "sha256": "469e74cf28142d9ca0c8fca5d814e46f01cf65cc5c48cebbccfbf0d9f7e7e8d6",
+        "rows": 15000,
+        "tag": "powerbi"
+      },
+      {
+        "path": "data/original/powerbi/part-001.parquet",
+        "bytes": 718406,
+        "sha256": "9667b4d4acc8663b43dbc0a2e56410836328c11eb45400cc675ca68fe301ccbb",
+        "rows": 1401,
+        "tag": "powerbi"
+      },
+      {
+        "path": "data/original/python/part-000.parquet",
+        "bytes": 7931849,
+        "sha256": "cf8e7ce2783ece4da1497e697a1ffdb5cca39259559f03969e5e80bcce406e57",
+        "rows": 15000,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/python/part-001.parquet",
+        "bytes": 7756633,
+        "sha256": "06bb3b417c42df1addc755e102a851e83ccc268e172fd254950136a0833991ff",
+        "rows": 15000,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/python/part-002.parquet",
+        "bytes": 7968915,
+        "sha256": "b36743d6dd990e1bb3d07efa27fd32982160278414df2aadfb66c9b5ce1056e3",
+        "rows": 15000,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/python/part-003.parquet",
+        "bytes": 8095837,
+        "sha256": "59519bfc3b65904a83dbd035ea63884daf84776f4d4c58bccd372387f2f66628",
+        "rows": 15000,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/python/part-004.parquet",
+        "bytes": 10581557,
+        "sha256": "9ce18ead6ad81aee715dd2cd9cf1cc4c76deece5fb4f34f5280b55036ea6d8e9",
+        "rows": 15000,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/python/part-005.parquet",
+        "bytes": 7421762,
+        "sha256": "206fd58746c757abe2f24a8a11964da525823da5992f88c70673e89400a62b12",
+        "rows": 9574,
+        "tag": "python"
+      },
+      {
+        "path": "data/original/r/part-000.parquet",
+        "bytes": 8860918,
+        "sha256": "f8eee1a8c2ca40fd5e6093afe0c7907c5466f31e3b9e5705f97b99026d050bb9",
+        "rows": 15000,
+        "tag": "r"
+      },
+      {
+        "path": "data/original/r/part-001.parquet",
+        "bytes": 2246839,
+        "sha256": "d5e5246229c48e352f9cbb310ec713fe7281152ff8ad04532dbc0d1a01da21eb",
+        "rows": 2963,
+        "tag": "r"
+      },
+      {
+        "path": "data/original/reactjs/part-000.parquet",
+        "bytes": 8469537,
+        "sha256": "d80d05c517d06b6d9f290a78ad1f2e0757b7ebcc029159bd00db1d69946839a0",
+        "rows": 15000,
+        "tag": "reactjs"
+      },
+      {
+        "path": "data/original/reactjs/part-001.parquet",
+        "bytes": 7016439,
+        "sha256": "d8cb04c32ac562636e5849b5d7a189bbac08e9e29087f1e109e34b87f5332d31",
+        "rows": 10276,
+        "tag": "reactjs"
+      },
+      {
+        "path": "data/original/sql/part-000.parquet",
+        "bytes": 6546047,
+        "sha256": "b50be9f307e1aa49a61441370640da92dfa6276e04e5e6ca7c41ec4f6d1ab5c0",
+        "rows": 13967,
+        "tag": "sql"
+      }
+    ],
+    "transformations": [
+      "Omit raw owner/user/profile identifiers",
+      "Add canonical source_url for attribution",
+      "Re-encode as Zstandard parquet; preserve collected values and row order within each tag"
+    ]
+  },
+  "cleaned": {
+    "rows": 302026,
+    "columns": 39,
+    "bytes": 316393537,
+    "sha256": "dd4a5d96df1cc93e1ccbad625bc51f01c65a96a32bce452469f1e62662dfaeaf",
+    "restore_path": "data/processed/questions_clean_v1.parquet",
+    "encoding": "Independently gzip-compressed consecutive binary parts, in manifest order",
+    "files": [
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-000.gz",
+        "bytes": 13557046,
+        "sha256": "687bc715b96e3d410254382d82eda074110095d48e5293978b5634bb482d8c00",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-001.gz",
+        "bytes": 11712227,
+        "sha256": "655244305af1567d50d9652e4d24b6db1e7cc3abe86ffaf16740846600fea4b3",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-002.gz",
+        "bytes": 12028126,
+        "sha256": "167f86e20abc4452dba7ade1291c6ec27fb2d608a2853bf99d2b298c7e74adfe",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-003.gz",
+        "bytes": 14670092,
+        "sha256": "6a8d6c6fe2f3c4a9006035e589d63ab7208b88cdb9e2363e57c4175343cad317",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-004.gz",
+        "bytes": 14861849,
+        "sha256": "b6b01ed08b4c08d25a7f57e5085830baf59889bacfb4ec9af932842271caa307",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-005.gz",
+        "bytes": 14864930,
+        "sha256": "c25f23e969d8becebbff183dd6872d6f17e182cf9947fe6877c40014ca55b04f",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-006.gz",
+        "bytes": 14862394,
+        "sha256": "f1c5c98aa8e9fc27916ae8fe35fa4ef3edd04db8494c6376125b149aaedadc89",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-007.gz",
+        "bytes": 14852160,
+        "sha256": "36b76b97fc8378b243d2322b10c4b215503adac7144b0cb405d779150c968261",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-008.gz",
+        "bytes": 14840090,
+        "sha256": "315c8989516df694db2d360785bab2974ed60020ac3fa850c86fa807660e9fa6",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-009.gz",
+        "bytes": 14534554,
+        "sha256": "526ce8d32e6e506cfbfb673d95872b7b5869149a18921d56f15e1d623f333737",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-010.gz",
+        "bytes": 14496965,
+        "sha256": "6d284c91fa36ee3b93059a7489a180a7bef95df8518286d9352e9c959a580e4c",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-011.gz",
+        "bytes": 14522246,
+        "sha256": "bc906c4f8da93a84efdb4b26f077f0d95e36e3a23506a8f7a6cbf548cb36e15b",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-012.gz",
+        "bytes": 14529300,
+        "sha256": "77e571c606467e38e36e01558b05397e6a075f09da9069c4b0b446f032977163",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-013.gz",
+        "bytes": 14490645,
+        "sha256": "26ccdb31ce9dc7cbbf4c9eae238a684a7fc058b21e9de2f53f26c503d248c4ab",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-014.gz",
+        "bytes": 14524638,
+        "sha256": "ed4c6a9108b74eb04aed57f26b571afddc96ff982b12b428a4f0f5d03e554f47",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-015.gz",
+        "bytes": 14558748,
+        "sha256": "c2796dcd395e09336c784d5923aa59a13a16d41e0c4fb2b98da9993573bd8d74",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-016.gz",
+        "bytes": 14567530,
+        "sha256": "943a0f35e5b7be46c60d99947324c531b0094dc70b53fe6e7aac0aaf6e46feee",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-017.gz",
+        "bytes": 14559707,
+        "sha256": "8a3b5b2cf2d91153493a354149720736c9f0022fb829b998c2143002ca272c35",
+        "uncompressed_bytes": 16777216
+      },
+      {
+        "path": "data/cleaned/questions_clean_v1.parquet.part-018.gz",
+        "bytes": 12469284,
+        "sha256": "a6c00c8eed645768fc5410897453cde1016cbdd6f16d2f76b41be066d8c3b76d",
+        "uncompressed_bytes": 14403649
+      }
+    ]
+  },
+  "notes": [
+    "Original tag files contain cross-tag duplicates; cleaned IDs are unique.",
+    "No API key, salt, direct owner ID or user profile is included in this bundle.",
+    "The cleaned release retains pseudonymous user_hash, not raw user IDs.",
+    "Source text and code retain the license and authorship of the linked Stack Overflow posts.",
+    "Historical snapshot text may contain edits after posting; targets use answer posting time, not the acceptance event."
+  ]
+}

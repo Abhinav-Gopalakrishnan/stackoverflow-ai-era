@@ -1,5 +1,45 @@
 # Stack Overflow in the AI Era
 
+## Final submission — Team 7
+
+**Course:** 23CSE452 Business Analytics, Final Project 2026.
+
+| Team member | Register number |
+|---|---|
+| Abhinav G | CB.SC.U4CSE23201 |
+| Rishiikesh S K | CB.SC.U4CSE23236 |
+| Akshay Krishna P S | CB.SC.U4CSE23403 |
+| Nishanth K | CB.SC.U4CSE23523 |
+| Adhikkesh S K | CB.SC.U4CSE23101 |
+
+- [Public interactive dashboard](https://stackoverflow-ai-era.streamlit.app/)
+- [GitHub Projects board](https://github.com/users/Abhinav-Gopalakrishnan/projects/3)
+- [Final report](Final_Project_Report.pdf) and [final presentation](Final_Project_Presentation.pptx)
+- [Original and cleaned datasets, verification and restoration](data/README.md)
+- [Final charts and dashboard evidence](visualizations/README.md)
+- [Final submission guide](docs/final_submission_guide.md)
+- [Individual contributions](reports/review2/) (`contribution_member1.md` through `contribution_member5.md`)
+
+The project board is currently private; the owner must make it public or provide
+faculty access before submission. The repository itself is public.
+
+Unit 1 covers preparation, EDA and visualization; Unit 2 covers feature engineering,
+classification and evaluation; Unit 3 compares **Time-Series Analysis and Text Mining**
+and integrates their findings into business recommendations. The data were collected
+by the team from the Stack Exchange API, rather than taken from a ready-made dataset.
+
+For a fresh clone, the dashboard and saved-result notebooks run without API credentials.
+To restore the full 302,026-row cleaned parquet for full-data analysis:
+
+```bash
+python -m pip install -r requirements.txt
+python scripts/submission_data.py --restore
+```
+
+All 309,179 original collected records are also included as sanitized parquet shards
+under `data/original/`. The bundle manifest records file sizes, row counts and SHA-256
+checksums. Each data file is under 50 MiB and needs no Git LFS or external drive access.
+
 ## Summary
 
 This project investigates how Stack Overflow's question-resolution dynamics have evolved in the age of AI-powered coding assistants. Using data from the Stack Exchange API (v2.3, site `stackoverflow`), the team builds a predictive model for the binary target **`target_resolved_7d`** — whether the answer accepted in the collected record was **posted** within 168 hours of the question. The acceptance-event time is unavailable; this is a resolution proxy. The analysis spans data collection, cleaning, exploratory data analysis, feature engineering, modelling, and evaluation, culminating in a comprehensive review of the factors that drive timely resolution on the platform.
@@ -23,7 +63,7 @@ precomputed outputs; changing their filters does not retrain models.
 
 The prediction page supports historical dates **26 February 2019–31 August 2026**.
 Current-date operational predictions require refreshed histories and a new validation
-release. No API key or full private parquet is needed to demonstrate the app.
+release. No API key or full cleaned parquet is needed to demonstrate the app.
 
 The original Review 1/2 results are preserved. The revised classifier has a separate
 August 2026 retrospective evaluation (389 questions): **PR-AUC 0.4892, F1 0.5067**.
@@ -32,7 +72,7 @@ because the evaluation periods differ. Text collected after posting may contain 
 
 For exact changes, reproduction commands, runtime evidence, scope boundaries and
 remaining human review, see [the technical handoff](docs/final_implementation.md).
-This update does **not** create the faculty's final report.
+The final report and presentation are linked in the submission section above.
 
 ## Folder Guide
 
@@ -43,6 +83,9 @@ This update does **not** create the faculty's final report.
 | `src/enrich.py` | Post-collection enrichment (e.g. NLP features, user history) |
 | `data/raw/` | Raw JSON/CSV pulled from the API (git-ignored; reproducible) |
 | `data/processed/` | Cleaned and feature-engineered datasets |
+| `data/original/` | All original collected records, with raw owner identifiers removed and source links added |
+| `data/cleaned/` | Compressed parts restoring the exact released cleaned parquet, plus a CSV preview |
+| `visualizations/` | Selected final charts and dashboard screenshots |
 | `logs/` | Run logs and audit trails |
 | `logs/collection_log.csv` | Per-run collection metadata (dates, counts, quota usage) |
 | `docs/` | Project documentation, rubrics, and work plans |
@@ -123,7 +166,7 @@ This project strictly adheres to privacy and anonymization standards:
 
 ## Processed dataset v1 and how to re-run the cleaning
 
-`data/processed/questions_clean_v1.parquet` is the cleaned, analysis-ready table: **302,026 rows, 39 columns**, built from 309,179 collected rows (13 tags, Jan 2019 to Aug 2026, collection date 2026-10-03). Field definitions are in `docs/data_dictionary.md`. The file is about 316 MB, over GitHub's 100 MB limit, so it is **not committed** (it is in `.gitignore`); it is shared on the team drive. `data/processed/monthly_tag_tables.csv` (weighted monthly rates per tag, with a `low_sample` flag for months under 30 sampled questions) is committed.
+`data/processed/questions_clean_v1.parquet` is the cleaned, analysis-ready table: **302,026 rows, 39 columns**, built from 309,179 collected rows (13 tags, Jan 2019 to Aug 2026, collection date 2026-10-03). Field definitions are in `docs/data_dictionary.md`. The single file is about 316 MB and remains ignored because it exceeds GitHub's file limit. Its complete compressed parts are included under `data/cleaned/`; run `python scripts/submission_data.py --restore` to reconstruct the exact file with its published checksum. No external dataset download is needed. `data/processed/monthly_tag_tables.csv` (weighted monthly rates per tag, with a `low_sample` flag for months under 30 sampled questions) is also included.
 
 To rebuild everything from the raw question files (`data/raw/questions_<tag>.parquet`, from Member 1):
 
@@ -257,28 +300,36 @@ pytest tests/test_export_dashboard_data.py tests/test_dashboard_pages.py -v
 
 ### Hosted Cloud Deployment
 
-- **Application:** locally runnable with `streamlit run dashboard/app.py`; no verified public deployment
+- **Public application:** [stackoverflow-ai-era.streamlit.app](https://stackoverflow-ai-era.streamlit.app/).
+- **Local fallback:** `streamlit run dashboard/app.py`.
 - Deployment configuration and mobile responsive audit instructions are located in `docs/dashboard_deploy.md`.
 
 ---
 
-### Content Governance & CC BY-SA 4.0 Licence
+### Source content and attribution
 
-All Stack Overflow user-contributed content analyzed and displayed within this project is governed by the **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** licence:
-- Individual questions are referenced exclusively by their post title and linked to canonical URLs: `https://stackoverflow.com/q/<id>`.
-- No full question bodies, answers, code blocks, or identifiable user profile information are distributed or hosted.
-- All analytical metrics represent aggregated, statistical, and anonymized summaries.
+The dashboard displays title-only source examples and aggregate outputs. The downloadable
+research bundle additionally includes collected question text and code to support text-mining
+reproduction. Raw owner IDs and user profiles are excluded; the cleaned table retains its
+existing pseudonymous `user_hash`. These hashes are not proof of irreversible anonymization.
+
+Each original export has a canonical `source_url` (`https://stackoverflow.com/q/<id>`).
+The linked post identifies its original contributors and revision history. Source text and
+code retain their applicable Stack Overflow content license; see the
+[source licensing policy](https://stackoverflow.com/help/licensing) and [dataset notes](data/README.md).
+This project does not claim authorship of the source posts.
 
 
 ### Corrected final submission
 
-Start with [the Review 2 submission guide](docs/review2_submission_guide.md),
+Start with [the final submission guide](docs/final_submission_guide.md),
 [the readiness checklist](reports/review2/readiness_checklist.md) and
 [the complete Units 1–3 notebook](notebooks/review2_main.ipynb).
 The topic comparison is measured across 36 actual fits; the exact document-NPMI
 protocol differs from sliding-window c_npmi and is [disclosed](docs/review2_topic_evaluation.md).
 Topic names are automatic descriptions; original two-human validation is not claimed.
-The local app includes dataset validation, classifier comparisons and both Unit 3 methods.
-Use `python scripts/package_review2.py --include-dataset` for local evaluator ZIPs;
-the full parquet is excluded from Git and supplied separately. A new final presentation
-is the next task; archived member topic slides contain superseded results.
+The public app includes dataset validation, classifier comparisons and both Unit 3 methods.
+The final report and presentation are at the repository root. Complete public data are
+under `data/original/` and `data/cleaned/`; use `scripts/submission_data.py` to verify or
+restore them. Review 1/2 guides and member decks are historical supporting material;
+the final submission guide takes precedence for file locations and current availability.

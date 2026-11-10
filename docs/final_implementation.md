@@ -28,8 +28,11 @@ python3.13 -m venv .venv
 ```
 
 Open `http://localhost:8501`. The committed model and CSV bundle are sufficient;
-API credentials and the private 302,026-row parquet are unnecessary for this demo.
-No public deployment is claimed.
+API credentials and the full 302,026-row parquet are unnecessary for this demo.
+The public application is https://stackoverflow-ai-era.streamlit.app/; see
+`docs/dashboard_deploy.md` for deployment evidence. The final public data bundle
+now restores the full parquet with `python scripts/submission_data.py --restore`;
+see `data/README.md` and `docs/final_submission_guide.md`.
 
 The model path is `models/resolution_v2/pipeline.joblib`. The app verifies its
 checksum, caches the loaded model, and recomputes features, probabilities and an
